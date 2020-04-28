@@ -15231,8 +15231,23 @@
                         let a = this,
                             b = this.chatroom.app.EventBus,
                             c = a.$["media-wrapper"];
-                        c.classList.add("wait"), this.mediadevices((b, d) => {
-                            b || a.app.showToastWarn(d.message), c.classList.remove("wait")
+                        c.classList.add("wait");
+                        navigator.mediaDevices.getUserMedia({
+                            video: {
+                                width: 320,
+                                height: 240,
+                                frameRate: {
+                                    ideal: 15,
+                                    max: 30
+                                }
+                            },
+                            audio: !0
+                        }).then(() => {
+                            a.mediadevices((b, d) => {
+                                !b && d && a.app.showToastWarn(d.message), c.classList.remove("wait")
+                            })
+                        }).catch(a => {
+                            console.error(a)
                         });
                         let d = this.settings.getSettings();
                         null !== d.video && (this.videoSelectedDeviceId = d.video.deviceId)
