@@ -10987,11 +10987,11 @@
                     }
                     ready() {
                         super.ready(), Polymer.RenderStatus.afterNextRender(this, function() {
-                            this.$.html.innerHTML = Autolinker.link(this.html.replace(/<\/?[^>]+(>|$)/g, ""))
+                            this.filterText(this.html)
                         })
                     }
                     messageRender(a) {
-                        this.$.html.innerHTML = Autolinker.link(a.replace(/<\/?[^>]+(>|$)/g, ""))
+                        this.filterText(a)
                     }
                     connectedCallback() {
                         super.connectedCallback(), this.onFullscreenHandler = this.onFullscreen.bind(this), window.fullscreenManager.addEventListener(this.onFullscreenHandler, !1)
@@ -11002,6 +11002,20 @@
                     onFullscreen() {
                         let a = window.fullscreenManager.status();
                         a ? this.$.html.classList.add("full-screen") : this.$.html.classList.remove("full-screen")
+                    }
+                    replaceSpecSymbols(a) {
+                        return a.replace(/[&<>"']/g, function(a) {
+                            return "&" + {
+                                "&": "amp",
+                                "<": "lt",
+                                ">": "gt",
+                                '"': "quot",
+                                "'": "#39"
+                            } [a] + ";"
+                        })
+                    }
+                    filterText(a) {
+                        this.$.html.innerHTML = Autolinker.link(this.replaceSpecSymbols(a))
                     }
                 }
                 customElements.define(TcMessageHtml.is, TcMessageHtml);
