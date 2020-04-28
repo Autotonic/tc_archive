@@ -6464,7 +6464,7 @@
                         return null == E || null == E.selfuser ? -1 : E.selfuser.handle
                     }
                     get url() {
-                        return TinychatApp.url + "/" + this.chatroomName()
+                        return TinychatApp.url + "/room/" + this.chatroomName()
                     }
                     get id__miconly() {
                         return "__miconly"
@@ -9216,7 +9216,7 @@
                 let a = null;
                 class c {
                     constructor(m, n, o) {
-                        this.debug = o, o && (window.DEBUG = o), this.EventBus = new EventBus, this._version = new l(2, 0, 0, 27, o), window.rootDir = this._version.rootDir(), this.defaultChatroom = null, console.log('App.useragent - ' + this.useragent), this.tc_token = m, this.loginState = null, this.LoginInfo(n), this.showShareHandler = null, this.showMediaFiltersHandler = null, this.showMediaSettingsHandler = null, this.showSettingsHandler = null, this.showUpgradeHandler = null, this.showNotificationHandler = null, this.showUserProfile = null, this.showBanlistHandler = null, this.showYoutubeHandler = null, this.showMobileAppHandler = null
+                        this.debug = o, o && (window.DEBUG = o), this.EventBus = new EventBus, this._version = new l(2, 0, 0, 29, o), window.rootDir = this._version.rootDir(), this.defaultChatroom = null, console.log('App.useragent - ' + this.useragent), this.tc_token = m, this.loginState = null, this.LoginInfo(n), this.showShareHandler = null, this.showMediaFiltersHandler = null, this.showMediaSettingsHandler = null, this.showSettingsHandler = null, this.showUpgradeHandler = null, this.showNotificationHandler = null, this.showUserProfile = null, this.showBanlistHandler = null, this.showYoutubeHandler = null, this.showMobileAppHandler = null
                     }
                     static getInstance(m, n, o) {
                         return null == a && (a = new c(m, n, o)), a
