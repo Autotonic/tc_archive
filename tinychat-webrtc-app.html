@@ -11004,7 +11004,8 @@
                         a ? this.$.html.classList.add("full-screen") : this.$.html.classList.remove("full-screen")
                     }
                     replaceSpecSymbols(a) {
-                        return a.replace(/[&<>"']/g, function(a) {
+                        let b = a.replace(/&rlo;|\u202E/gi, "");
+                        return b.replace(/[&<>"']/g, function(a) {
                             return "&" + {
                                 "&": "amp",
                                 "<": "lt",
