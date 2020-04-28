@@ -5068,6 +5068,15 @@
                     static get GIFT() {
                         return 6
                     }
+                    static get SUB_PRO() {
+                        return 10
+                    }
+                    static get SUB_EXTREME() {
+                        return 20
+                    }
+                    static get SUB_GOLD() {
+                        return 30
+                    }
                     constructor() {
                         this.type = a.PUBLIC, this.user = null, this.chatname = 0, this.message_text = "", this.language = "", this.giftUrl = "", this.color = 0
                     }
@@ -5876,6 +5885,18 @@
                     isequal(a, c) {
                         if (a === b.PUBLIC) return a === c;
                         return !!(a instanceof TinychatApp.DAL.UserEntity) && a.handle === c
+                    }
+                    subscribed_add(a) {
+                        let c = TinychatApp.DAL.ChatLogItemEntity,
+                            d = new c;
+                        d.chatname = b.PUBLIC;
+                        let e, f = "Subscribed user " + a.username + " has joined to the room",
+                            g = this.getitems(d.chatname);
+                        for (e = 0; e < g.length; e++)
+                            if (g[e].message_text === f) return;
+                        d.message_text = f, d.user = a, d.type = a.subscriptionType, this.additem(g, d);
+                        let h = this.settings.getSettings();
+                        h.enableSound && 5 >= this.userlist.items.length && window.TinychatApp.BLL.SoundPlayer.playMessage(this.chatroom.volume)
                     }
                     gift_add(a) {
                         a.type = TinychatApp.DAL.ChatLogItemEntity.GIFT, a.chatname = b.PUBLIC;
@@ -10973,6 +10994,27 @@
                         cursor: default;
                     }
 
+                    .message.sub-pro,
+                    .message.sub-extreme,
+                    .message.sub-gold {
+                        font-weight: 600;
+                        font-size: 14px;
+                        color: #3c3c3c;
+                        white-space: nowrap;
+                    }
+
+                    .message.sub-pro>span {
+                        color: #3fd64f;
+                    }
+
+                    .message.sub-extreme>span {
+                        color: #c27ddf;
+                    }
+
+                    .message.sub-gold>span {
+                        color: #f3b100;
+                    }
+
                     .full-screen.message {
                         color: #fff;
                     }
@@ -11006,6 +11048,10 @@
                                 type: String,
                                 value: "html",
                                 observer: "messageRender"
+                            },
+                            nickname: {
+                                type: String,
+                                value: "html"
                             },
                             onFullscreenHandler: Object
                         }
@@ -11044,7 +11090,7 @@
                         })
                     }
                     filterText(a) {
-                        this.$.html.innerHTML = Autolinker.link(this.replaceSpecSymbols(a))
+                        return -1 < this.classType.indexOf("sub-pro") || -1 < this.classType.indexOf("sub-extreme") || -1 < this.classType.indexOf("sub-gold") ? void(this.$.html.innerHTML = Autolinker.link("<span>" + this.replaceSpecSymbols(this.nickname) + "</span> has joined")) : void(this.$.html.innerHTML = Autolinker.link(this.replaceSpecSymbols(a)))
                     }
                 }
                 customElements.define(TcMessageHtml.is, TcMessageHtml);
@@ -11302,17 +11348,203 @@
                         text-align: left;
                     }
 
-                    #chat-instant>a:first-child,
-                    #chat-content>.message>a:first-child {
+                    #chat-content>.message.sub-pro,
+                    #chat-content>.message.sub-extreme,
+                    #chat-content>.message.sub-gold {
+                        height: 50px;
+                        padding: 10px 10px 0 50px;
+                        box-sizing: border-box;
+                        font-size: 0;
+                        text-align: left;
+                        animation-duration: 0s;
+                        -webkit-animation-duration: 0s;
+                    }
+
+                    #chat-instant>.avatar,
+                    #chat-content>.message>.avatar {
                         position: absolute;
                         height: 40px;
                         width: 40px;
                         top: 10px;
                         left: 0;
+                        transform: scale(1);
+                        -webkit-transform: scale(1);
                     }
 
-                    #chat-instant>a>.avatar,
-                    #chat-content>.message>a>.avatar {
+                    #chat-content>.message.sub-pro>.avatar,
+                    #chat-content>.message.sub-extreme>.avatar,
+                    #chat-content>.message.sub-gold>.avatar {
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        animation: sub-avatar 4s ease 0s 1;
+                        -webkit-animation: sub-avatar 4s ease 0s 1;
+                    }
+
+                    #chat-content>.message.sub-pro>.avatar {
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAb1BMVEUAAABFz2NFz2NGz2JV2WxFz2NFz2NGz2NFz2NH0GJF0GJI0GRJ02ZG0WhFzmI3tVFDy2A6u1RG0WM4uVNAx11Byl08vVY3v1NFz2JL5GpJ3WhG1GQ8wVg/w1ozu08vt0xK4GlI2Wcss0hM52w8xVlfBdHmAAAADnRSTlMA86h/C+jZ07+CclIjFiAigZkAAAHgSURBVDjLnZWLloIgEIbVtNKKwDQFSlD3/Z9xmRlhXWyvc05ypP/MxzAXk892rrLjPk33x6w6J1/apTywlR3Ky0tZvktZZOku3+pOBXthxSnW7Xr6p+kGM5lheHB673efsRnu8m4yXQMS3nTdG0mzNZ503TS0K2z7aEm54qI7Y7wsSGkj0E89bE4D2xrHcy4R5QXsTB17ZTXGnn+ATfAXKwP8kkIcJsCedyHuTx6EoEwhRyWCfRyP62IPrxzhUTrhARwuYC6c5CbEzS2CLy415N3VC7x4h8LJGkyQkwpGpuBxTirYNoF798R7oI9wygqT0nUEdv5wRajzSXA9YnqO7jkgjj2v1wb8w/lwedIhgX1M9nCJfKHdQNdAJODSn8O63z5JIRYfigA+GqdXNAk3iULzCyGiB+bRKI/QtQQ0BcNXwXARBaMtBpPB/TXfXY9SeD0VtsB3Fy41XDilEIVxCm9LrmdMIRXFWxsXBaxEtoqKIikRyuIy8/WjZ0h16Qu3bePChdVF3csRCze0Agm3ZmUf+jAvfL9tTSG4yEO7UhfF1ttZh3YlOCpjqZaSejAeKfW4ltZ2HhGVbYcU02rUNTaUkrOq/ZCKxx55VdZKaZX2Y+9vg/Tn0fzvYf/z5+MdJM1NvlcaLmYAAAAASUVORK5CYII);
+                    }
+
+                    #chat-content>.message.sub-extreme>.avatar {
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAXVBMVEUAAADFieTEiOPFiePRk+nFiOLEiOPFiePEiOPFiOTHiePFiunFi+jEiOKta86yctPCheCwb9DHiuW1ddXDh+LBg9+4edi+gN3RkfG6e9rYlvjKjOjUlPXbmPzNj+3fm8g8AAAADXRSTlMAgPOoC+jZ079yUiMWKVQbwgAAAddJREFUOMudVQ1zgyAM9bOtthgQQUTt//+ZIwnclLntttwVz/h8L1+mxdmeXf24VdXtUXfP4lt7lXdxsHv5uoQ1ZSUyq8rmK65vxYW1fY4r45PZalCg9SKjozzL1uSUVoGdESLNYmdG1kd5xlmlzUHWzIaRma4EOMLIZc7qPb2v9PQ1GXb1McAWX1ZWXNlIuTefwqDxvEQm8VeFeUDSlYsG4OowEJHVKxJKZWJMdohm05vvRHlHwigsIUAUgAoXkJFyxb6HecGbSDhBgM3UoABN0Tg8nkWHbmBX0E01mnRQj0CMsqOmWHbJwDelOk+Bk8XXN7XnEU7NbV2GYUZ+jI8uCweJ2o/iFs4Ytx4U4hbMBAMfYopb+N2KCl3sAHxuBjLDt2QeK0lAOADlN0CS1iJJEzyTHj1KczLykIyELJl1o2RqRJifyuMclaejQfip4H6lgj8JIS5aqGKvd2ohD8Vs8qFAY/INle9pbmeRjRkaGExlx1aXaXCNFOfBnfBqMULHg5sojbi2zX9+h01Lopc4R8JtEz9Xzu6Kbydvf148Yw5dvR+z9VMz8n2EjtvuspVCS4o5nFtH+qCc392YL6mkzqxu895vbk1r72+L9PfV/O9l//vfxwcJv0btEV6iYwAAAABJRU5ErkJggg);
+                    }
+
+                    #chat-content>.message.sub-gold>.avatar {
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAilBMVEUAAAD700b60kb60Ub/2VX60kb60kf50kf60kf70kj800j/00n/3FH50UbvrAH5zkD50ET4zTzxtA7xsQjzuBj500v61lX2wyn3wSTytRH3txD73G35yjf94oT833j51E/3uxf0vR/+5Y/4vh72yDT2xzP94X783XD72WP611r4xi/3tAn2sgX+44gBPK44AAAADXRSTlMAgPPWC+i/qqVyUiMWL88EHAAAAgRJREFUOMudVdl2gjAQZRNBCSHshEWKVevS//+9zmSCB5C2p50HwHiZO3c2jLntfc+1Lct2PX9vfGuBabOJ2WawCnNMiy3MMp1X3G7DVmyzW+JMRtYce3mX/bHg+sCc027VIT8+ZNkghDdleSPkdkqvcFH56MWEVtwEIRe8XMqGzU2IOftOBXfvI7a0iCLVihzUy+8lW7NMaXeexJHs2brlT/IA81zKkZcXaRynmB2yAyKtQDvkD60jegu1vY1vfowusb5HTcxjgCRVlcAt5trlFesO/YI/HoL8xQB7x6f3BJDaZ42XveFjaiQdAW+q/41SYNdAVO4bHjKXRAz+EMcFIsEnJ90YpWe4cO1JShGGJ7idgFUAexgWlMoOLq7SIunVNEwQV6ASeEjClLjPSg1m8U4HcVhBfSk74LJC+Ai0FFD+DPxEoKLu2Uit4AvqQ6uoXVTNJ2JEvBCTkxgPEc0sPWKenvqi0uMjovwp4S3W0KcSEpBKeKISoncKcaASKjU38doUI3OHzPY4MDe2bLOQJLF8yHSbBRbFP2ncChqXl2kFEWVtTY07uhQRW7Wupb59Dhfjq7haEW+cybiybGUEuyGncZ0tnvywHMC2zRbrZ6s7dAo9dENNK+V1SbFrXeeZmtG6HS4Z4ZzVtZd9dOfzZ9tdruPa+9si/X01/3vZ//75+AKpPkxfozkotAAAAABJRU5ErkJggg);
+                    }
+
+                    @keyframes sub-avatar {
+
+                        0%,
+                        5% {
+                            transform: scale(0);
+                        }
+
+                        15%,
+                        100% {
+                            transform: scale(1);
+                        }
+                    }
+
+                    @-webkit-keyframes sub-avatar {
+
+                        0%,
+                        5% {
+                            -webkit-transform: scale(0);
+                        }
+
+                        15%,
+                        100% {
+                            -webkit-transform: scale(1);
+                        }
+                    }
+
+                    #chat-content>.message.sub-pro>.avatar:after,
+                    #chat-content>.message.sub-extreme>.avatar:after,
+                    #chat-content>.message.sub-gold>.avatar:after {
+                        content: '';
+                        position: absolute;
+                        display: block;
+                        height: 14px;
+                        width: 14px;
+                        top: auto;
+                        bottom: auto;
+                        left: auto;
+                        right: auto;
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOBAMAAADtZjDiAAAAIVBMVEUAAAD////////////////////////////////////////PIev5AAAAC3RSTlMAUjYgEPzs0qt6PMPBap4AAAA4SURBVAjXY4ABLjC5gIFhCpDyBGIPAwbmFiDNXMSgbgCSUxNMAqthDBWA0zBxmDq4Pqg5CHOhAADgTQij9mC39wAAAABJRU5ErkJggg);
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        opacity: 0;
+                        animation: sub-avatar-star 4s linear 0s 1;
+                        -webkit-animation: sub-avatar-star 4s linear 0s 1;
+                    }
+
+                    @keyframes sub-avatar-star {
+                        0% {
+                            transform: rotate(0deg);
+                        }
+
+                        15%,
+                        30% {
+                            top: auto;
+                            bottom: 1px;
+                            left: auto;
+                            right: 1px;
+                            opacity: 0;
+                        }
+
+                        20%,
+                        25% {
+                            opacity: 1;
+                        }
+
+                        60%,
+                        75% {
+                            top: 1px;
+                            bottom: auto;
+                            left: auto;
+                            right: 1px;
+                            opacity: 0;
+                        }
+
+                        65%,
+                        70% {
+                            opacity: 1;
+                        }
+
+                        80%,
+                        95% {
+                            top: 1px;
+                            bottom: auto;
+                            left: 1px;
+                            right: auto;
+                            opacity: 0;
+                        }
+
+                        85%,
+                        90% {
+                            opacity: 1;
+                        }
+
+                        100% {
+                            transform: rotate(720deg);
+                        }
+                    }
+
+                    @-webkit-keyframes sub-avatar-star {
+                        0% {
+                            -webkit-transform: rotate(0deg);
+                        }
+
+                        15%,
+                        30% {
+                            top: auto;
+                            bottom: 1px;
+                            left: auto;
+                            right: 1px;
+                            opacity: 0;
+                        }
+
+                        20%,
+                        25% {
+                            opacity: 1;
+                        }
+
+                        60%,
+                        75% {
+                            top: 1px;
+                            bottom: auto;
+                            left: auto;
+                            right: 1px;
+                            opacity: 0;
+                        }
+
+                        65%,
+                        70% {
+                            opacity: 1;
+                        }
+
+                        80%,
+                        95% {
+                            top: 1px;
+                            bottom: auto;
+                            left: 1px;
+                            right: auto;
+                            opacity: 0;
+                        }
+
+                        85%,
+                        90% {
+                            opacity: 1;
+                        }
+
+                        100% {
+                            -webkit-transform: rotate(720deg);
+                        }
+                    }
+
+                    #chat-instant>.avatar>div,
+                    #chat-content>.message>.avatar>div {
+                        position: absolute;
                         height: 100%;
                         width: 100%;
                         top: 0;
@@ -11321,15 +11553,68 @@
                         overflow: hidden;
                     }
 
-                    #chat-instant>a>.avatar>img,
-                    #chat-content>.message>a>.avatar>img {
+                    #chat-content>.message.sub-pro>.avatar>div,
+                    #chat-content>.message.sub-extreme>.avatar>div,
+                    #chat-content>.message.sub-gold>.avatar>div {
+                        height: 34px;
+                        width: 34px;
+                        top: 3px;
+                        left: 3px;
+                        animation: sub-avatar-img 4s ease 0s 1;
+                        -webkit-animation: sub-avatar-img 4s ease 0s 1;
+                    }
+
+                    @keyframes sub-avatar-img {
+
+                        0%,
+                        15% {
+                            transform: scale(0);
+                        }
+
+                        24%,
+                        25% {
+                            transform: scale(1.1);
+                        }
+
+                        25%,
+                        100% {
+                            transform: scale(1);
+                        }
+                    }
+
+                    @-webkit-keyframes sub-avatar-img {
+
+                        0%,
+                        15% {
+                            -webkit-transform: scale(0);
+                        }
+
+                        24%,
+                        25% {
+                            -webkit-transform: scale(1.1);
+                        }
+
+                        25%,
+                        100% {
+                            -webkit-transform: scale(1);
+                        }
+                    }
+
+                    #chat-instant>.avatar>div>img,
+                    #chat-content>.message>.avatar>div>img {
                         position: relative;
                         height: 100%;
                         left: -7px;
                     }
 
-                    #chat-instant>a>.status-icon,
-                    #chat-content>.message>a>.status-icon {
+                    #chat-content>.message.sub-pro>.avatar>div>img,
+                    #chat-content>.message.sub-extreme>.avatar>div>img,
+                    #chat-content>.message.sub-gold>.avatar>div>img {
+                        left: -5px;
+                    }
+
+                    #chat-instant>.avatar>.status-icon,
+                    #chat-content>.message>.avatar>.status-icon {
                         position: absolute;
                         height: 10px;
                         width: 10px;
@@ -11340,10 +11625,16 @@
                         background-color: #fff;
                     }
 
-                    #chat-instant>a>.status-icon[src=""],
-                    #chat-instant>a>.avatar>img[src=""],
-                    #chat-content>.message>a>.status-icon[src=""],
-                    #chat-content>.message>a>.avatar>img[src=""] {
+                    #chat-content>.message.sub-pro>.avatar>.status-icon,
+                    #chat-content>.message.sub-extreme>.avatar>.status-icon,
+                    #chat-content>.message.sub-gold>.avatar>.status-icon {
+                        display: none;
+                    }
+
+                    #chat-instant>.avatar>.status-icon[src=""],
+                    #chat-instant>.avatar>div>img[src=""],
+                    #chat-content>.message>.avatar>.status-icon[src=""],
+                    #chat-content>.message>.avatar>div>img[src=""] {
                         opacity: 0;
                         visibility: hidden;
                     }
@@ -11359,6 +11650,12 @@
                         overflow: hidden;
                         text-overflow: ellipsis;
                         transition: .2s;
+                    }
+
+                    #chat-content>.message.sub-pro>.nickname,
+                    #chat-content>.message.sub-extreme>.nickname,
+                    #chat-content>.message.sub-gold>.nickname {
+                        display: none;
                     }
 
                     #chat-content>.message>.nickname:hover {
@@ -11407,10 +11704,53 @@
                         cursor: default;
                     }
 
+                    #chat-content>.message.sub-pro>.content,
+                    #chat-content>.message.sub-extreme>.content,
+                    #chat-content>.message.sub-gold>.content {
+                        width: 100%;
+                        line-height: 40px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        animation: sub-content 4s ease 0s 1;
+                        -webkit-animation: sub-content 4s ease 0s 1;
+                    }
+
+                    @keyframes sub-content {
+
+                        0%,
+                        40% {
+                            width: 0;
+                        }
+
+                        60%,
+                        100% {
+                            width: 100%;
+                        }
+                    }
+
+                    @-webkit-keyframes sub-content {
+
+                        0%,
+                        40% {
+                            width: 0;
+                        }
+
+                        60%,
+                        100% {
+                            width: 100%;
+                        }
+                    }
+
                     #chat-content>.message.gift>.gift-image {
                         display: block;
                         height: 100px;
                         width: 100px;
+                    }
+
+                    #chat-content>.message.sub-pro>.gift-image,
+                    #chat-content>.message.sub-extreme>.gift-image,
+                    #chat-content>.message.sub-gold>.gift-image {
+                        display: none;
                     }
 
                     #chat-content>.message.gift>.gift-image>img {
@@ -11674,18 +12014,18 @@
                             padding: 0 10px 0 32px;
                         }
 
-                        #chat-content>.message>a:first-child {
+                        #chat-content>.message>.avatar {
                             height: 24px;
                             width: 24px;
                             top: 0;
                         }
 
-                        #chat-content>.message>a>.status-icon {
+                        #chat-content>.message>.avatar>.status-icon {
                             top: 14px;
                             left: -4px;
                         }
 
-                        #chat-content>.message>a>.avatar>img {
+                        #chat-content>.message>.avatar>div>img {
                             left: -4px;
                         }
 
@@ -11702,8 +12042,8 @@
                     }
 
                     #chat-wrapper.full-screen #chat-instant,
-                    #chat-wrapper.full-screen #chat-instant>a>.status-icon,
-                    #chat-wrapper.full-screen #chat-content>.message>a>.status-icon {
+                    #chat-wrapper.full-screen #chat-instant>.avatar>.status-icon,
+                    #chat-wrapper.full-screen #chat-content>.message>.avatar>.status-icon {
                         background-color: #202628;
                     }
 
@@ -11876,12 +12216,12 @@
                             <div id="chat-content">
                                 <dom-repeat items="[[_items]]"><template strip-whitespace="">
                                         <div class$="[[_getClassType(item.type)]]">
-                                            <dom-if if="[[showNick(item)]]"><template strip-whitespace=""><a href="#">
-                                                        <div class="avatar"><img src="[[item.user.avatarUrl]]"></div>
+                                            <dom-if if="[[showNick(item)]]"><template strip-whitespace=""><a href="#" class="avatar">
+                                                        <div><img src="[[item.user.avatarUrl]]"></div>
                                                         <dom-if if="[[showAchiveImg(item.user)]]"><template strip-whitespace=""><img class="status-icon" src="[[item.user.achivementUrl]]"></template></dom-if>
                                                     </a><a href="#" class="nickname" data-status$="[[convertSubType(item.user)]]">[[item.user.nickname]]</a></template></dom-if>
                                             <div class="content">
-                                                <tc-message-html class-type="[[_getClassType(item.type, isFullScreen)]]" html="[[item.message_text]]"></tc-message-html>
+                                                <tc-message-html class-type="[[_getClassType(item.type, isFullScreen)]]" html="[[item.message_text]]" nickname="[[item.user.nickname]]"></tc-message-html>
                                             </div>
                                             <dom-if if="[[showGift(item.type)]]"><template strip-whitespace=""><a class="gift-image" href="#"><img src="[[item.giftUrl]]"></a></template></dom-if>
                                         </div>
@@ -11992,7 +12332,9 @@
                                 let c = Object.assign(new d, a.toUserEntity);
                                 b.set("_selected", c), b.notifyPath("_items")
                             }
-                        }), c.subscribe(TinychatApp.BLL.ChatlistRemoveEvent.ID, function() {})
+                        }), c.subscribe(TinychatApp.BLL.ChatlistRemoveEvent.ID, function() {}), c.subscribe(TinychatApp.BLL.UserlistAddUserEvent.ID, function(a) {
+                            a.userentity.subscriptionType > TinychatApp.BLL.User.STYPE_PRO && b.chatlog.subscribed_add(a.userentity)
+                        })
                     }
                     onFullscreen() {
                         if (this.isFullScreen = window.fullscreenManager.status(), this.isFullScreen) this.$["chat-wrapper"].classList.add("full-screen");
@@ -12076,13 +12418,13 @@
                     _getClassType(a, b) {
                         let c = TinychatApp.DAL.ChatLogItemEntity;
                         var d = "message";
-                        return a === c.PUBLIC ? d += " common" : a === c.PRIVATE ? d += " common" : a === c.SYSTEM ? d += " system" : a === c.GIFT ? d += " gift" : void 0, b && (d += " full-screen"), d
+                        return a === c.PUBLIC ? d += " common" : a === c.PRIVATE ? d += " common" : a === c.SYSTEM ? d += " system" : a === c.GIFT ? d += " gift" : a === c.SUB_EXTREME ? d += " sub-extreme" : a === c.SUB_GOLD ? d += " sub-gold" : void 0, b && (d += " full-screen"), d
                     }
                     showNick(a) {
                         let b = a.type,
                             c = TinychatApp.DAL.ChatLogItemEntity;
                         var d = !1;
-                        return b === c.PUBLIC ? d = !0 : b === c.PRIVATE ? d = !0 : b === c.GIFT ? d = null != a.user : void 0, d
+                        return b === c.PUBLIC ? d = !0 : b === c.PRIVATE ? d = !0 : b === c.GIFT ? d = null != a.user : b === c.SUB_EXTREME ? d = !0 : b === c.SUB_GOLD ? d = !0 : void 0, d
                     }
                     showAvatarImg(a) {
                         return !!(a instanceof TinychatApp.DAL.UserEntity) && "" !== a.avatarUrl
@@ -20342,6 +20684,7 @@
                         padding: 0;
                         border: none;
                         border-radius: 40px;
+                        font-family: 'Open Sans', sans-serif;
                         font-size: 16px;
                         font-weight: 700;
                         color: #fff;
