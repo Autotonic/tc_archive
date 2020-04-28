@@ -5235,7 +5235,7 @@
                     }
                     onClose() {
                         console.warn("Chatroom.Disconnected");
-                        let b = new TinychatApp.BLL.RoomQuitEvent(TinychatApp.BLL.RoomQuitEvent.WS, this);
+                        let b = new TinychatApp.BLL.RoomQuitEvent(TinychatApp.BLL.RoomQuitEvent.WS, this.chatRoom);
                         this.EventBus.broadcast(TinychatApp.BLL.RoomQuitEvent.ID, b), this.chatRoom.wsReset();
                         let c = this,
                             d = 1e3 + Math.floor(2e3 * Math.random());
@@ -5309,7 +5309,7 @@
                             if (void 0 !== a) return Object.isObj(a) && Object.isFunc(a.func) ? a.func.call(this.chatRoom, b, a.params) : Object.isFunc(a) && a.call(this.chatRoom, b), void delete this.queue[c]
                         }
                         let d = b.tc;
-                        "string" === typeof d ? "ping" === d ? this.chatRoom.onPing(b) : "userlist" === d ? this.chatRoom.onRoomUserlist(b) : "join" === d ? this.chatRoom.onRoomUserJoin(b) : "room_settings" === d ? this.chatRoom.onRoomSettings(b) : "quit" === d ? this.chatRoom.onRoomUserQuit(b) : "publish" === d ? this.chatRoom.onRoomPublish(b) : "unpublish" === d ? this.chatRoom.onRoomUnPublish(b) : "stream_connected" === d ? this.chatRoom.onStreamConnected(b) : "pending_moderation" === d ? this.chatRoom.onPendingModeration(b) : "waiting_slot" === d ? this.chatRoom.onWaitingSlot(b) : "stream_closed" === d ? this.chatRoom.onStreamClosed(b) : "stream_moder_allow" === d ? this.chatRoom.onStreamModerAllow(b) : "publish" === d ? this.chatRoom.onRoomPublish(b) : "unpublish" === d ? this.chatRoom.onRoomUnPublish(b) : "msg" === d ? this.chatRoom.onSendMessagePublicCallback(b) : "nick" === d ? this.chatRoom.onNicknameChanged(b) : "pvtmsg" === d ? this.chatRoom.onSendMessagePrivateCallback(b) : "closed" === d ? (this.chatRoom.onClosed(b), this.tcSocket.close()) : "sysmsg" === d ? this.chatRoom.onSystemMessage(b) : "gift" === d ? this.chatRoom.onGiftMessage(b) : d.startsWith("yut_") ? this.chatRoom.onYoutube(b) : d.startsWith("yutpls_") ? this.chatRoom.onYoutubePlaylist(b) : console.error("Unknown pkt: " + JSON.stringify(b)) : console.error("Unknown pkt format: " + JSON.stringify(b))
+                        "string" === typeof d ? "ping" === d ? this.chatRoom.onPing(b) : "userlist" === d ? this.chatRoom.onRoomUserlist(b) : "join" === d ? this.chatRoom.onRoomUserJoin(b) : "room_settings" === d ? this.chatRoom.onRoomSettings(b) : "quit" === d ? this.chatRoom.onRoomUserQuit(b) : "publish" === d ? this.chatRoom.onRoomPublish(b) : "unpublish" === d ? this.chatRoom.onRoomUnPublish(b) : "stream_connected" === d ? this.chatRoom.onStreamConnected(b) : "pending_moderation" === d ? this.chatRoom.onPendingModeration(b) : "waiting_slot" === d ? this.chatRoom.onWaitingSlot(b) : "stream_closed" === d ? this.chatRoom.onStreamClosed(b) : "stream_moder_allow" === d ? this.chatRoom.onStreamModerAllow(b) : "publish" === d ? this.chatRoom.onRoomPublish(b) : "unpublish" === d ? this.chatRoom.onRoomUnPublish(b) : "msg" === d ? this.chatRoom.onSendMessagePublicCallback(b) : "nick" === d ? this.chatRoom.onNicknameChanged(b) : "pvtmsg" === d ? this.chatRoom.onSendMessagePrivateCallback(b) : "closed" === d ? (this.chatRoom.onClosed(b), this.tcSocket.close()) : "sysmsg" === d ? this.chatRoom.onSystemMessage(b) : "gift" === d ? this.chatRoom.onGiftMessage(b) : d.startsWith("yut_") ? this.chatRoom.onYoutube(b) : d.startsWith("yutpls_") ? this.chatRoom.onYoutubePlaylist(b) : d.startsWith("guest_session_timeout") ? this.chatRoom.onGuestSessTimeout(b) : d.startsWith("multiple_videos_timeout") ? this.chatRoom.onMultipleVideosTimeout(b) : console.error("Unknown pkt: " + JSON.stringify(b)) : console.error("Unknown pkt format: " + JSON.stringify(b))
                     }
                     wsCreatePacket(a, b) {
                         const c = {
@@ -5369,8 +5369,8 @@
                     UpgradeSub() {
                         this.gotoUrl(b.url_upgradenow(this.backUrl), !0)
                     }
-                    Login() {
-                        this.gotoUrl(b.urlpath_login(this.backUrl))
+                    Login(a) {
+                        this.gotoUrl(b.urlpath_login(this.backUrl, a))
                     }
                     DevNews() {
                         this.gotoUrl(b.url_devnews(this.backUrl), !0)
@@ -5409,9 +5409,9 @@
                     static urlpath_register(a) {
                         return urlpath_login(a)
                     }
-                    static urlpath_login(a) {
-                        var b = "";
-                        return void 0 != a && (b = "?next=" + encodeURI(a)), "/start/" + b
+                    static urlpath_login(a, b) {
+                        var c = "";
+                        return void 0 != a && (c = "?next=" + encodeURI(a)), b && (c += "&header=" + b), "/start/" + c
                     }
                     static urlpath_logout() {
                         return "/logout"
@@ -6114,7 +6114,7 @@
                 var a = Math.Guid;
                 class b {
                     constructor(a, b, d) {
-                        this.videolist = a, this.userentity = b, this.mediastream = d, this.progress = !1, this.large = !1, this.hidden = !1, this.mute = !1, this.volume = 1, this.audiolevel = 0, this.featured = !1;
+                        this.videolist = a, this.userentity = b, this.mediastream = d, this.progress = !1, this.large = !1, this.hidden = !1, this.mute = !1, this.volume = 1, this.audiolevel = 0, this.featured = !1, this.blured = !1;
                         try {
                             let a = this,
                                 b = d.getAudioTracks();
@@ -6231,7 +6231,7 @@
                 }
                 window.TinychatApp.BLL.Videolist = class {
                     constructor(a) {
-                        this.chatroom = a, this.EventBus = a.app.EventBus, this.items = [], this.moderationitems = [], this.selfItem, this.audioContext = new AudioContext, this.EventBus.subscribe(TinychatApp.BLL.UserlistRemoveUserEvent.ID, a => this.onUserlistRemoved(a)), this.EventBus.subscribe(TinychatApp.BLL.UserlistUpdateUserEvent.ID, a => this.onUserlistUpdate(a))
+                        this.chatroom = a, this.EventBus = a.app.EventBus, this.items = [], this.moderationitems = [], this.selfItem, this.audioContext = new AudioContext, this.needToBlurOtherVids = !1, this.EventBus.subscribe(TinychatApp.BLL.UserlistRemoveUserEvent.ID, a => this.onUserlistRemoved(a)), this.EventBus.subscribe(TinychatApp.BLL.UserlistUpdateUserEvent.ID, a => this.onUserlistUpdate(a))
                     }
                     getitems() {
                         return this.items
@@ -6243,7 +6243,7 @@
                         return this.items.length
                     }
                     clear() {
-                        this.items = [], this.EventBus.broadcast(g.ID, new g(this.chatroom))
+                        this.items = [], this.needToBlurOtherVids = !1, this.EventBus.broadcast(g.ID, new g(this.chatroom))
                     }
                     switchPTT(a) {
                         let b = this._getSelfMediaStream();
@@ -6339,7 +6339,7 @@
                     PublishedVideoSelf() {
                         this.items.push(this.selfItem);
                         let a = new f(c.Add, this.selfItem, this.items.indexOf(this.selfItem));
-                        this.EventBus.broadcast(f.ID, a), this.selfItem = null
+                        this.EventBus.broadcast(f.ID, a), this.selfItem = null, this.blurOtherVids()
                     }
                     PendingModerationVideoSelf() {
                         let a = new f(c.AddPending, this.selfItem, 0);
@@ -6365,7 +6365,7 @@
                         } else {
                             this.items.push(g);
                             let a = new f(c.Add, g, this.items.indexOf(g));
-                            this.EventBus.broadcast(f.ID, a)
+                            this.EventBus.broadcast(f.ID, a), this.blurOtherVids()
                         }
                     }
                     onUserlistRemoved(a) {
@@ -6390,7 +6390,7 @@
                             }), null != d) {
                             this.items.splice(e, 1), d.Dispose();
                             let a = new f(c.Remove, d, e);
-                            this.EventBus.broadcast(f.ID, a)
+                            this.EventBus.broadcast(f.ID, a), this.blurOtherVids()
                         } else {
                             let d = null,
                                 e = -1;
@@ -6430,6 +6430,27 @@
                     _getSelfMediaStream() {
                         let a = this.items.find(a => a.userentity.handle == this.chatroom.self_handle);
                         return a ? a.mediastream : null
+                    }
+                    setNeedToBlurOtherVids(a) {
+                        this.needToBlurOtherVids = a
+                    }
+                    blurOtherVids() {
+                        if (!this.needToBlurOtherVids) return;
+                        let a = 1;
+                        Object.keys(this.items).forEach(b => {
+                            let d = this.items[b];
+                            if (d.userentity.handle !== this.chatroom.self_handle) {
+                                if (0 < a) {
+                                    if (a--, !d.blured) return;
+                                    d.blured = !1
+                                } else {
+                                    if (d.blured) return;
+                                    d.blured = !0
+                                }
+                                let e = new f(c.Update, d, b);
+                                this.EventBus.broadcast(f.ID, e)
+                            }
+                        })
                     }
                 }, window.TinychatApp.BLL.VideolistItem = b, window.TinychatApp.BLL.VideolistAction = c, window.TinychatApp.BLL.VideolistEvent = f, window.TinychatApp.BLL.VideolistClear = g, window.TinychatApp.BLL.VideolistAcceptedEvent = i
             })();
@@ -7081,10 +7102,7 @@
                                 c = this.tcPkt_RoomSettingsParse(a.room);
                             this.updateSelfUser(b), this.updateRoomSettings(c), b.isLurker ? console.warn("Chatroom.Connected: nickname: " + b.nickname + " - IsLurker!") : console.log("Chatroom.Connected: nickname: " + b.nickname), this.reconnect_wait = 0;
                             let d = new q;
-                            if (this.EventBus.broadcast(q.ID, d), "" == this.nickname) {
-                                let a = new w("", ModalDialogChangeNickname.MODE_GUEST);
-                                this.EventBus.broadcast(w.ID, a)
-                            }
+                            this.EventBus.broadcast(q.ID, d), "" === this.nickname
                         } else if ("password" === a.tc) {
                             let a = new k;
                             this.EventBus.broadcast(k.ID, a)
@@ -7147,6 +7165,12 @@
                         let c = 0 < b ? b : TinychatApp.BLL.Chatlog.PUBLIC,
                             d = a.text || "";
                         this.chatlog.system_add(c, d)
+                    }
+                    onGuestSessTimeout(a) {
+                        this.tcPkt_TcCallbackCheck(a, "guest_session_timeout") && this.app.Login(777)
+                    }
+                    onMultipleVideosTimeout(a) {
+                        this.tcPkt_TcCallbackCheck(a, "multiple_videos_timeout") && (this.videolist.setNeedToBlurOtherVids(!0), this.videolist.blurOtherVids())
                     }
                     onGiftMessage(a) {
                         if (!this.tcPkt_TcCallbackCheck(a, "gift")) return;
@@ -7338,7 +7362,16 @@
                                 b = "You have been kicked by a moderator";
                                 break;
                             case 22:
-                                b = "You must be at least 18 years old and signed in to a verified Tinychat account to join this room";
+                                b = "You must be at least 18 years old to join this room";
+                                break;
+                            case 23:
+                                b = "Your connection limit is exceeded.";
+                                break;
+                            case 24:
+                                b = "This alias has been expired.";
+                                break;
+                            case 25:
+                                b = "Your connection limit is exceeded. You can upgrade to get more.";
                                 break;
                             default:
                                 b = "There is no internet connection...";
@@ -7350,6 +7383,9 @@
                         switch (a) {
                             case 3:
                                 b = "SIGN IN";
+                                break;
+                            case 25:
+                                b = "UPGRADE";
                                 break;
                             default:
                                 b = "RETRY";
@@ -10230,8 +10266,8 @@
                     PromoteRoom() {
                         this._router.PromoteRoom()
                     }
-                    Login() {
-                        this._router.Login()
+                    Login(a) {
+                        this._router.Login(a)
                     }
                     Register() {
                         this._router.Register()
@@ -16859,7 +16895,7 @@
                         return void 0 == b && (b = 0), new String(Math.floor((a - b) / 1e3))
                     }
                     onOK(a) {
-                        return a.preventDefault(), 3 === this.chatroom.closedLastReasonCode ? this.chatroom.app.Login() : this.retry(), !1
+                        return a.preventDefault(), 25 === this.chatroom.closedLastReasonCode && this.chatroom.app.UpgradeSub(), 3 === this.chatroom.closedLastReasonCode ? this.chatroom.app.Login(this.chatroom.closedLastReasonCode) : this.retry(), !1
                     }
                     retry() {
                         this.stop(), this.chatroom.Reconnect()
@@ -17085,7 +17121,7 @@
                     chatroomAssigned() {
                         let a = this,
                             b = this.chatroom.app.EventBus;
-                        a.set("roomshare_url", this.chatroom.url);
+                        a.set("roomshare_url", window.location.href);
                         let c = a.$["input-link"];
                         setTimeout(() => {
                             a._setTextCursor(c, c.value.length)
@@ -20485,7 +20521,7 @@
                         this.$.sidemenu.classList.remove("show")
                     }
                     login() {
-                        this.app.Login()
+                        this.app.Login(999)
                     }
                     onClose() {
                         this.slidein(), document.dispatchEvent(new CustomEvent("side-menu-changed", {
@@ -21627,7 +21663,7 @@
                         a = a || window.event, (27 == a.keyCode || "Escape" == a.key || "Esc" == a.key) && this.hide()
                     }
                     changenick() {
-                        return this.chatroom.isLurker() ? void this.app.showToastLurker() : void this.userlist.changenick(this.user)
+                        return this.chatroom.isLurker() ? void this.app.showToastLurker() : void(this.user.isSelf && this.user.isGuest && this.app.Login(777), this.userlist.changenick(this.user))
                     }
                     follow() {
                         return this.chatroom.isLurker() ? void this.app.showToastLurker() : void this.userlist.follow(this.user)
@@ -22452,7 +22488,7 @@
                         pointer-events: none;
                     }
 
-                    .video:hover>div>svg {
+                    .video:not(.blured):hover>div>svg {
                         top: -24px;
                         left: -24px;
                         transition: .2s ease .2s;
@@ -22460,9 +22496,9 @@
 
                     .video:after {}
 
-                    .video:hover>div.pro:after,
-                    .video:hover>div.extreme:after,
-                    .video:hover>div.gold:after {
+                    .video:not(.blured):hover>div.pro:after,
+                    .video:not(.blured):hover>div.extreme:after,
+                    .video:not(.blured):hover>div.gold:after {
                         top: -24px;
                         right: -24px;
                         transition: .2s ease .2s;
@@ -22510,7 +22546,7 @@
                         transition: .2s;
                     }
 
-                    .video:hover>div>.overlay {
+                    .video:not(.blured):hover>div>.overlay {
                         box-shadow: inset 0 0 100px 0 rgba(0, 0, 0, .5);
                     }
 
@@ -22558,11 +22594,11 @@
                         opacity: 1;
                     }
 
-                    .video:hover>div>.overlay>.icon-visibility,
-                    .video:hover>div>.overlay>.icon-resize,
-                    .video:hover>div>.overlay>.icon-report,
-                    .video:hover>div>.overlay>.icon-filter,
-                    .video:hover>div>.overlay>.icon-close {
+                    .video:not(.blured):hover>div>.overlay>.icon-visibility,
+                    .video:not(.blured):hover>div>.overlay>.icon-resize,
+                    .video:not(.blured):hover>div>.overlay>.icon-report,
+                    .video:not(.blured):hover>div>.overlay>.icon-filter,
+                    .video:not(.blured):hover>div>.overlay>.icon-close {
                         top: 12px;
                         transition: top .2s ease .2s,
                             left .2s ease .2s,
@@ -22570,16 +22606,16 @@
                             opacity .2s;
                     }
 
-                    .video:hover>div>.overlay>.icon-visibility {
+                    .video:not(.blured):hover>div>.overlay>.icon-visibility {
                         left: 14px;
                     }
 
-                    .video:hover>div>.overlay>.icon-report,
-                    .video:hover>div>.overlay>.icon-close {
+                    .video:not(.blured):hover>div>.overlay>.icon-report,
+                    .video:not(.blured):hover>div>.overlay>.icon-close {
                         right: 14px;
                     }
 
-                    .video:hover>div>.overlay>.icon-filter {
+                    .video:not(.blured):hover>div>.overlay>.icon-filter {
                         right: 12px;
                     }
 
@@ -22657,7 +22693,7 @@
                         opacity: 1;
                     }
 
-                    .video:hover>div>.overlay>.icon-context {
+                    .video:not(.blured):hover>div>.overlay>.icon-context {
                         bottom: 7px;
                         right: 16px;
                         transition: bottom .2s ease .2s,
@@ -22712,7 +22748,7 @@
                         background-color: rgba(255, 255, 255, .2);
                     }
 
-                    .video:hover>div>.overlay>.icon-context:focus+.video-context {
+                    .video:not(.blured):hover>div>.overlay>.icon-context:focus+.video-context {
                         opacity: 1;
                         visibility: visible;
                     }
@@ -22763,7 +22799,7 @@
                         opacity: 1;
                     }
 
-                    .video:hover>div>.overlay>.icon-volume {
+                    .video:not(.blured):hover>div>.overlay>.icon-volume {
                         left: 16px;
                         bottom: 16px;
                         transition: bottom .2s ease .2s,
@@ -22863,6 +22899,79 @@
                         -webkit-animation-play-state: running;
                     }
 
+                    .video>div>.blured {
+                        position: absolute;
+                        height: 100%;
+                        width: 100%;
+                        top: 0;
+                        left: 0;
+                        background-color: rgba(30, 38, 40, .8);
+                        font-size: 0;
+                        white-space: nowrap;
+                        z-index: 1;
+                        opacity: 0;
+                        visibility: hidden;
+                        transition: .2s;
+                    }
+
+                    .video.blured>div>.blured {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+
+                    .video.blured>div>video {
+                        filter: blur(5px);
+                    }
+
+                    .video>div>.blured:before {
+                        content: '';
+                        display: inline-block;
+                        height: 100%;
+                        width: 0;
+                        vertical-align: middle;
+                    }
+
+                    .video>div>.blured>.blured-content {
+                        width: 100%;
+                        display: inline-block;
+                        padding: 10px;
+                        box-sizing: border-box;
+                        font-weight: 400;
+                        font-size: 14px;
+                        vertical-align: middle;
+                        white-space: normal;
+                        text-align: center;
+                    }
+
+                    .video>div>.blured>.blured-content>div {
+                        padding: 8px 0 24px;
+                        color: #fff;
+                    }
+
+                    .video>div>.blured>.blured-content>a {
+                        display: inline-block;
+                        padding: 0 30px;
+                        border-radius: 15px;
+                        box-sizing: border-box;
+                        font-size: 12px;
+                        font-weight: 700;
+                        color: #fff;
+                        line-height: 30px;
+                        background-color: #04caff;
+                        text-align: center;
+                        text-decoration: none;
+                        cursor: pointer;
+                        transition: .2s;
+                    }
+
+                    .video>div>.blured>.blured-content>a:hover {
+                        background-color: #54ccf3;
+                    }
+
+                    .video>div>.blured>.blured-content>a:active {
+                        background-color: #38a8de;
+                    }
+
                     .video>div>svg {
                         position: absolute;
                         top: 5px;
@@ -22873,7 +22982,7 @@
                         transition: .2s;
                     }
 
-                    #videos-content>#videos>.video:hover>div>svg {
+                    #videos-content>#videos>.video:not(.blured):hover>div>svg {
                         top: -24px;
                         left: -24px;
                         transition: .2s ease .2s;
@@ -22974,7 +23083,7 @@
                         visibility: hidden;
                     }
 
-                    .video:hover>div>.nickname {
+                    .video:not(.blured):hover>div>.nickname {
                         bottom: 50%;
                         transition: .2s ease .2s;
                     }
@@ -23131,6 +23240,13 @@
                             <circle cx="12" cy="12" r="3"></circle>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg> <span class="nickname" title="[[item.nickname]]"><img src$="[[item.achivementUrl]]"> [[item.nickname]]</span>
+                        <div class="blured">
+                            <div class="blured-content"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                                    <path fill="#fff" fill-rule="evenodd" opacity=".3" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0s20 8.954 20 20-8.954 20-20 20zm3-22h-6v-1.583C17 14.533 18.346 13 20 13s3 1.533 3 3.417V18zm1.564-.566v-1.675C24.564 13.131 22.521 11 20 11s-4.564 2.13-4.564 4.759v1.675c-.847.401-1.436 1.29-1.436 2.324v5.69c0 1.034.589 1.923 1.436 2.324.308.147.65.228 1.011.228h7.106c.36 0 .703-.081 1.011-.227.847-.401 1.436-1.29 1.436-2.324v-5.691c0-1.033-.589-1.923-1.436-2.324z"></path>
+                                </svg>
+                                <div>Upgrade for unlimited video</div><a href="#" on-click="onUpgrade" target="_self">Upgrade</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -23173,7 +23289,11 @@
                             onFullscreenHandler: Object,
                             videoItemStyle: {
                                 type: String,
-                                computed: "_videoItemStyleCompute(item.large, item.muted, item.hidden, isFullScreen)"
+                                computed: "_videoItemStyleCompute(item.large, item.muted, item.hidden, isFullScreen, item.blured)"
+                            },
+                            _timerId: {
+                                type: Number,
+                                value: -1
                             }
                         }
                     }
@@ -23181,10 +23301,13 @@
                         super()
                     }
                     connectedCallback() {
-                        super.connectedCallback(), this.onFullscreenHandler = this.onFullscreen.bind(this), window.fullscreenManager.addEventListener(this.onFullscreenHandler, !1)
+                        super.connectedCallback(), this.onFullscreenHandler = this.onFullscreen.bind(this), window.fullscreenManager.addEventListener(this.onFullscreenHandler, !1), this._timerId = setInterval(this.refreshBlured.bind(this), 5e3)
                     }
                     disconnectedCallback() {
-                        super.disconnectedCallback(), window.fullscreenManager.removeEventListener(this.onFullscreenHandler, !1)
+                        super.disconnectedCallback(), window.fullscreenManager.removeEventListener(this.onFullscreenHandler, !1), clearInterval(this._timerId)
+                    }
+                    refreshBlured() {
+                        this.item.blured && (this.item.blured = !1, this.notifyPath("item.blured"), this.item.blured = !0, this.notifyPath("item.blured"))
                     }
                     itemAssigned(a) {
                         let b = this.$.video;
@@ -23194,9 +23317,9 @@
                         let c = 100;
                         return void 0 === a && void 0 !== b ? c = b : void 0 !== a && void 0 === b ? c = a : void 0 !== a && void 0 !== b && (c = b < a ? b : a), this.item.volume !== c && (this.item.volume = c, this.notifyPath("item.volume")), c / 100
                     }
-                    _videoItemStyleCompute(a, b, c, d) {
-                        let e = "video";
-                        return e += a ? " large" : "", e += b ? " muted" : "", e += c ? " not-visible" : "", e += d ? " full-screen" : "", e
+                    _videoItemStyleCompute(a, b, c, d, e) {
+                        let f = ["video"];
+                        return a && f.push("large"), b && f.push("muted"), c && f.push("not-visible"), d && f.push("full-screen"), e && f.push("blured"), f.join(" ")
                     }
                     convertVideoClass(a, b) {
                         var c = "ratio-4-3";
@@ -25279,7 +25402,7 @@
                                 a instanceof NodeList && a.forEach(a => {
                                     a.load(), a.play()
                                 })
-                            }, 1)) : b.action === TinychatApp.BLL.VideolistAction.RemovePendingWaiting ? (a.isSelfModerating = !1, a.isSelfWaiting = !1, a.showSelfPreview = !1, a.notifyPath("videolist.selfItem")) : b.action === TinychatApp.BLL.VideolistAction.Update && (a._items[b.index] = b.videolistitem, a.notifyPath("_items." + b.index + ".large"), a.notifyPath("_items." + b.index + ".hidden"), a.notifyPath("_items." + b.index + ".mute"), a.notifyPath("_items." + b.index + ".volume"), a.notifyPath("_items." + b.index + ".audiolevel"), a.notifyPath("_items." + b.index + ".progress"), a._itemsplain = a.computeVideoItems(a._items), a.notifyPath("_itemsplain"), a._itemsFeatured = a.computeVideoFeatured(a._items), a.notifyPath("_itemsFeatured"))
+                            }, 1)) : b.action === TinychatApp.BLL.VideolistAction.RemovePendingWaiting ? (a.isSelfModerating = !1, a.isSelfWaiting = !1, a.showSelfPreview = !1, a.notifyPath("videolist.selfItem")) : b.action === TinychatApp.BLL.VideolistAction.Update && (a._items[b.index] = b.videolistitem, a.notifyPath("_items." + b.index + ".large"), a.notifyPath("_items." + b.index + ".hidden"), a.notifyPath("_items." + b.index + ".mute"), a.notifyPath("_items." + b.index + ".volume"), a.notifyPath("_items." + b.index + ".audiolevel"), a.notifyPath("_items." + b.index + ".progress"), a.notifyPath("_items." + b.index + ".blured"), a._itemsplain = a.computeVideoItems(a._items), a.notifyPath("_itemsplain"), a._itemsFeatured = a.computeVideoFeatured(a._items), a.notifyPath("_itemsFeatured"))
                         }), b.subscribe(TinychatApp.BLL.BroadcastProgressEvent.ID, b => {
                             let c = TinychatApp.BLL.BroadcastProgressEvent;
                             b.stage == c.MEDIA_START ? a.broadcastProgress = !0 : b.stage == c.MEDIA_OK || b.stage == c.MEDIA_ICE || (b.stage == c.MEDIA_STARTED_SUCCESS ? (a.broadcasting = !0, a.broadcastProgress = !1) : b.stage == c.MEDIA_FAILED ? (console.error(b.error), a.broadcastProgress = !1, a.app.showToastWarn(b.error.message)) : b.stage == c.MEDIA_RTC_FAILED ? (console.error(b.error), a.broadcastProgress = !1) : b.stage == c.MEDIA_STOPING ? a.broadcastProgress = !0 : b.stage == c.MEDIA_STOPED && (a.broadcasting = !1, a.broadcastProgress = !1))
@@ -25853,7 +25976,7 @@
                     }), b.subscribe(TinychatApp.BLL.RoomConnectCaptcha.ID, function(b) {
                         a.isconnecting = !1, a._recaptchaOpen(b.key)
                     }), b.subscribe(TinychatApp.BLL.RoomConnectStandby.ID, function(b) {
-                        a.isconnecting = !1, a._recaptchaClose(), a._dialogclose(a.$.modal, c);
+                        if (a.isconnecting = !1, a._recaptchaClose(), a._dialogclose(a.$.modal, c), 3 === a.chatroom.closedLastReasonCode) return void a.chatroom.app.Login(a.chatroom.closedLastReasonCode);
                         a._dialogopen(a.$.modal, "reconnect", () => {
                             let c = new ModalReconnect;
                             return c.id = "reconnect", c.chatroom = a.chatroom, c.tries = b.tries, c.waitms = b.waitms, c
