@@ -25011,7 +25011,7 @@
                         if (!window.grecaptcha) {
                             var f = 0;
                             let a = setInterval(() => {
-                                window.grecaptcha && (clearInterval(a), c()), f += 50
+                                window.grecaptcha && window.grecaptcha.render && (clearInterval(a), c()), f += 50
                             }, f)
                         } else c()
                     }
