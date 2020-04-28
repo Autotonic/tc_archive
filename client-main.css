@@ -204,6 +204,10 @@ body.modal-show {
     overflow: hidden;
 }
 
+body[data-mode="dark"] {
+    background-color: #202628;
+}
+
 #nav-static-wrapper *,
 #users *,
 #room-header *,
@@ -570,6 +574,10 @@ body.full-screen>#input-menu:checked~#mobile-app {
     text-align: center;
 }
 
+[data-mode="dark"] #captcha-content {
+    background-color: #202628;
+}
+
 #captcha-content>h1 {
     padding-bottom: 9px;
     box-sizing: border-box;
@@ -580,12 +588,20 @@ body.full-screen>#input-menu:checked~#mobile-app {
     text-align: center;
 }
 
+[data-mode="dark"] #captcha-content>h1 {
+    color: #fff;
+}
+
 #captcha-content>span {
     display: block;
     margin-bottom: 45px;
     font-size: 12px;
     line-height: 16px;
     color: #262626;
+}
+
+[data-mode="dark"] #captcha-content>span {
+    color: #fff;
 }
 
 #captcha-content>a {
