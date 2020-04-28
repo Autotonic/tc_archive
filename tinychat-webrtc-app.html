@@ -17,7 +17,7 @@
                 }
 
                 function c(j) {
-                    j = j.replace(C, "").replace(M, "");
+                    j = j.replace(C, "").replace(N, "");
                     var a = j,
                         c = new b;
                     c.start = 0, c.end = a.length;
@@ -33,7 +33,7 @@
 
                 function i(h, a) {
                     var b = a.substring(h.start, h.end - 1);
-                    if (h.parsedCssText = h.cssText = b.trim(), h.parent && (b = a.substring(h.previous ? h.previous.end : h.parent.start, h.start - 1), b = g(b), b = b.replace(W, " "), b = b.substring(b.lastIndexOf(";") + 1), b = h.parsedSelector = h.selector = b.trim(), h.atRule = 0 === b.indexOf("@"), h.atRule ? 0 === b.indexOf("@media") ? h.type = B : b.match(T) && (h.type = D, h.keyframesName = h.selector.split(W).pop()) : h.type = 0 === b.indexOf("--") ? A : v), b = h.rules)
+                    if (h.parsedCssText = h.cssText = b.trim(), h.parent && (b = a.substring(h.previous ? h.previous.end : h.parent.start, h.start - 1), b = g(b), b = b.replace(X, " "), b = b.substring(b.lastIndexOf(";") + 1), b = h.parsedSelector = h.selector = b.trim(), h.atRule = 0 === b.indexOf("@"), h.atRule ? 0 === b.indexOf("@media") ? h.type = B : b.match(W) && (h.type = D, h.keyframesName = h.selector.split(X).pop()) : h.type = 0 === b.indexOf("--") ? A : v), b = h.rules)
                         for (var c = 0, e = b.length, d = void 0; c < e && (d = b[c]); c++) i(d, a);
                     return h
                 }
@@ -53,13 +53,13 @@
                         if ((e = f) && (e = f[0], e = !(e && e.selector && 0 === e.selector.indexOf("--"))), e) {
                             e = 0;
                             for (var d = f.length, g = void 0; e < d && (g = f[e]); e++) c = j(g, a, c)
-                        } else a ? a = i.cssText : (a = i.cssText, a = a.replace(N, "").replace(P, ""), a = a.replace(R, "").replace(S, "")), (c = a.trim()) && (c = "  " + c + "\n")
+                        } else a ? a = i.cssText : (a = i.cssText, a = a.replace(P, "").replace(R, ""), a = a.replace(S, "").replace(T, "")), (c = a.trim()) && (c = "  " + c + "\n")
                     }
                     return c && (i.selector && (b += i.selector + " {\n"), b += c, i.selector && (b += "}\n\n")), b
                 }
 
                 function d(b) {
-                    return b ? ("string" === typeof b && (b = c(b)), j(b, l)) : ""
+                    return b ? ("string" === typeof b && (b = c(b)), j(b, M)) : ""
                 }
 
                 function e(b) {
@@ -152,7 +152,7 @@
                         if (k || (h.a.set(d, {}), k = h.a.get(d)), k) {
                             h.c && (k.i[h.c] = !0);
                             var l = k.h;
-                            for (e in l) h = g && g[e], k = [e, ": var(", d, "_-_", e], h && k.push(",", h.replace($, "")), k.push(")"), $.test(l[e]) && k.push(" !important"), j.push(k.join(""))
+                            for (e in l) h = g && g[e], k = [e, ": var(", d, "_-_", e], h && k.push(",", h.replace(_, "")), k.push(")"), _.test(l[e]) && k.push(" !important"), j.push(k.join(""))
                         }
                         e = j.join("; "), a = f + e + a, G.lastIndex = c + e.length
                     }
@@ -166,7 +166,7 @@
                             if (c = d[0].trim(), e = d.slice(1).join(":"), b) {
                                 var g = i;
                                 d = c;
-                                var j = Z.exec(e);
+                                var j = $.exec(e);
                                 j && (j[1] ? (g.b || (g.b = document.createElement("meta"), g.b.setAttribute("apply-shim-measure", ""), g.b.style.all = "initial", document.head.appendChild(g.b)), d = window.getComputedStyle(g.b).getPropertyValue(d)) : d = "apply-shim-inherit", e = d)
                             }
                             h[c] = e
@@ -212,12 +212,12 @@
                 }
 
                 function J() {
-                    this.a = null, _.invalidCallback = y
+                    this.a = null, aa.invalidCallback = y
                 }
 
                 function K(b) {
                     !b.a && window.ShadyCSS.CustomStyleInterface && (b.a = window.ShadyCSS.CustomStyleInterface, b.a.transformCallback = function(b) {
-                        _.f(b)
+                        aa.f(b)
                     }, b.a.validateCallback = function() {
                         requestAnimationFrame(function() {
                             b.a.enqueued && b.flushCustomStyles()
@@ -225,28 +225,30 @@
                     })
                 }
                 var L, p, t = !(window.ShadyDOM && window.ShadyDOM.inUse);
-                window.ShadyCSS && void 0 !== window.ShadyCSS.cssBuild && (p = window.ShadyCSS.cssBuild), window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? L = window.ShadyCSS.nativeCss : window.ShadyCSS ? (a(window.ShadyCSS), window.ShadyCSS = void 0) : a(window.WebComponents && window.WebComponents.flags);
-                var l = L,
+                window.ShadyCSS && void 0 !== window.ShadyCSS.cssBuild && (p = window.ShadyCSS.cssBuild);
+                var l = window.ShadyCSS && window.ShadyCSS.disableRuntime;
+                window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? L = window.ShadyCSS.nativeCss : window.ShadyCSS ? (a(window.ShadyCSS), window.ShadyCSS = void 0) : a(window.WebComponents && window.WebComponents.flags);
+                var M = L,
                     u = p,
                     v = 1,
                     D = 7,
                     B = 4,
                     A = 1E3,
                     C = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//gim,
-                    M = /@import[^;]*;/gim,
-                    N = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?(?:[;\n]|$)/gim,
-                    P = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?{[^}]*?}(?:[;\n]|$)?/gim,
-                    R = /@apply\s*\(?[^);]*\)?\s*(?:[;\n]|$)?/gim,
-                    S = /[^;:]*?:[^;]*?var\([^;]*\)(?:[;\n]|$)?/gim,
-                    T = /^@[^\s]*keyframes/,
-                    W = /\s+/g,
+                    N = /@import[^;]*;/gim,
+                    P = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?(?:[;\n]|$)/gim,
+                    R = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?{[^}]*?}(?:[;\n]|$)?/gim,
+                    S = /@apply\s*\(?[^);]*\)?\s*(?:[;\n]|$)?/gim,
+                    T = /[^;:]*?:[^;]*?var\([^;]*\)(?:[;\n]|$)?/gim,
+                    W = /^@[^\s]*keyframes/,
+                    X = /\s+/g,
                     z = /(?:^|[;\s{]\s*)(--[\w-]*?)\s*:\s*(?:((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};{])+)|\{([^}]*)\}(?:(?=[;\s}])|$))/gi,
                     G = /(?:^|\W+)@apply\s*\(?([^);\n]*)\)?/gi,
                     H = /@media\s(.*)/,
-                    X = new Set,
+                    Z = new Set,
                     I = /;\s*/m,
-                    Z = /^\s*(initial)|(inherit)\s*$/,
-                    $ = /\s*!important/;
+                    $ = /^\s*(initial)|(inherit)\s*$/,
+                    _ = /\s*!important/;
                 k.prototype.set = function(c, a) {
                     c = c.trim(), this.a[c] = {
                         h: a,
@@ -264,7 +266,7 @@
                             if (b = c[e], !b.hasAttribute("shady-unscoped")) f.push(b.textContent), b.parentNode.removeChild(b);
                             else if (!t) {
                             var d = b.textContent;
-                            X.has(d) || (X.add(d), d = b.cloneNode(!0), document.head.appendChild(d)), b.parentNode.removeChild(b)
+                            Z.has(d) || (Z.add(d), d = b.cloneNode(!0), document.head.appendChild(d)), b.parentNode.removeChild(b)
                         }(f = f.join("").trim()) ? (c = document.createElement("style"), c.textContent = f, h.content.insertBefore(c, h.content.firstChild), f = c) : f = null, h._gatheredStyle = f
                     }
                     return (h = h._gatheredStyle) ? this.j(h, a) : null
@@ -295,14 +297,14 @@
                 });
                 var Q = {},
                     U = Promise.resolve(),
-                    _ = new m;
+                    aa = new m;
                 if (J.prototype.prepareTemplate = function(c, a) {
-                        K(this), "" === f(c) && (Q[a] = c, a = _.m(c, a), c._styleAst = a)
+                        K(this), "" === f(c) && (Q[a] = c, a = aa.m(c, a), c._styleAst = a)
                     }, J.prototype.flushCustomStyles = function() {
                         if (K(this), this.a) {
                             var d = this.a.processStyles();
                             if (this.a.enqueued) {
-                                for (var a, c = 0; c < d.length; c++) a = this.a.getStyleForCustomStyle(d[c]), a && _.f(a);
+                                for (var a, c = 0; c < d.length; c++) a = this.a.getStyleForCustomStyle(d[c]), a && aa.f(a);
                                 this.a.enqueued = !1
                             }
                         }
@@ -345,12 +347,13 @@
                         flushCustomStyles: function() {
                             V.flushCustomStyles()
                         },
-                        nativeCss: l,
+                        nativeCss: M,
                         nativeShadow: t,
-                        cssBuild: u
+                        cssBuild: u,
+                        disableRuntime: l
                     }, Y && (window.ShadyCSS.CustomStyleInterface = Y)
                 }
-                window.ShadyCSS.ApplyShim = _
+                window.ShadyCSS.ApplyShim = aa
             }).call(this);
         </script>
         <script>
@@ -3796,31 +3799,34 @@
                     }
                 });
                 var k, l, m = !(window.ShadyDOM && window.ShadyDOM.inUse);
-                window.ShadyCSS && void 0 !== window.ShadyCSS.cssBuild && (l = window.ShadyCSS.cssBuild), window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? k = window.ShadyCSS.nativeCss : window.ShadyCSS ? (h(window.ShadyCSS), window.ShadyCSS = void 0) : h(window.WebComponents && window.WebComponents.flags);
-                var n = k,
-                    o = l,
-                    p = new a;
+                window.ShadyCSS && void 0 !== window.ShadyCSS.cssBuild && (l = window.ShadyCSS.cssBuild);
+                var n = window.ShadyCSS && window.ShadyCSS.disableRuntime;
+                window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? k = window.ShadyCSS.nativeCss : window.ShadyCSS ? (h(window.ShadyCSS), window.ShadyCSS = void 0) : h(window.WebComponents && window.WebComponents.flags);
+                var o = k,
+                    p = l,
+                    q = new a;
                 window.ShadyCSS || (window.ShadyCSS = {
                     prepareTemplate: function() {},
                     prepareTemplateDom: function() {},
                     prepareTemplateStyles: function() {},
                     styleSubtree: function(c, a) {
-                        p.a(), e(c, a)
+                        q.a(), e(c, a)
                     },
                     styleElement: function() {
-                        p.a()
+                        q.a()
                     },
                     styleDocument: function(b) {
-                        p.a(), e(document.body, b)
+                        q.a(), e(document.body, b)
                     },
                     getComputedStyleValue: function(c, a) {
                         return (c = window.getComputedStyle(c).getPropertyValue(a)) ? c.trim() : ""
                     },
                     flushCustomStyles: function() {},
-                    nativeCss: n,
+                    nativeCss: o,
                     nativeShadow: m,
-                    cssBuild: o
-                }), window.ShadyCSS.CustomStyleInterface = p
+                    cssBuild: p,
+                    disableRuntime: n
+                }), window.ShadyCSS.CustomStyleInterface = q
             }).call(this);
         </script>
         <script>
@@ -4198,7 +4204,7 @@
                 }, k.parse = function(a, b) {
                     var c = new k(b);
                     return c.parse(a)
-                }, k.version = "1.8.0", k.prototype = {
+                }, k.version = "1.8.3", k.prototype = {
                     constructor: k,
                     normalizeUrlsCfg: function(a) {
                         return null == a && (a = !0), "boolean" == typeof a ? {
@@ -4233,7 +4239,7 @@
                         for (var d = this.getHtmlParser(), e = d.parse(b), f = 0, g = [], a = 0, i = e.length; a < i; a++) {
                             var j = e[a],
                                 k = j.getType();
-                            if ("element" === k && "a" === j.getTagName()) j.isClosing() ? f = Math.max(f - 1, 0) : f++;
+                            if ("element" === k && -1 !== ["a", "style", "script"].indexOf(j.getTagName())) j.isClosing() ? f = Math.max(f - 1, 0) : f++;
                             else if ("text" === k && 0 === f) {
                                 var c = this.parseText(j.getText(), j.getOffset());
                                 g.push.apply(g, c)
@@ -7330,6 +7336,9 @@
                                 break;
                             case 12:
                                 b = "You have been kicked by a moderator";
+                                break;
+                            case 22:
+                                b = "You must be at least 18 years old and signed in to a verified Tinychat account to join this room";
                                 break;
                             default:
                                 b = "There is no internet connection...";
