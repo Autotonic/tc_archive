@@ -5139,7 +5139,7 @@
                 "use strict";
                 window.TinychatApp.DAL.RoomSettingsEntity = class {
                     constructor() {
-                        this.type = "", this.name = "", this.topic = "", this.subtype = 0, this.giftpoints = 0, this.pushtotalk = !1, this.recent_gifts = [], this.biography = "", this.location = "", this.website = "", this.avatar = ""
+                        this.type = "", this.name = "", this.topic = "", this.subtype = 0, this.giftpoints = 0, this.pushtotalk = !1, this.recent_gifts = [], this.biography = "", this.location = "", this.website = "", this.avatar = "", this.isYTavailable = 0, this.sessionTimeoutForGuests = 60, this.msgConstraints = 0
                     }
                 }
             })();
@@ -6887,7 +6887,7 @@
                         return Array.isArray(c) && Object.keys(c).forEach(a => {
                             let b = new TinychatApp.DAL.GiftEntity;
                             b.giftUrl = c[a], d.push(b)
-                        }), b.recent_gifts = d, b.biography = a.biography || "", b.location = a.location || "", b.website = a.website || "", b.avatar = a.avatar || "", b
+                        }), b.recent_gifts = d, b.biography = a.biography || "", b.location = a.location || "", b.website = a.website || "", b.avatar = a.avatar || "", b.isYTavailable = a.youtube_enabled || 0, b.sessionTimeoutForGuests = a.session_timeout_for_guests || 60, b.msgConstraints = a.msg_constraints || 0, b
                     }
                     tcPkt_MsgParse(a) {
                         var b = new TinychatApp.DAL.ChatLogItemEntity;
@@ -7113,9 +7113,9 @@
                     }
                     onRoomConnectCallback(a) {
                         if ("joined" === a.tc) {
-                            var b = this.tcPkt_UserParse(a.self),
+                            let b = this.tcPkt_UserParse(a.self),
                                 c = this.tcPkt_RoomSettingsParse(a.room);
-                            this.updateSelfUser(b), this.updateRoomSettings(c), b.isLurker ? console.warn("Chatroom.Connected: nickname: " + b.nickname + " - IsLurker!") : console.log("Chatroom.Connected: nickname: " + b.nickname), this.reconnect_wait = 0;
+                            this.updateSelfUser(b), this.updateRoomSettings(c), b.isLurker ? console.warn("Chatroom.Connected: nickname: " + b.nickname + " - IsLurker!") : console.log("Chatroom.Connected: nickname: " + b.nickname), this.reconnect_wait = 0, b.username || this.app.showToastTimeoutToLogin(this.roomSettings.sessionTimeoutForGuests);
                             let d = new q;
                             this.EventBus.broadcast(q.ID, d), "" === this.nickname
                         } else if ("password" === a.tc) {
@@ -10438,6 +10438,11 @@
                         let c = new g("", a, b, null);
                         this.EventBus.broadcast(g.ID, c)
                     }
+                    showToastTimeoutToLogin(a = 60) {
+                        let b = Toast.TYPE.TIMEOUT_TO_LOGIN,
+                            c = new g(b, "", a, null);
+                        this.EventBus.broadcast(g.ID, c)
+                    }
                     _readLoginState() {
                         let a = this._parseLoginCookies(),
                             b = new TinychatApp.DAL.LoginResultEntity;
@@ -12246,6 +12251,15 @@
                     static get is() {
                         return "tc-chatlog"
                     }
+                    static get WORD_LENGTH_LIMIT() {
+                        return 32
+                    }
+                    static get FLAG_NO_MULTIPLE_ROWS() {
+                        return 1
+                    }
+                    static get FLAG_NO_LONG_WORDS() {
+                        return 2
+                    }
                     static get properties() {
                         return {
                             chatlog: {
@@ -12383,7 +12397,18 @@
                         let b = a.target,
                             c = b.textarea,
                             d = c.value.trim();
-                        return "" == d ? c.value = d : (this.cleanTextarea(c), this.sendmessage(d)), !1
+                        if (this.cleanTextarea(c), "" === d) return !1;
+                        let e = this.chatroom.roomSettings.msgConstraints;
+                        return e & ChatroomChatlog.FLAG_NO_MULTIPLE_ROWS && this.hasMultipleRows(d) ? (this.app.showToastWarn("Multiple rows are not available in this chat"), !1) : e & ChatroomChatlog.FLAG_NO_LONG_WORDS && this.hasLongWords(d) ? (this.app.showToastWarn("Long words are not available in this chat"), !1) : (this.sendmessage(d), !1)
+                    }
+                    hasLongWords(a) {
+                        let b = a.split(" "),
+                            c = 0;
+                        for (let d = 0; d < b.length; d++) b[d].length > c && (c = b[d].length);
+                        return c > ChatroomChatlog.WORD_LENGTH_LIMIT
+                    }
+                    hasMultipleRows(a) {
+                        return (a.match(/\n/g) || []).length
                     }
                     cleanTextarea(a) {
                         a.value = "", a.style.height = ""
@@ -21740,7 +21765,8 @@
                             ok_shown: {
                                 type: Boolean,
                                 computed: "ok_shown_func(ok_handler)"
-                            }
+                            },
+                            secondsToLogin: Number
                         }
                     }
                     static get TYPE() {
@@ -21748,7 +21774,8 @@
                             INFO: "",
                             ERR: "error",
                             CON: "accept",
-                            WARN: "warning"
+                            WARN: "warning",
+                            TIMEOUT_TO_LOGIN: "timeoutToLogin"
                         }
                     }
                     constructor() {
@@ -21758,9 +21785,9 @@
                         return 250
                     }
                     connectedCallback() {
-                        super.connectedCallback(), setTimeout(() => {
+                        return super.connectedCallback(), setTimeout(() => {
                             this.$.toast.classList.add("show")
-                        }, 0), this.type.isEmpty() || this.$.toast.classList.add(this.type), 0 < this.wait && setTimeout(this.close.bind(this), this.wait)
+                        }, 0), "timeoutToLogin" === this.type ? (this.secondsToLogin = this.wait, this.showTimeoutToLoginMsg(), void setInterval(this.showTimeoutToLoginMsg.bind(this), 1e3)) : void(!this.type.isEmpty() && this.$.toast.classList.add(this.type), 0 < this.wait && setTimeout(this.close.bind(this), this.wait))
                     }
                     disconnectedCallback() {
                         super.disconnectedCallback()
@@ -21776,6 +21803,9 @@
                     }
                     ok_shown_func(a) {
                         return Object.isFunc(a)
+                    }
+                    showTimeoutToLoginMsg() {
+                        this.text = "We hope you are enjoying a preview of this room. Please register now in " + this.secondsToLogin + " seconds to continue.", this.notifyPath("text"), this.secondsToLogin--
                     }
                 }
                 customElements.define(Toast.is, Toast);
