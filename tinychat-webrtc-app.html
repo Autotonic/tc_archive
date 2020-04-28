@@ -7170,7 +7170,7 @@
                         this.tcPkt_TcCallbackCheck(a, "guest_session_timeout") && this.app.Login(777)
                     }
                     onMultipleVideosTimeout(a) {
-                        this.tcPkt_TcCallbackCheck(a, "multiple_videos_timeout") && (this.videolist.setNeedToBlurOtherVids(!0), this.videolist.blurOtherVids())
+                        !this.tcPkt_TcCallbackCheck(a, "multiple_videos_timeout") || TinychatApp.BLL.User.isSubGold(this.roomSettings.subtype) || (this.videolist.setNeedToBlurOtherVids(!0), this.videolist.blurOtherVids())
                     }
                     onGiftMessage(a) {
                         if (!this.tcPkt_TcCallbackCheck(a, "gift")) return;
@@ -23244,7 +23244,7 @@
                             <div class="blured-content"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">
                                     <path fill="#fff" fill-rule="evenodd" opacity=".3" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0s20 8.954 20 20-8.954 20-20 20zm3-22h-6v-1.583C17 14.533 18.346 13 20 13s3 1.533 3 3.417V18zm1.564-.566v-1.675C24.564 13.131 22.521 11 20 11s-4.564 2.13-4.564 4.759v1.675c-.847.401-1.436 1.29-1.436 2.324v5.69c0 1.034.589 1.923 1.436 2.324.308.147.65.228 1.011.228h7.106c.36 0 .703-.081 1.011-.227.847-.401 1.436-1.29 1.436-2.324v-5.691c0-1.033-.589-1.923-1.436-2.324z"></path>
                                 </svg>
-                                <div>Upgrade for unlimited video</div><a href="#" on-click="onUpgrade" target="_self">Upgrade</a>
+                                <div>Upgrade for unlimited video</div><a href="/subscription/intro?utm_source=vidtimeout" target="_self">Upgrade</a>
                             </div>
                         </div>
                     </div>
@@ -23301,7 +23301,7 @@
                         super()
                     }
                     connectedCallback() {
-                        super.connectedCallback(), this.onFullscreenHandler = this.onFullscreen.bind(this), window.fullscreenManager.addEventListener(this.onFullscreenHandler, !1), this._timerId = setInterval(this.refreshBlured.bind(this), 5e3)
+                        super.connectedCallback(), this.onFullscreenHandler = this.onFullscreen.bind(this), window.fullscreenManager.addEventListener(this.onFullscreenHandler, !1), this._timerId = setInterval(this.refreshBlured.bind(this), 50)
                     }
                     disconnectedCallback() {
                         super.disconnectedCallback(), window.fullscreenManager.removeEventListener(this.onFullscreenHandler, !1), clearInterval(this._timerId)
