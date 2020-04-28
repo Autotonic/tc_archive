@@ -25,7 +25,8 @@ def logtofile(message):
 def commit(version):
     version = f'2.0.0-{version}'
     logtofile(f'Commit for version: {version}')
-    subprocess.run(['git', 'commit', '-a', '-m', version])
+    subprocess.run(['git', 'add', '.'])
+    subprocess.run(['git', 'commit', '-m', version])
 
 def gitpush():
     logtofile(f'Pushing to repository')
