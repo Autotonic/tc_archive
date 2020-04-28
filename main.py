@@ -122,7 +122,7 @@ class Grab:
         if exists is False:
             self.get_relevant()
             logtofile('Relevant paths obtained, rerunning')
-            run(True)
+            self.run(True)
         else:
             logtofile('JSON for paths exists, starting where we left off')
             if len(self.relevant) == 0:
@@ -140,9 +140,9 @@ def main():
     with open('urls.json', 'r') as f:
         j = f.read()
         if len(j) > 0:
-            client.relevant = json.load(f)
+            client.relevant = json.loads(j)
             exists = True
-    if len(client.relevant) == client.latest:
+    if int(max(client.relevant)) == client.latest:
         logtofile("No update, exiting")
         sys.exit()
 

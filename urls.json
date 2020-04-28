@@ -1,0 +1,146 @@
+{
+    "24": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-24/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-24/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-24/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-24/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "27": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-27/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-27/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-27/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-27/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "29": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-29/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-29/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-29/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-29/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "31": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-31/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-31/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-31/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-31/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "41": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-41/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-41/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-41/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-41/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "43": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-43/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-43/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-43/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-43/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "44": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-44/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-44/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-44/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-44/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "46": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-46/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-46/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-46/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-46/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "47": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-47/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-47/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-47/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-47/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "48": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-48/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-48/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-48/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-48/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "51": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-51/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-51/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-51/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-51/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "53": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-53/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-53/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-53/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-53/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "54": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-54/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-54/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-54/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-54/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "55": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-55/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-55/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-55/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-55/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "68": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-68/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-68/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-68/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-68/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "69": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-69/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-69/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-69/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-69/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "79": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-79/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-79/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-79/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-79/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "81": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-81/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-81/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-81/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-81/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "84": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-84/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-84/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-84/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-84/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "85": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-85/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-85/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-85/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-85/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "86": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-86/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-86/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-86/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-86/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "89": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-89/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-89/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-89/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-89/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "90": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-90/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-90/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-90/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-90/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "93": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-93/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-93/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-93/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-93/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    }
+}
