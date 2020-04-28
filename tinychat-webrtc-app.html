@@ -9,7 +9,7 @@
                 "use strict";
 
                 function a(b) {
-                    J = !(b && b.shimcssproperties) && (n || !navigator.userAgent.match(/AppleWebKit\/601|Edge\/15/) && window.CSS && CSS.supports && CSS.supports("box-shadow", "0 0 0 var(--foo)"))
+                    L = !(b && b.shimcssproperties) && (t || !navigator.userAgent.match(/AppleWebKit\/601|Edge\/15/) && window.CSS && CSS.supports && CSS.supports("box-shadow", "0 0 0 var(--foo)"))
                 }
 
                 function b() {
@@ -17,7 +17,7 @@
                 }
 
                 function c(j) {
-                    j = j.replace(A, "").replace(K, "");
+                    j = j.replace(C, "").replace(M, "");
                     var a = j,
                         c = new b;
                     c.start = 0, c.end = a.length;
@@ -33,8 +33,8 @@
 
                 function i(h, a) {
                     var b = a.substring(h.start, h.end - 1);
-                    if (h.parsedCssText = h.cssText = b.trim(), h.parent && (b = a.substring(h.previous ? h.previous.end : h.parent.start, h.start - 1), b = g(b), b = b.replace(T, " "), b = b.substring(b.lastIndexOf(";") + 1), b = h.parsedSelector = h.selector = b.trim(), h.atRule = 0 === b.indexOf("@"), h.atRule ? 0 === b.indexOf("@media") ? h.type = z : b.match(R) && (h.type = B, h.keyframesName = h.selector.split(T).pop()) : h.type = 0 === b.indexOf("--") ? y : t), b = h.rules)
-                        for (var c, f = 0, e = b.length; f < e && (c = b[f]); f++) i(c, a);
+                    if (h.parsedCssText = h.cssText = b.trim(), h.parent && (b = a.substring(h.previous ? h.previous.end : h.parent.start, h.start - 1), b = g(b), b = b.replace(W, " "), b = b.substring(b.lastIndexOf(";") + 1), b = h.parsedSelector = h.selector = b.trim(), h.atRule = 0 === b.indexOf("@"), h.atRule ? 0 === b.indexOf("@media") ? h.type = B : b.match(T) && (h.type = D, h.keyframesName = h.selector.split(W).pop()) : h.type = 0 === b.indexOf("--") ? A : v), b = h.rules)
+                        for (var c = 0, e = b.length, d = void 0; c < e && (d = b[c]); c++) i(d, a);
                     return h
                 }
 
@@ -52,32 +52,30 @@
                         var e, f = i.rules;
                         if ((e = f) && (e = f[0], e = !(e && e.selector && 0 === e.selector.indexOf("--"))), e) {
                             e = 0;
-                            for (var d, h = f.length; e < h && (d = f[e]); e++) c = j(d, a, c)
-                        } else a ? a = i.cssText : (a = i.cssText, a = a.replace(L, "").replace(N, ""), a = a.replace(P, "").replace(Q, "")), (c = a.trim()) && (c = "  " + c + "\n")
+                            for (var d = f.length, g = void 0; e < d && (g = f[e]); e++) c = j(g, a, c)
+                        } else a ? a = i.cssText : (a = i.cssText, a = a.replace(N, "").replace(P, ""), a = a.replace(R, "").replace(S, "")), (c = a.trim()) && (c = "  " + c + "\n")
                     }
                     return c && (i.selector && (b += i.selector + " {\n"), b += c, i.selector && (b += "}\n\n")), b
                 }
 
                 function d(b) {
-                    return b ? ("string" === typeof b && (b = c(b)), j(b, k)) : ""
+                    return b ? ("string" === typeof b && (b = c(b)), j(b, l)) : ""
                 }
 
                 function e(b) {
                     return !b.__cssRules && b.textContent && (b.__cssRules = c(b.textContent)), b.__cssRules || null
                 }
 
-                function l(i, a, b, c) {
+                function h(i, a, b, c) {
                     if (i) {
                         var e = !1,
                             d = i.type;
                         if (c && 4 === d) {
-                            var f = i.selector.match(F);
+                            var f = i.selector.match(H);
                             f && (window.matchMedia(f[1]).matches || (e = !0))
                         }
-                        if (1 === d ? a(i) : b && 7 === d ? b(i) : 1000 === d && (e = !0), (i = i.rules) && !e) {
-                            e = 0, d = i.length;
-                            for (var g; e < d && (g = i[e]); e++) l(g, a, b, c)
-                        }
+                        if (1 === d ? a(i) : b && 7 === d ? b(i) : 1000 === d && (e = !0), (i = i.rules) && !e)
+                            for (e = 0, d = i.length, f = void 0; e < d && (f = i[e]); e++) h(f, a, b, c)
                     }
                 }
 
@@ -93,9 +91,10 @@
                 }
 
                 function f(d) {
-                    if (void 0 === d.a) {
+                    if (void 0 !== u) return u;
+                    if (void 0 === d.__cssBuild) {
                         var a = d.getAttribute("css-build");
-                        if (a) d.a = a;
+                        if (a) d.__cssBuild = a;
                         else {
                             a: {
                                 if (a = "template" === d.localName ? d.content.firstChild : d.firstChild, a instanceof Comment && (a = a.textContent.trim().split(":"), "css-build" === a[0])) {
@@ -108,22 +107,22 @@
                                 var b = "template" === d.localName ? d.content.firstChild : d.firstChild;
                                 b.parentNode.removeChild(b)
                             }
-                            d.a = a
+                            d.__cssBuild = a
                         }
                     }
-                    return d.a || ""
+                    return d.__cssBuild || ""
                 }
 
-                function h() {
+                function k() {
                     this.a = {}
                 }
 
                 function m() {
-                    this.b = this.c = null, this.a = new h
+                    this.b = this.c = null, this.a = new k
                 }
 
-                function p(e, a, h) {
-                    return a = a.replace(x, function(a, b, c, d) {
+                function n(e, a, h) {
+                    return a = a.replace(z, function(a, b, c, d) {
                         return q(e, a, b, c, d, h)
                     }), s(e, a, h)
                 }
@@ -132,49 +131,51 @@
                     for (var b = a; b.parent;) b = b.parent;
                     var g = {},
                         e = !1;
-                    return l(b, function(b) {
-                        (e = e || b === a) || b.selector === a.selector && Object.assign(g, u(f, b.parsedCssText))
+                    return h(b, function(b) {
+                        (e = e || b === a) || b.selector === a.selector && Object.assign(g, w(f, b.parsedCssText))
                     }), g
                 }
 
                 function s(i, a, b) {
-                    for (var c; c = D.exec(a);) {
+                    for (var c; c = G.exec(a);) {
                         var e = c[0],
                             d = c[1];
                         c = c.index;
                         var f = a.slice(0, c + e.indexOf("@apply"));
                         a = a.slice(c + e.length);
                         var g = b ? r(i, b) : {};
-                        Object.assign(g, u(i, f)), e = void 0;
+                        Object.assign(g, w(i, f)), e = void 0;
                         var h = i;
-                        d = d.replace(G, "");
+                        d = d.replace(I, "");
                         var j = [],
                             k = h.a.get(d);
                         if (k || (h.a.set(d, {}), k = h.a.get(d)), k) {
                             h.c && (k.i[h.c] = !0);
                             var l = k.h;
-                            for (e in l) h = g && g[e], k = [e, ": var(", d, "_-_", e], h && k.push(",", h.replace(X, "")), k.push(")"), X.test(l[e]) && k.push(" !important"), j.push(k.join(""))
+                            for (e in l) h = g && g[e], k = [e, ": var(", d, "_-_", e], h && k.push(",", h.replace($, "")), k.push(")"), $.test(l[e]) && k.push(" !important"), j.push(k.join(""))
                         }
-                        e = j.join("; "), a = f + e + a, D.lastIndex = c + e.length
+                        e = j.join("; "), a = f + e + a, G.lastIndex = c + e.length
                     }
                     return a
                 }
 
-                function u(i, a) {
-                    a = a.split(";");
-                    for (var b, c, e, g = {}, d = 0; d < a.length; d++)
-                        if ((b = a[d]) && (e = b.split(":"), 1 < e.length)) {
-                            b = e[0].trim();
-                            var f = i;
-                            c = b, e = e.slice(1).join(":");
-                            var h = W.exec(e);
-                            h && (h[1] ? (f.b || (f.b = document.createElement("meta"), f.b.setAttribute("apply-shim-measure", ""), f.b.style.all = "initial", document.head.appendChild(f.b)), c = window.getComputedStyle(f.b).getPropertyValue(c)) : c = "apply-shim-inherit", e = c), c = e, g[b] = c
-                        } return g
+                function w(i, a, b) {
+                    b = void 0 !== b && b, a = a.split(";");
+                    for (var c, e, d, h = {}, f = 0; f < a.length; f++)
+                        if ((c = a[f]) && (d = c.split(":"), 1 < d.length)) {
+                            if (c = d[0].trim(), e = d.slice(1).join(":"), b) {
+                                var g = i;
+                                d = c;
+                                var j = Z.exec(e);
+                                j && (j[1] ? (g.b || (g.b = document.createElement("meta"), g.b.setAttribute("apply-shim-measure", ""), g.b.style.all = "initial", document.head.appendChild(g.b)), d = window.getComputedStyle(g.b).getPropertyValue(d)) : d = "apply-shim-inherit", e = d)
+                            }
+                            h[c] = e
+                        } return h
                 }
 
-                function v(d, a) {
-                    if (M)
-                        for (var b in a.i) b !== d.c && M(b)
+                function x(d, a) {
+                    if (O)
+                        for (var b in a.i) b !== d.c && O(b)
                 }
 
                 function q(i, a, b, c, e, d) {
@@ -183,7 +184,7 @@
                         }), !e) return a;
                     var f = s(i, "" + e, d);
                     d = a.slice(0, a.indexOf("--"));
-                    var g = f = u(i, f),
+                    var g = f = w(i, f, !0),
                         h = i.a.get(b),
                         j = h && h.h;
                     j ? g = Object.assign(Object.create(j), f) : i.a.set(b, g);
@@ -193,79 +194,80 @@
                         var n = f[k];
                         void 0 === n && (n = "initial"), !j || k in j || (m = !0), l.push(b + "_-_" + k + ": " + n)
                     }
-                    return m && v(i, h), h && (h.h = g), c && (d = a + ";" + d), d + l.join("; ") + ";"
+                    return m && x(i, h), h && (h.h = g), c && (d = a + ";" + d), d + l.join("; ") + ";"
                 }
 
-                function w(b) {
-                    (b = O[b]) && (b._applyShimCurrentVersion = b._applyShimCurrentVersion || 0, b._applyShimValidatingVersion = b._applyShimValidatingVersion || 0, b._applyShimNextVersion = (b._applyShimNextVersion || 0) + 1)
-                }
-
-                function C(b) {
-                    return b._applyShimCurrentVersion === b._applyShimNextVersion
+                function y(b) {
+                    (b = Q[b]) && (b._applyShimCurrentVersion = b._applyShimCurrentVersion || 0, b._applyShimValidatingVersion = b._applyShimValidatingVersion || 0, b._applyShimNextVersion = (b._applyShimNextVersion || 0) + 1)
                 }
 
                 function E(b) {
-                    b._applyShimValidatingVersion = b._applyShimNextVersion, b.c || (b.c = !0, S.then(function() {
-                        b._applyShimCurrentVersion = b._applyShimNextVersion, b.c = !1
+                    return b._applyShimCurrentVersion === b._applyShimNextVersion
+                }
+
+                function F(b) {
+                    b._applyShimValidatingVersion = b._applyShimNextVersion, b._validating || (b._validating = !0, U.then(function() {
+                        b._applyShimCurrentVersion = b._applyShimNextVersion, b._validating = !1
                     }))
                 }
 
-                function H() {
-                    this.a = null, $.invalidCallback = w
+                function J() {
+                    this.a = null, _.invalidCallback = y
                 }
 
-                function I(b) {
-                    b.a || (b.a = window.ShadyCSS.CustomStyleInterface, b.a && (b.a.transformCallback = function(b) {
-                        $.f(b)
+                function K(b) {
+                    !b.a && window.ShadyCSS.CustomStyleInterface && (b.a = window.ShadyCSS.CustomStyleInterface, b.a.transformCallback = function(b) {
+                        _.f(b)
                     }, b.a.validateCallback = function() {
                         requestAnimationFrame(function() {
                             b.a.enqueued && b.flushCustomStyles()
                         })
-                    }))
+                    })
                 }
-                var J, n = !(window.ShadyDOM && window.ShadyDOM.inUse);
-                window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? J = window.ShadyCSS.nativeCss : window.ShadyCSS ? (a(window.ShadyCSS), window.ShadyCSS = void 0) : a(window.WebComponents && window.WebComponents.flags);
-                var k = J,
-                    t = 1,
-                    B = 7,
-                    z = 4,
-                    y = 1E3,
-                    A = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//gim,
-                    K = /@import[^;]*;/gim,
-                    L = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?(?:[;\n]|$)/gim,
-                    N = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?{[^}]*?}(?:[;\n]|$)?/gim,
-                    P = /@apply\s*\(?[^);]*\)?\s*(?:[;\n]|$)?/gim,
-                    Q = /[^;:]*?:[^;]*?var\([^;]*\)(?:[;\n]|$)?/gim,
-                    R = /^@[^\s]*keyframes/,
-                    T = /\s+/g,
-                    x = /(?:^|[;\s{]\s*)(--[\w-]*?)\s*:\s*(?:((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};{])+)|\{([^}]*)\}(?:(?=[;\s}])|$))/gi,
-                    D = /(?:^|\W+)@apply\s*\(?([^);\n]*)\)?/gi,
-                    F = /@media\s(.*)/,
-                    V = new Set,
-                    G = /;\s*/m,
-                    W = /^\s*(initial)|(inherit)\s*$/,
-                    X = /\s*!important/;
-                h.prototype.set = function(c, a) {
+                var L, p, t = !(window.ShadyDOM && window.ShadyDOM.inUse);
+                window.ShadyCSS && void 0 !== window.ShadyCSS.cssBuild && (p = window.ShadyCSS.cssBuild), window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? L = window.ShadyCSS.nativeCss : window.ShadyCSS ? (a(window.ShadyCSS), window.ShadyCSS = void 0) : a(window.WebComponents && window.WebComponents.flags);
+                var l = L,
+                    u = p,
+                    v = 1,
+                    D = 7,
+                    B = 4,
+                    A = 1E3,
+                    C = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//gim,
+                    M = /@import[^;]*;/gim,
+                    N = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?(?:[;\n]|$)/gim,
+                    P = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?{[^}]*?}(?:[;\n]|$)?/gim,
+                    R = /@apply\s*\(?[^);]*\)?\s*(?:[;\n]|$)?/gim,
+                    S = /[^;:]*?:[^;]*?var\([^;]*\)(?:[;\n]|$)?/gim,
+                    T = /^@[^\s]*keyframes/,
+                    W = /\s+/g,
+                    z = /(?:^|[;\s{]\s*)(--[\w-]*?)\s*:\s*(?:((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};{])+)|\{([^}]*)\}(?:(?=[;\s}])|$))/gi,
+                    G = /(?:^|\W+)@apply\s*\(?([^);\n]*)\)?/gi,
+                    H = /@media\s(.*)/,
+                    X = new Set,
+                    I = /;\s*/m,
+                    Z = /^\s*(initial)|(inherit)\s*$/,
+                    $ = /\s*!important/;
+                k.prototype.set = function(c, a) {
                     c = c.trim(), this.a[c] = {
                         h: a,
                         i: {}
                     }
-                }, h.prototype.get = function(b) {
+                }, k.prototype.get = function(b) {
                     return b = b.trim(), this.a[b] || null
                 };
-                var M = null;
+                var O = null;
                 m.prototype.o = function(b) {
-                    return b = D.test(b) || x.test(b), D.lastIndex = 0, x.lastIndex = 0, b
+                    return b = G.test(b) || z.test(b), G.lastIndex = 0, z.lastIndex = 0, b
                 }, m.prototype.m = function(h, a) {
-                    if (void 0 === h.b) {
+                    if (void 0 === h._gatheredStyle) {
                         for (var b, f = [], c = h.content.querySelectorAll("style"), e = 0; e < c.length; e++)
                             if (b = c[e], !b.hasAttribute("shady-unscoped")) f.push(b.textContent), b.parentNode.removeChild(b);
-                            else if (!n) {
+                            else if (!t) {
                             var d = b.textContent;
-                            V.has(d) || (V.add(d), d = b.cloneNode(!0), document.head.appendChild(d)), b.parentNode.removeChild(b)
-                        }(f = f.join("").trim()) ? (c = document.createElement("style"), c.textContent = f, h.content.insertBefore(c, h.content.firstChild), f = c) : f = null, h.b = f
+                            X.has(d) || (X.add(d), d = b.cloneNode(!0), document.head.appendChild(d)), b.parentNode.removeChild(b)
+                        }(f = f.join("").trim()) ? (c = document.createElement("style"), c.textContent = f, h.content.insertBefore(c, h.content.firstChild), f = c) : f = null, h._gatheredStyle = f
                     }
-                    return (h = h.b) ? this.j(h, a) : null
+                    return (h = h._gatheredStyle) ? this.j(h, a) : null
                 }, m.prototype.j = function(f, a) {
                     a = void 0 === a ? "" : a;
                     var b = e(f);
@@ -273,81 +275,82 @@
                 }, m.prototype.f = function(f) {
                     var g = this,
                         a = e(f);
-                    return l(a, function(b) {
+                    return h(a, function(b) {
                         ":root" === b.selector && (b.selector = "html"), g.g(b)
                     }), f.textContent = d(a), a
                 }, m.prototype.l = function(d, a) {
                     var b = this;
-                    this.c = a, l(d, function(c) {
+                    this.c = a, h(d, function(c) {
                         b.g(c)
                     }), this.c = null
                 }, m.prototype.g = function(b) {
-                    b.cssText = p(this, b.parsedCssText, b), ":root" === b.selector && (b.selector = ":host > *")
+                    b.cssText = n(this, b.parsedCssText, b), ":root" === b.selector && (b.selector = ":host > *")
                 }, m.prototype.detectMixin = m.prototype.o, m.prototype.transformStyle = m.prototype.j, m.prototype.transformCustomStyle = m.prototype.f, m.prototype.transformRules = m.prototype.l, m.prototype.transformRule = m.prototype.g, m.prototype.transformTemplate = m.prototype.m, m.prototype._separator = "_-_", Object.defineProperty(m.prototype, "invalidCallback", {
                     get: function() {
-                        return M
+                        return O
                     },
                     set: function(b) {
-                        M = b
+                        O = b
                     }
                 });
-                var O = {},
-                    S = Promise.resolve(),
-                    $ = new m;
-                if (H.prototype.prepareTemplate = function(c, a) {
-                        I(this), "" === f(c) && (O[a] = c, a = $.m(c, a), c._styleAst = a)
-                    }, H.prototype.flushCustomStyles = function() {
-                        if (I(this), this.a) {
+                var Q = {},
+                    U = Promise.resolve(),
+                    _ = new m;
+                if (J.prototype.prepareTemplate = function(c, a) {
+                        K(this), "" === f(c) && (Q[a] = c, a = _.m(c, a), c._styleAst = a)
+                    }, J.prototype.flushCustomStyles = function() {
+                        if (K(this), this.a) {
                             var d = this.a.processStyles();
                             if (this.a.enqueued) {
-                                for (var a, c = 0; c < d.length; c++) a = this.a.getStyleForCustomStyle(d[c]), a && $.f(a);
+                                for (var a, c = 0; c < d.length; c++) a = this.a.getStyleForCustomStyle(d[c]), a && _.f(a);
                                 this.a.enqueued = !1
                             }
                         }
-                    }, H.prototype.styleSubtree = function(d, a) {
-                        if (I(this), a)
+                    }, J.prototype.styleSubtree = function(d, a) {
+                        if (K(this), a)
                             for (var b in a) null === b ? d.style.removeProperty(b) : d.style.setProperty(b, a[b]);
                         if (d.shadowRoot)
                             for (this.styleElement(d), d = d.shadowRoot.children || d.shadowRoot.childNodes, a = 0; a < d.length; a++) this.styleSubtree(d[a]);
                         else
                             for (d = d.children || d.childNodes, a = 0; a < d.length; a++) this.styleSubtree(d[a])
-                    }, H.prototype.styleElement = function(e) {
-                        I(this);
+                    }, J.prototype.styleElement = function(e) {
+                        K(this);
                         var a, c = e.localName;
-                        a = c ? -1 < c.indexOf("-") ? c : e.getAttribute && e.getAttribute("is") || "" : e.is, c = O[a], c && "" !== f(c) || !c || C(c) || ((C(c) || c._applyShimValidatingVersion !== c._applyShimNextVersion) && (this.prepareTemplate(c, a), E(c)), (e = e.shadowRoot) && (e = e.querySelector("style")) && (e.__cssRules = c._styleAst, e.textContent = d(c._styleAst)))
-                    }, H.prototype.styleDocument = function(b) {
-                        I(this), this.styleSubtree(document.body, b)
+                        a = c ? -1 < c.indexOf("-") ? c : e.getAttribute && e.getAttribute("is") || "" : e.is, c = Q[a], c && "" !== f(c) || !c || E(c) || ((E(c) || c._applyShimValidatingVersion !== c._applyShimNextVersion) && (this.prepareTemplate(c, a), F(c)), (e = e.shadowRoot) && (e = e.querySelector("style")) && (e.__cssRules = c._styleAst, e.textContent = d(c._styleAst)))
+                    }, J.prototype.styleDocument = function(b) {
+                        K(this), this.styleSubtree(document.body, b)
                     }, !window.ShadyCSS || !window.ShadyCSS.ScopingShim) {
-                    var U = new H,
+                    var V = new J,
                         Y = window.ShadyCSS && window.ShadyCSS.CustomStyleInterface;
                     window.ShadyCSS = {
                         prepareTemplate: function(c, a) {
-                            U.flushCustomStyles(), U.prepareTemplate(c, a)
+                            V.flushCustomStyles(), V.prepareTemplate(c, a)
                         },
                         prepareTemplateStyles: function(d, a, b) {
-                            this.prepareTemplate(d, a, b)
+                            window.ShadyCSS.prepareTemplate(d, a, b)
                         },
                         prepareTemplateDom: function() {},
                         styleSubtree: function(c, a) {
-                            U.flushCustomStyles(), U.styleSubtree(c, a)
+                            V.flushCustomStyles(), V.styleSubtree(c, a)
                         },
                         styleElement: function(b) {
-                            U.flushCustomStyles(), U.styleElement(b)
+                            V.flushCustomStyles(), V.styleElement(b)
                         },
                         styleDocument: function(b) {
-                            U.flushCustomStyles(), U.styleDocument(b)
+                            V.flushCustomStyles(), V.styleDocument(b)
                         },
                         getComputedStyleValue: function(c, a) {
                             return (c = window.getComputedStyle(c).getPropertyValue(a)) ? c.trim() : ""
                         },
                         flushCustomStyles: function() {
-                            U.flushCustomStyles()
+                            V.flushCustomStyles()
                         },
-                        nativeCss: k,
-                        nativeShadow: n
+                        nativeCss: l,
+                        nativeShadow: t,
+                        cssBuild: u
                     }, Y && (window.ShadyCSS.CustomStyleInterface = Y)
                 }
-                window.ShadyCSS.ApplyShim = $
+                window.ShadyCSS.ApplyShim = _
             }).call(this);
         </script>
         <script>
@@ -3755,7 +3758,7 @@
                 }
 
                 function h(b) {
-                    k = !(b && b.shimcssproperties) && (l || !navigator.userAgent.match(/AppleWebKit\/601|Edge\/15/) && window.CSS && CSS.supports && CSS.supports("box-shadow", "0 0 0 var(--foo)"))
+                    k = !(b && b.shimcssproperties) && (m || !navigator.userAgent.match(/AppleWebKit\/601|Edge\/15/) && window.CSS && CSS.supports && CSS.supports("box-shadow", "0 0 0 var(--foo)"))
                 }
                 var i, g = null,
                     c = window.HTMLImports && window.HTMLImports.whenReady || null;
@@ -3792,30 +3795,32 @@
                         }
                     }
                 });
-                var k, l = !(window.ShadyDOM && window.ShadyDOM.inUse);
-                window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? k = window.ShadyCSS.nativeCss : window.ShadyCSS ? (h(window.ShadyCSS), window.ShadyCSS = void 0) : h(window.WebComponents && window.WebComponents.flags);
-                var m = k,
-                    n = new a;
+                var k, l, m = !(window.ShadyDOM && window.ShadyDOM.inUse);
+                window.ShadyCSS && void 0 !== window.ShadyCSS.cssBuild && (l = window.ShadyCSS.cssBuild), window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? k = window.ShadyCSS.nativeCss : window.ShadyCSS ? (h(window.ShadyCSS), window.ShadyCSS = void 0) : h(window.WebComponents && window.WebComponents.flags);
+                var n = k,
+                    o = l,
+                    p = new a;
                 window.ShadyCSS || (window.ShadyCSS = {
                     prepareTemplate: function() {},
                     prepareTemplateDom: function() {},
                     prepareTemplateStyles: function() {},
                     styleSubtree: function(c, a) {
-                        n.a(), e(c, a)
+                        p.a(), e(c, a)
                     },
                     styleElement: function() {
-                        n.a()
+                        p.a()
                     },
                     styleDocument: function(b) {
-                        n.a(), e(document.body, b)
+                        p.a(), e(document.body, b)
                     },
                     getComputedStyleValue: function(c, a) {
                         return (c = window.getComputedStyle(c).getPropertyValue(a)) ? c.trim() : ""
                     },
                     flushCustomStyles: function() {},
-                    nativeCss: m,
-                    nativeShadow: l
-                }), window.ShadyCSS.CustomStyleInterface = n
+                    nativeCss: n,
+                    nativeShadow: m,
+                    cssBuild: o
+                }), window.ShadyCSS.CustomStyleInterface = p
             }).call(this);
         </script>
         <script>
@@ -4182,7 +4187,7 @@
                     k = function(a) {
                         a = a || {}, this.version = k.version, this.urls = this.normalizeUrlsCfg(a.urls), this.email = "boolean" != typeof a.email || a.email, this.phone = "boolean" != typeof a.phone || a.phone, this.hashtag = a.hashtag || !1, this.mention = a.mention || !1, this.newWindow = "boolean" != typeof a.newWindow || a.newWindow, this.stripPrefix = this.normalizeStripPrefixCfg(a.stripPrefix), this.stripTrailingSlash = "boolean" != typeof a.stripTrailingSlash || a.stripTrailingSlash, this.decodePercentEncoding = "boolean" != typeof a.decodePercentEncoding || a.decodePercentEncoding;
                         var b = this.mention;
-                        if (!1 !== b && "twitter" !== b && "instagram" !== b) throw new Error("invalid `mention` cfg - see docs");
+                        if (!1 !== b && "twitter" !== b && "instagram" !== b && "soundcloud" !== b) throw new Error("invalid `mention` cfg - see docs");
                         var c = this.hashtag;
                         if (!1 !== c && "twitter" !== c && "facebook" !== c && "instagram" !== c) throw new Error("invalid `hashtag` cfg - see docs");
                         this.truncate = this.normalizeTruncateCfg(a.truncate), this.className = a.className || "", this.replaceFn = a.replaceFn || null, this.context = a.context || this, this.htmlParser = null, this.matchers = null, this.tagBuilder = null
@@ -4193,7 +4198,7 @@
                 }, k.parse = function(a, b) {
                     var c = new k(b);
                     return c.parse(a)
-                }, k.version = "1.6.2", k.prototype = {
+                }, k.version = "1.8.0", k.prototype = {
                     constructor: k,
                     normalizeUrlsCfg: function(a) {
                         return null == a && (a = !0), "boolean" == typeof a ? {
@@ -4250,7 +4255,7 @@
                                     b.splice(a, 1);
                                     continue
                                 }
-                                b[c + 1].getOffset() <= e + f && b.splice(c + 1, 1)
+                                b[c + 1].getOffset() < e + f && b.splice(c + 1, 1)
                             }
                         }
                         return b
@@ -4688,6 +4693,8 @@
                                 return "https://twitter.com/" + this.mention;
                             case "instagram":
                                 return "https://instagram.com/" + this.mention;
+                            case "soundcloud":
+                                return "https://soundcloud.com/" + this.mention;
                             default:
                                 throw new Error("Unknown service name to point mention to: ", this.serviceName);
                         }
@@ -4793,18 +4800,21 @@
                         return i
                     }
                 }), k.matcher.Phone = k.Util.extend(k.matcher.Matcher, {
-                    matcherRegex: /(?:(\+)?\d{1,3}[-\040.]?)?\(?\d{3}\)?[-\040.]?\d{3}[-\040.]?\d{4}([,;]*[0-9]+#?)*/g,
+                    matcherRegex: /(?:(?:(?:(\+)?\d{1,3}[-\040.]?)?\(?\d{3}\)?[-\040.]?\d{3}[-\040.]?\d{4})|(?:(\+)(?:9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)[-\040.]?(?:\d[-\040.]?){6,12}\d+))([,;]+[0-9]+#?)*/g,
                     parseMatches: function(b) {
                         for (var d, e = this.matcherRegex, f = this.tagBuilder, a = []; null !== (d = e.exec(b));) {
                             var g = d[0],
-                                h = g.replace(/[^0-9,;#]/g, ""),
-                                i = !!d[1];
-                            this.testMatch(d[2]) && this.testMatch(g) && a.push(new k.match.Phone({
+                                i = g.replace(/[^0-9,;#]/g, ""),
+                                j = d[1] || d[2],
+                                c = 0 == d.index ? "" : b.substr(d.index - 1, 1),
+                                h = b.substr(d.index + g.length, 1),
+                                l = !c.match(/\d/) && !h.match(/\d/);
+                            this.testMatch(d[3]) && this.testMatch(g) && l && a.push(new k.match.Phone({
                                 tagBuilder: f,
                                 matchedText: g,
                                 offset: d.index,
-                                number: h,
-                                plusSign: i
+                                number: i,
+                                plusSign: j
                             }))
                         }
                         return a
@@ -4815,7 +4825,8 @@
                 }), k.matcher.Mention = k.Util.extend(k.matcher.Matcher, {
                     matcherRegexes: {
                         twitter: new RegExp("@[_" + k.RegexLib.alphaNumericCharsStr + "]{1,20}", "g"),
-                        instagram: new RegExp("@[_." + k.RegexLib.alphaNumericCharsStr + "]{1,50}", "g")
+                        instagram: new RegExp("@[_." + k.RegexLib.alphaNumericCharsStr + "]{1,50}", "g"),
+                        soundcloud: new RegExp("@[_." + k.RegexLib.alphaNumericCharsStr + "-]{1,50}", "g")
                     },
                     nonWordCharRegex: new RegExp("[^" + k.RegexLib.alphaNumericCharsStr + "]"),
                     constructor: function(a) {
@@ -6974,12 +6985,12 @@
                                 e = c.mediaStreamVideo.videoWidth;
                             c.mediaStreamCanvas.width = e, c.mediaStreamCanvas.height = a, window.TinychatApp.BLL.VideoFilters.getFilter(c.mediaStreamFilter).apply(d, e, a), d.drawImage(c.mediaStreamVideo, 0, 0, e, a, 0, 0, c.mediaStreamCanvas.width, c.mediaStreamCanvas.height), requestAnimationFrame(b)
                         }
-                        this.mediaStreamOrigin = a, this.mediaStreamVideo = document.createElement("video"), this.mediaStreamVideo.autoplay = !0, this.mediaStreamCanvas = document.createElement("canvas");
+                        this.mediaStreamOrigin = a, this.mediaStreamVideo = document.createElement("video"), this.mediaStreamVideo.srcObject = this.mediaStreamOrigin, this.mediaStreamVideo.pause(), this.mediaStreamVideo.oncanplay = function() {
+                            requestAnimationFrame(b)
+                        }, this.mediaStreamVideo.autoplay = !0, this.mediaStreamVideo.muted = !0, this.mediaStreamCanvas = document.createElement("canvas");
                         let c = this,
                             d = this.mediaStreamCanvas.getContext("2d");
-                        this.mediaStreamVideo.oncanplay = function() {
-                            requestAnimationFrame(b)
-                        }, this.mediaStreamVideo.srcObject = this.mediaStreamOrigin;
+                        this.mediaStreamVideo.play();
                         let e = this.mediaStreamCanvas.captureStream(15);
                         return e.addTrack(this.mediaStreamOrigin.getAudioTracks()[0]), e
                     }
@@ -14455,12 +14466,12 @@
                                 b = c.video.videoWidth;
                             c.canvas.width = b, c.canvas.height = a, c.preview === void 0 && (d.drawImage(c.video, 0, 0, b, a, 0, 0, c.canvas.width, c.canvas.height), c.preview = c.canvas.toDataURL("image/png")), window.TinychatApp.BLL.VideoFilters.getFilter(c.filter).apply(d, b, a), d.drawImage(c.video, 0, 0, b, a, 0, 0, c.canvas.width, c.canvas.height)
                         }
-                        this.video = document.createElement("video"), this.video.autoplay = !0;
+                        this.video = document.createElement("video"), this.video.srcObject = a, this.video.pause(), this.video.autoplay = !0, this.video.muted = !0;
                         let c = this,
                             d = this.canvas.getContext("2d");
-                        this.video.srcObject = a, this.video.oncanplay = function() {
+                        this.video.oncanplay = function() {
                             e(b, 15)
-                        };
+                        }, this.video.play();
                         let e = function(a, b) {
                             let c = new Date().getTime();
                             b = b || 60;
