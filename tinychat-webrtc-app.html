@@ -10967,7 +10967,8 @@
                             },
                             html: {
                                 type: String,
-                                value: "html"
+                                value: "html",
+                                observer: "messageRender"
                             },
                             onFullscreenHandler: Object
                         }
@@ -10979,6 +10980,9 @@
                         super.ready(), Polymer.RenderStatus.afterNextRender(this, function() {
                             this.$.html.innerHTML = Autolinker.link(this.html.replace(/<\/?[^>]+(>|$)/g, ""))
                         })
+                    }
+                    messageRender(a) {
+                        this.$.html.innerHTML = Autolinker.link(a.replace(/<\/?[^>]+(>|$)/g, ""))
                     }
                     connectedCallback() {
                         super.connectedCallback(), this.onFullscreenHandler = this.onFullscreen.bind(this), window.fullscreenManager.addEventListener(this.onFullscreenHandler, !1)
@@ -21558,8 +21562,9 @@
                         this.changenickAllow = a.isSelf, this.followAllow = this.userlist.followIsAllowed(a), this.ignoreAllow = this.userlist.ignoreIsAllowed(a), this.banAllow = this.userlist.banIsAllowed(a), this.kickAllow = this.userlist.kickIsAllowed(a), this.profileAllow = !0, this.giveagiftAllow = !0, this.openprivateAllow = !a.isSelf && !this.userlist.chatroom.selfUser().isGuest && !this.chatlist, this.abuseAllow = !a.isSelf, this.unignoreAllow = this.userlist.isIgnored(a), this.unbanAllow = this.userlist.isBanned(a)
                     }
                     show(a) {
-                        let b = a.path ? a.path[0] : (a.composedPath && a.composedPath())[0],
-                            c = this.$.main,
+                        let b = a.path ? a.path[0] : (a.composedPath && a.composedPath())[0];
+                        !b && a.originalTarget && (b = a.originalTarget);
+                        let c = this.$.main,
                             d = this.getRootNode().host,
                             e = d.getRootNode().host;
                         var f = !0,
