@@ -6339,7 +6339,7 @@
                     PublishedVideoSelf() {
                         this.items.push(this.selfItem);
                         let a = new f(c.Add, this.selfItem, this.items.indexOf(this.selfItem));
-                        this.EventBus.broadcast(f.ID, a), this.selfItem = null, this.blurOtherVids()
+                        this.EventBus.broadcast(f.ID, a), this.selfItem = null
                     }
                     PendingModerationVideoSelf() {
                         let a = new f(c.AddPending, this.selfItem, 0);
@@ -6365,7 +6365,7 @@
                         } else {
                             this.items.push(g);
                             let a = new f(c.Add, g, this.items.indexOf(g));
-                            this.EventBus.broadcast(f.ID, a), this.blurOtherVids()
+                            this.EventBus.broadcast(f.ID, a)
                         }
                     }
                     onUserlistRemoved(a) {
@@ -6390,7 +6390,7 @@
                             }), null != d) {
                             this.items.splice(e, 1), d.Dispose();
                             let a = new f(c.Remove, d, e);
-                            this.EventBus.broadcast(f.ID, a), this.blurOtherVids()
+                            this.EventBus.broadcast(f.ID, a)
                         } else {
                             let d = null,
                                 e = -1;
@@ -6434,21 +6434,13 @@
                     setNeedToBlurOtherVids(a) {
                         this.needToBlurOtherVids = a
                     }
-                    blurOtherVids() {
-                        if (!this.needToBlurOtherVids) return;
-                        let a = 1;
-                        Object.keys(this.items).forEach(b => {
-                            let d = this.items[b];
-                            if (d.userentity.handle !== this.chatroom.self_handle) {
-                                if (0 < a) {
-                                    if (a--, !d.blured) return;
-                                    d.blured = !1
-                                } else {
-                                    if (d.blured) return;
-                                    d.blured = !0
-                                }
-                                let e = new f(c.Update, d, b);
-                                this.EventBus.broadcast(f.ID, e)
+                    blurOtherVids(a, b) {
+                        this.needToBlurOtherVids && Object.keys(this.items).forEach(d => {
+                            let e = this.items[d],
+                                g = !0;
+                            if (-1 < a.indexOf(e.handle) ? e.blured = !0 : -1 < b.indexOf(e.handle) ? e.blured = !1 : g = !1, g) {
+                                let a = new f(c.Update, e, d);
+                                this.EventBus.broadcast(f.ID, a)
                             }
                         })
                     }
@@ -7170,7 +7162,7 @@
                         this.tcPkt_TcCallbackCheck(a, "guest_session_timeout") && this.app.Login(777)
                     }
                     onMultipleVideosTimeout(a) {
-                        !this.tcPkt_TcCallbackCheck(a, "multiple_videos_timeout") || TinychatApp.BLL.User.isSubGold(this.roomSettings.subtype) || (this.videolist.setNeedToBlurOtherVids(!0), this.videolist.blurOtherVids())
+                        this.tcPkt_TcCallbackCheck(a, "multiple_videos_timeout") && (this.videolist.setNeedToBlurOtherVids(!0), this.videolist.blurOtherVids(a.locked, a.unlocked))
                     }
                     onGiftMessage(a) {
                         if (!this.tcPkt_TcCallbackCheck(a, "gift")) return;
@@ -23301,13 +23293,13 @@
                         super()
                     }
                     connectedCallback() {
-                        super.connectedCallback(), this.onFullscreenHandler = this.onFullscreen.bind(this), window.fullscreenManager.addEventListener(this.onFullscreenHandler, !1), this._timerId = setInterval(this.refreshBlured.bind(this), 50)
+                        super.connectedCallback(), this.onFullscreenHandler = this.onFullscreen.bind(this), window.fullscreenManager.addEventListener(this.onFullscreenHandler, !1), this._timerId = setInterval(this.refreshBlured.bind(this), 5e3)
                     }
                     disconnectedCallback() {
                         super.disconnectedCallback(), window.fullscreenManager.removeEventListener(this.onFullscreenHandler, !1), clearInterval(this._timerId)
                     }
                     refreshBlured() {
-                        this.item.blured && (this.item.blured = !1, this.notifyPath("item.blured"), this.item.blured = !0, this.notifyPath("item.blured"))
+                        this.notifyPath("item.blured")
                     }
                     itemAssigned(a) {
                         let b = this.$.video;
