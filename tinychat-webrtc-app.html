@@ -6482,7 +6482,9 @@
                         let f = this;
                         this.EventBus.subscribe(TinychatApp.BLL.BroadcastProgressEvent.ID, function(a) {
                             f.mediaLastState = a.stage
-                        }), this.banlist = null, this.youtubelist = [], this.youtubelist_random = !1, this.youtubelist_repeat = !1, this.fullscreen = !1, this.mute = !1, this.volume = 1, this.micmuted = !1, this.wsEndpoint = "wss://wss.tinychat.com:443", this.packetWorker = new b(this), this.wsReset()
+                        }), this.banlist = null, this.youtubelist = [], this.youtubelist_random = !1, this.youtubelist_repeat = !1, this.fullscreen = !1, this.mute = !1, this.volume = 1, this.micmuted = !1, this.wsEndpoint = "wss://wss.tinychat.com:443", this.packetWorker = new b(this), this.pushNotificationSentYet = !1, setInterval(() => {
+                            this.pushNotificationSentYet = !1
+                        }, 10800000), this.wsReset()
                     }
                     wsReset() {
                         for (var a in null != this.mediaStream && this.mediaStream.stop(), null != this.mediaConnections.local && this.mediaConnections.local.Close(), this.mediaConnections.remote) {
@@ -7244,9 +7246,12 @@
                         } else this.app.showToastWarn("Youtube Playlist load has failed, due: " + d)
                     }
                     sendPushForUnreadPrivateMessage() {
-                        var a = "username=" + encodeURIComponent(this.enterroomresult.selfuser.username),
-                            b = new XMLHttpRequest;
-                        b.open("POST", "/pushnotification/privatemessage", !0), b.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"), b.send(a)
+                        if (!this.pushNotificationSentYet) {
+                            this.pushNotificationSentYet = !0;
+                            var a = "username=" + encodeURIComponent(this.enterroomresult.selfuser.username) + "&roomname=" + encodeURIComponent(this.roomname),
+                                b = new XMLHttpRequest;
+                            b.open("POST", "/pushnotification/privatemessage", !0), b.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"), b.send(a)
+                        }
                     }
                 }
                 const d = "RoomSettingsEvent_" + a.newGuid();
@@ -25742,12 +25747,29 @@
                             let c = TinychatApp.BLL.BroadcastProgressEvent;
                             b.stage == c.MEDIA_START ? a.broadcastProgress = !0 : b.stage == c.MEDIA_OK || b.stage == c.MEDIA_ICE || (b.stage == c.MEDIA_STARTED_SUCCESS ? (a.broadcasting = !0, a.broadcastProgress = !1) : b.stage == c.MEDIA_FAILED ? (console.error(b.error), a.broadcastProgress = !1, a.app.showToastWarn(b.error.message)) : b.stage == c.MEDIA_RTC_FAILED ? (console.error(b.error), a.broadcastProgress = !1) : b.stage == c.MEDIA_STOPING ? a.broadcastProgress = !0 : b.stage == c.MEDIA_STOPED && (a.broadcasting = !1, a.broadcastProgress = !1))
                         }), b.subscribe(TinychatApp.BLL.RoomConnected.ID, () => {
-                            a.set("_items", []), a.set("_itemsFeatured", []), a.notifyPath("_itemsFeatured"), a.set("_itemsplain", []), a.notifyPath("_itemsplain");
+                            setTimeout(() => {
+                                let b = !1;
+                                for (let c = 0; c < a._items.length; c++)
+                                    if (a._items[c].progress) {
+                                        b = !0;
+                                        break
+                                    } if (b) {
+                                    let a = Toast.TYPE.WARN,
+                                        b = new TinychatApp.BLL.ToastEvent(a, "In case you don't see videos, press OK button.", 0, () => {
+                                            let a = e.querySelectorAll("tc-video-item");
+                                            a instanceof NodeList && a.forEach(a => {
+                                                let b = a.shadowRoot.querySelector("video");
+                                                b.pause(), b.play()
+                                            })
+                                        }, "OK");
+                                    this.app.EventBus.broadcast(TinychatApp.BLL.ToastEvent.ID, b)
+                                }
+                            }, 6e3), a.set("_items", []), a.set("_itemsFeatured", []), a.notifyPath("_itemsFeatured"), a.set("_itemsplain", []), a.notifyPath("_itemsplain");
                             let b = a.$.videolist,
                                 c = a.$.ytplayer,
                                 d = this.$["youtube-button"],
-                                e = this.$["videos-footer-youtube"];
-                            a.chatroom.isLurker() ? b.classList.add("lurker") : b.classList.remove("lurker"), a.chatroom.isOperator() ? (c.classList.add("operator"), d.classList.remove("hidden"), e.classList.remove("hidden")) : (c.classList.remove("operator"), d.classList.add("hidden"), e.classList.add("hidden"))
+                                f = this.$["videos-footer-youtube"];
+                            a.chatroom.isLurker() ? b.classList.add("lurker") : b.classList.remove("lurker"), a.chatroom.isOperator() ? (c.classList.add("operator"), d.classList.remove("hidden"), f.classList.remove("hidden")) : (c.classList.remove("operator"), d.classList.add("hidden"), f.classList.add("hidden"))
                         }), b.subscribe(TinychatApp.BLL.RoomQuitEvent.ID, () => {
                             a.set("_items", []), a.isSelfModerating = !1, a.isSelfWaiting = !1, a.notifyPath("videolist.selfItem");
                             let b = new d(d.YT_STOP);
