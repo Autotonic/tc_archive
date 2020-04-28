@@ -5561,7 +5561,7 @@
                         return a.isSubGold(b)
                     }
                     static canUseFilters(b) {
-                        return b > a.STYPE_FREE
+                        return b > a.STYPE_PRO
                     }
                     static getCssClass(b) {
                         var c = 0;
@@ -6968,13 +6968,20 @@
                     }
                     prepareStream(a) {
                         function b() {
-                            if (null == self.mediaStreamCanvas) return;
-                            ctx.clearRect(0, 0, self.mediaStreamCanvas.width, self.mediaStreamCanvas.height);
-                            let a = self.mediaStreamVideo.videoHeight,
-                                c = self.mediaStreamVideo.videoWidth;
-                            self.mediaStreamCanvas.width = c, self.mediaStreamCanvas.height = a, window.TinychatApp.BLL.VideoFilters.getFilter(self.mediaStreamFilter).apply(ctx, c, a), ctx.drawImage(self.mediaStreamVideo, 0, 0, c, a, 0, 0, self.mediaStreamCanvas.width, self.mediaStreamCanvas.height), requestAnimationFrame(b)
+                            if (null == c.mediaStreamCanvas) return;
+                            d.clearRect(0, 0, c.mediaStreamCanvas.width, c.mediaStreamCanvas.height);
+                            let a = c.mediaStreamVideo.videoHeight,
+                                e = c.mediaStreamVideo.videoWidth;
+                            c.mediaStreamCanvas.width = e, c.mediaStreamCanvas.height = a, window.TinychatApp.BLL.VideoFilters.getFilter(c.mediaStreamFilter).apply(d, e, a), d.drawImage(c.mediaStreamVideo, 0, 0, e, a, 0, 0, c.mediaStreamCanvas.width, c.mediaStreamCanvas.height), requestAnimationFrame(b)
                         }
-                        return a
+                        this.mediaStreamOrigin = a, this.mediaStreamVideo = document.createElement("video"), this.mediaStreamVideo.autoplay = !0, this.mediaStreamCanvas = document.createElement("canvas");
+                        let c = this,
+                            d = this.mediaStreamCanvas.getContext("2d");
+                        this.mediaStreamVideo.oncanplay = function() {
+                            requestAnimationFrame(b)
+                        }, this.mediaStreamVideo.srcObject = this.mediaStreamOrigin;
+                        let e = this.mediaStreamCanvas.captureStream(15);
+                        return e.addTrack(this.mediaStreamOrigin.getAudioTracks()[0]), e
                     }
                     onMediaFailedCallback(a) {
                         console.warn("Broadcast: Media Failed ..."), this.mediaStream = null, this.videolist.RemoveVideoSelf(this.self_handle);
@@ -14448,7 +14455,7 @@
                                 b = c.video.videoWidth;
                             c.canvas.width = b, c.canvas.height = a, c.preview === void 0 && (d.drawImage(c.video, 0, 0, b, a, 0, 0, c.canvas.width, c.canvas.height), c.preview = c.canvas.toDataURL("image/png")), window.TinychatApp.BLL.VideoFilters.getFilter(c.filter).apply(d, b, a), d.drawImage(c.video, 0, 0, b, a, 0, 0, c.canvas.width, c.canvas.height)
                         }
-                        this.video = document.createElement("video"), this.video.autoplay = !0, this.video.muted = !0;
+                        this.video = document.createElement("video"), this.video.autoplay = !0;
                         let c = this,
                             d = this.canvas.getContext("2d");
                         this.video.srcObject = a, this.video.oncanplay = function() {
@@ -17693,6 +17700,10 @@
                     }
                     static get properties() {
                         return {
+                            chatroom: {
+                                type: Object,
+                                observer: "chatroomAssigned"
+                            },
                             onkeydownHandler: Object,
                             msg: {
                                 type: String,
@@ -17715,6 +17726,7 @@
                     disconnectedCallback() {
                         super.disconnectedCallback(), document.removeEventListener("keydown", this.onkeydownHandler)
                     }
+                    chatroomAssigned() {}
                     open() {
                         this.parentNode instanceof Modal && this.parentNode.open(ModalDialogUpgrade.is)
                     }
@@ -25841,8 +25853,8 @@
                         })
                     }, this.app.showUpgradeHandler = b => {
                         a._dialogopen(a.$.modal, j, () => {
-                            let a = new ModalDialogUpgrade;
-                            return a.id = j, void 0 !== b && "" !== b && (a.msg = b), a
+                            let c = new ModalDialogUpgrade;
+                            return c.id = j, c.chatroom = a.chatroom, void 0 !== b && "" !== b && (c.msg = b), c
                         })
                     }, this.app.showNotificationHandler = (b, c, e) => {
                         a._dialogopen(a.$.modal, k, () => {
