@@ -5218,7 +5218,7 @@
                 const a = window.TinychatApp.BLL;
                 window.TinychatApp.BLL.TCSocket = class {
                     constructor(a, b) {
-                        this.chatRoom = a, this.app = a.app, this.EventBus = this.app.EventBus, this.packetWorker = b, this.closedLastReasonCode = -1, this.reconnect_timer = 0, this.reconnect_wait = 0, this.reconnect_tries = 0
+                        this.chatRoom = a, this.app = a.app, this.EventBus = this.app.EventBus, this.packetWorker = b, this.closedLastReasonCode = -1, this.reconnect_timer = 0, this.reconnect_wait = 0, this.reconnect_tries = 0, this.closedReasonStr = ""
                     }
                     connect(b) {
                         let c = this.chatRoom.wsEndpoint;
@@ -5241,15 +5241,15 @@
                     onOpen() {
                         this.send(this.chatRoom.tcPkt_Connect(this.chatRoom.onRoomConnectCallback))
                     }
-                    onClose() {
-                        console.warn("Chatroom.Disconnected");
-                        let b = new TinychatApp.BLL.RoomQuitEvent(TinychatApp.BLL.RoomQuitEvent.WS, this.chatRoom);
-                        this.EventBus.broadcast(TinychatApp.BLL.RoomQuitEvent.ID, b), this.chatRoom.wsReset();
-                        let c = this,
-                            d = 1e3 + Math.floor(2e3 * Math.random());
-                        this.reconnect_wait += d, this.reconnect_tries += 1;
-                        let e = new a.RoomConnectStandby(this.reconnect_tries, this.reconnect_wait);
-                        if (this.EventBus.broadcast(a.RoomConnectStandby.ID, e), 999 > c.reconnect_tries) switch (this.closedLastReasonCode) {
+                    onClose(b) {
+                        console.warn("Chatroom.Disconnected"), this.closedReasonStr = "" + b.code + ": " + b.reason;
+                        let c = new TinychatApp.BLL.RoomQuitEvent(TinychatApp.BLL.RoomQuitEvent.WS, this.chatRoom);
+                        this.EventBus.broadcast(TinychatApp.BLL.RoomQuitEvent.ID, c), this.chatRoom.wsReset();
+                        let d = this,
+                            e = 1e3 + Math.floor(2e3 * Math.random());
+                        this.reconnect_wait += e, this.reconnect_tries += 1;
+                        let f = new a.RoomConnectStandby(this.reconnect_tries, this.reconnect_wait);
+                        if (this.EventBus.broadcast(a.RoomConnectStandby.ID, f), 999 > d.reconnect_tries) switch (this.closedLastReasonCode) {
                             case 0:
                             case 1:
                             case 5:
@@ -5258,9 +5258,9 @@
                             case 9:
                             case 10:
                             case 11:
-                                console.warn("Chatroom.ConnectStandby: " + c.reconnect_wait + "ms"), c.reconnect_timer = setInterval(() => {
-                                    c.Reconnect()
-                                }, c.reconnect_wait);
+                                console.warn("Chatroom.ConnectStandby: " + d.reconnect_wait + "ms"), d.reconnect_timer = setInterval(() => {
+                                    d.Reconnect()
+                                }, d.reconnect_wait);
                                 break;
                             default:
                         } else {
@@ -6489,7 +6489,7 @@
                         let f = this;
                         this.EventBus.subscribe(TinychatApp.BLL.BroadcastProgressEvent.ID, function(a) {
                             f.mediaLastState = a.stage
-                        }), this.banlist = null, this.youtubelist = [], this.youtubelist_random = !1, this.youtubelist_repeat = !1, this.fullscreen = !1, this.mute = !1, this.volume = 1, this.micmuted = !1, this.wsEndpoint = "wss://wss.tinychat.com:443", this.packetWorker = new b(this), this.pushNotificationSentYet = !1, setInterval(() => {
+                        }), this.banlist = null, this.youtubelist = [], this.youtubelist_random = !1, this.youtubelist_repeat = !1, this.fullscreen = !1, this.mute = !1, this.volume = 1, this.micmuted = !1, this.wsEndpoint = "wss://wss.tinychat.com:443", this.packetWorker = new b(this), this.autoReconnectTryouts = 0, this.autoReconnectPeriod = 500, this.manualReconnectTryouts = 0, this.pushNotificationSentYet = !1, setInterval(() => {
                             this.pushNotificationSentYet = !1
                         }, 10800000), this.wsReset()
                     }
@@ -7255,7 +7255,7 @@
                     sendPushForUnreadPrivateMessage() {
                         if (!this.pushNotificationSentYet) {
                             this.pushNotificationSentYet = !0;
-                            var a = "username=" + encodeURIComponent(this.enterroomresult.selfuser.username) + "&roomname=" + encodeURIComponent(this.roomname),
+                            var a = "username=" + encodeURIComponent(this.enterroomresult.selfuser.username) + "&roomname=" + encodeURIComponent(this.chatroomName()),
                                 b = new XMLHttpRequest;
                             b.open("POST", "/pushnotification/privatemessage", !0), b.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"), b.send(a)
                         }
@@ -17516,13 +17516,17 @@
                         </template></dom-if>
                     <dom-if if="[[!convertReasonShown()]]"><template strip-whitespace="">
                             <h1>Connection lost</h1>
-                        </template></dom-if><span id="reconnect-text">Connection to the room was interrupted. Retrying to connect in [[waits]]...</span> <input type="submit" value$="[[actionText]]">
+                        </template></dom-if><span id="reconnect-text">Connection to the room was interrupted. Retrying to connect in [[waits]]...</span>
+                    <dom-if if="[[!isManualReconnectExceeded()]]"><template strip-whitespace=""><input type="submit" value$="[[actionText]]"></template></dom-if>
                 </form>
             </template>
             <script>
                 class ModalReconnect extends Polymer.Element {
                     static get is() {
                         return "tc-modal-reconnect"
+                    }
+                    static get MANUAL_RECONNECT_LIMIT() {
+                        return 10
                     }
                     static get properties() {
                         return {
@@ -17567,7 +17571,7 @@
                         return void 0 == b && (b = 0), new String(Math.floor((a - b) / 1e3))
                     }
                     onOK(a) {
-                        return a.preventDefault(), 25 === this.chatroom.closedLastReasonCode && this.chatroom.app.UpgradeSub(), 3 === this.chatroom.closedLastReasonCode ? this.chatroom.app.Login(this.chatroom.closedLastReasonCode) : this.retry(), !1
+                        if (a.preventDefault(), !this.isManualReconnectExceeded()) return this.chatroom.manualReconnectTryouts++, 25 === this.chatroom.closedLastReasonCode && this.chatroom.app.UpgradeSub(), 3 === this.chatroom.closedLastReasonCode ? this.chatroom.app.Login(this.chatroom.closedLastReasonCode) : this.retry(), !1
                     }
                     retry() {
                         this.stop(), this.chatroom.Reconnect()
@@ -17583,8 +17587,17 @@
                         clearInterval(this.timerid), this.timerid = 0
                     }
                     chatroomAssigned(a) {
-                        let b = this,
-                            c = this.chatroom.app.EventBus;
+                        if (!this.convertReasonShown() && 3 > a.autoReconnectTryouts) {
+                            a.autoReconnectTryouts++, a.autoReconnectPeriod *= 2;
+                            let b = setInterval(() => {
+                                if (window._gaq) {
+                                    clearInterval(b);
+                                    let c = new Date,
+                                        d = window._gaq;
+                                    d.push(["_setCustomVar", 5, "Endpoint", a.wsEndpoint, 3]), d.push(["_setCustomVar", 6, "Datetime", c.toString(), 3]), d.push(["_setCustomVar", 7, "Room", a.chatroomName(), 3]), d.push(["_setCustomVar", 8, "User", a.selfUser().username, 3]), d.push(["_setCustomVar", 9, "Reason", a.packetWorker.tcSocket.closedReasonStr, 3]), d.push(["_trackEvent", "Connections", "Lost"]), this.retry()
+                                }
+                            }, a.autoReconnectPeriod)
+                        }
                         a.reconnect_timer ? (this.$["reconnect-text"].style.display = "", this.start()) : this.$["reconnect-text"].style.display = "none"
                     }
                     convertReasonShown() {
@@ -17595,6 +17608,9 @@
                     }
                     convertAction(a) {
                         return TinychatApp.BLL.RoomQuitEvent.ConvertAction(a.closedLastReasonCode)
+                    }
+                    isManualReconnectExceeded() {
+                        return this.chatroom.manualReconnectTryouts > ModalReconnect.MANUAL_RECONNECT_LIMIT
                     }
                 }
                 customElements.define(ModalReconnect.is, ModalReconnect);
@@ -26656,7 +26672,7 @@
                                 c.ytplayer = new YT.Player(f, {
                                     videoId: a.id,
                                     playerVars: {
-                                        theme: "light",
+                                        theme: c.app && c.app.settings.isDarkMode() ? "dark" : "light",
                                         autohide: 2,
                                         controls: 1,
                                         showinfo: 0,
@@ -27088,7 +27104,7 @@
                         let c = () => {
                             b.recaptchaHanle = grecaptcha.render(e, {
                                 sitekey: a,
-                                theme: "light",
+                                theme: b.app.settings.isDarkMode() ? "dark" : "light",
                                 callback: c => {
                                     b._recaptchaClose(), b._recaptchaResponseHandler(a, c), b.isconnecting = !0
                                 },
