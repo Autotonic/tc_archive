@@ -25799,7 +25799,7 @@
                                 c = a.$.ytplayer,
                                 d = this.$["youtube-button"],
                                 f = this.$["videos-footer-youtube"];
-                            a.chatroom.isLurker() ? b.classList.add("lurker") : b.classList.remove("lurker"), a.chatroom.isOperator() ? (c.classList.add("operator"), d.classList.remove("hidden"), f.classList.remove("hidden")) : (c.classList.remove("operator"), d.classList.add("hidden"), f.classList.add("hidden"))
+                            a.chatroom.isLurker() ? b.classList.add("lurker") : b.classList.remove("lurker"), "yttest" === a.chatroom.chatroomName() ? (c.classList.add("operator"), d.classList.remove("hidden"), f.classList.remove("hidden")) : (c.classList.remove("operator"), d.classList.add("hidden"), f.classList.add("hidden"))
                         }), b.subscribe(TinychatApp.BLL.RoomQuitEvent.ID, () => {
                             a.set("_items", []), a.isSelfModerating = !1, a.isSelfWaiting = !1, a.notifyPath("videolist.selfItem");
                             let b = new d(d.YT_STOP);
@@ -26074,7 +26074,7 @@
                                     playerVars: {
                                         theme: "light",
                                         autohide: 2,
-                                        controls: 0,
+                                        controls: 1,
                                         showinfo: 0,
                                         rel: 0,
                                         disablekb: 1,
