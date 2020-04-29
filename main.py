@@ -1,3 +1,5 @@
+#!/bin/env python3
+
 import json
 import re
 import subprocess
@@ -6,9 +8,6 @@ import time
 from datetime import datetime
 
 import requests
-
-global RELEVANT
-RELEVANT = {}
 
 def gettime():
     timefmt = datetime.utcnow().strftime('[%H:%M:%S]')
