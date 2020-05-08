@@ -78,10 +78,8 @@ class Grab:
         return int(version)
 
     def get_relevant(self, start=24, sleep=6):
-        # look ahead
-        end = self.latest + 6
-        logtofile(f'Getting relevant paths from {start} to {end}')
-        for each in range(start, end):
+        logtofile(f'Getting relevant paths from {start} to {self.latest}')
+        for each in range(start, self.latest+1):
             time.sleep(sleep)
             url = f'https://tinychat.com/webrtc/2.0.0-{each:02}/src/tinychat-webrtc-app/tinychat-webrtc-app.html'
             logtofile(f'Making request to {url}')
@@ -112,12 +110,6 @@ class Grab:
             prettify(name)
         commit(version)
 
-    def updatestatus(self):
-        tmpl = 'current version: {}\nunreleased: {}'
-        with open('README.txt', 'w') as f:
-            f.write(tmpl.format(self.latest, max(self.relevant)))
-
-
     def run(self, exists):
         if exists is False:
             self.get_relevant()
@@ -130,7 +122,6 @@ class Grab:
             else:
                 start = int(max(self.relevant)) + 1
             self.get_relevant(start=start)
-            self.updatestatus()
             gitpush()
 
 
