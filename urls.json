@@ -154,5 +154,11 @@
         "css_nav": "https://tinychat.com/webrtc/2.0.0-95/styles/client-nav.css",
         "index": "https://tinychat.com/webrtc/2.0.0-95/index.html",
         "app": "https://tinychat.com/webrtc/2.0.0-95/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
+    },
+    "96": {
+        "css_main": "https://tinychat.com/webrtc/2.0.0-96/styles/client-main.css",
+        "css_nav": "https://tinychat.com/webrtc/2.0.0-96/styles/client-nav.css",
+        "index": "https://tinychat.com/webrtc/2.0.0-96/index.html",
+        "app": "https://tinychat.com/webrtc/2.0.0-96/src/tinychat-webrtc-app/tinychat-webrtc-app.html"
     }
 }
