@@ -5317,7 +5317,7 @@
                             if (void 0 !== a) return Object.isObj(a) && Object.isFunc(a.func) ? a.func.call(this.chatRoom, b, a.params) : Object.isFunc(a) && a.call(this.chatRoom, b), void delete this.queue[c]
                         }
                         let d = b.tc;
-                        "string" === typeof d ? "ping" === d ? this.chatRoom.onPing(b) : "userlist" === d ? this.chatRoom.onRoomUserlist(b) : "join" === d ? this.chatRoom.onRoomUserJoin(b) : "room_settings" === d ? this.chatRoom.onRoomSettings(b) : "quit" === d ? this.chatRoom.onRoomUserQuit(b) : "publish" === d ? this.chatRoom.onRoomPublish(b) : "unpublish" === d ? this.chatRoom.onRoomUnPublish(b) : "stream_connected" === d ? this.chatRoom.onStreamConnected(b) : "pending_moderation" === d ? this.chatRoom.onPendingModeration(b) : "waiting_slot" === d ? this.chatRoom.onWaitingSlot(b) : "stream_closed" === d ? this.chatRoom.onStreamClosed(b) : "stream_moder_allow" === d ? this.chatRoom.onStreamModerAllow(b) : "publish" === d ? this.chatRoom.onRoomPublish(b) : "unpublish" === d ? this.chatRoom.onRoomUnPublish(b) : "msg" === d ? this.chatRoom.onSendMessagePublicCallback(b) : "nick" === d ? this.chatRoom.onNicknameChanged(b) : "pvtmsg" === d ? this.chatRoom.onSendMessagePrivateCallback(b) : "closed" === d ? (this.chatRoom.onClosed(b), this.tcSocket.close()) : "sysmsg" === d ? this.chatRoom.onSystemMessage(b) : "gift" === d ? this.chatRoom.onGiftMessage(b) : d.startsWith("yut_") ? this.chatRoom.onYoutube(b) : d.startsWith("yutpls_") ? this.chatRoom.onYoutubePlaylist(b) : d.startsWith("guest_session_timeout") ? this.chatRoom.onGuestSessTimeout(b) : d.startsWith("multiple_videos_timeout") ? this.chatRoom.onMultipleVideosTimeout(b) : console.error("Unknown pkt: " + JSON.stringify(b)) : console.error("Unknown pkt format: " + JSON.stringify(b))
+                        "string" === typeof d ? "ping" === d ? this.chatRoom.onPing(b) : "userlist" === d ? this.chatRoom.onRoomUserlist(b) : "join" === d ? this.chatRoom.onRoomUserJoin(b) : "room_settings" === d ? this.chatRoom.onRoomSettings(b) : "quit" === d ? this.chatRoom.onRoomUserQuit(b) : "publish" === d ? this.chatRoom.onRoomPublish(b) : "unpublish" === d ? this.chatRoom.onRoomUnPublish(b) : "stream_connected" === d ? this.chatRoom.onStreamConnected(b) : "pending_moderation" === d ? this.chatRoom.onPendingModeration(b) : "waiting_slot" === d ? this.chatRoom.onWaitingSlot(b) : "stream_closed" === d ? this.chatRoom.onStreamClosed(b) : "stream_moder_allow" === d ? this.chatRoom.onStreamModerAllow(b) : "msg" === d ? this.chatRoom.onSendMessagePublicCallback(b) : "nick" === d ? this.chatRoom.onNicknameChanged(b) : "pvtmsg" === d ? this.chatRoom.onSendMessagePrivateCallback(b) : "closed" === d ? (this.chatRoom.onClosed(b), this.tcSocket.close()) : "sysmsg" === d ? this.chatRoom.onSystemMessage(b) : "gift" === d ? this.chatRoom.onGiftMessage(b) : d.startsWith("yut_") ? this.chatRoom.onYoutube(b) : d.startsWith("yutpls_") ? this.chatRoom.onYoutubePlaylist(b) : d.startsWith("guest_session_timeout") ? this.chatRoom.onGuestSessTimeout(b) : d.startsWith("multiple_videos_timeout") ? this.chatRoom.onMultipleVideosTimeout(b) : console.error("Unknown pkt: " + JSON.stringify(b)) : console.error("Unknown pkt format: " + JSON.stringify(b))
                     }
                     wsCreatePacket(a, b) {
                         const c = {
@@ -6988,7 +6988,7 @@
                         if (!this.tcPkt_TcCallbackCheck(a, "stream_closed")) return;
                         let b = a.publish,
                             c = a.handle;
-                        this.self_handle == c ? (this._selfMediaStreamStop(c, "Broadcast closed due server request"), a.reason !== void 0 && null !== a.reason && this._selfShowReason(a.reason)) : (this._stopRemoteMediaConnection(c), this.onRoomPublishReconnect(c))
+                        this.self_handle == c ? (this._selfMediaStreamStop(c, "Broadcast closed due server request"), a.reason !== void 0 && null !== a.reason && this._selfShowReason(a.reason)) : (this._stopRemoteMediaConnection(c), this.onRoomPublishReconnect(c), this.videolist.RemoveVideoRemote(c))
                     }
                     onStreamModerAllow(a) {
                         if (!this.tcPkt_TcCallbackCheck(a, "stream_moder_allow")) return;
@@ -10130,15 +10130,13 @@
                         return this.outgoing ? void console.log("Broadcast: LocalMedia.Removed (" + this.handle + ")!!!") : void(console.log("Broadcast: RemoteMedia.Removed (" + this.handle + ")!!!"), this.videolist.RemoveVideoRemote(this.handle, event.stream))
                     }
                     _sendOfferPublisher() {
-                        let a = this;
-                        this.rtc.createOffer({
-                            offerToReceiveAudio: !1,
-                            offerToReceiveVideo: !1
-                        }).then(function(b) {
+                        let a = this,
+                            b = new Map;
+                        b.set("offerToReceiveAudio", !1), b.set("offerToReceiveVideo", !1), this.rtc.createOffer(b).then(function(b) {
                             a.rtc.setLocalDescription(b), console.log({
                                 sdp: b.sdp
                             });
-                            var c = a.chatroom.tcPkt_SDP(b.type, b.sdp, 0, function(b) {
+                            let c = a.chatroom.tcPkt_SDP(b.type, b.sdp, 0, function(b) {
                                 a._onOfferPublisher(b)
                             });
                             a.chatroom.packetWorker.send(c)
@@ -12140,10 +12138,10 @@
                     }
 
                     #chat-wrapper.full-screen #input:before {
-                        background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#202628', GradientType=0);
+                        background: -moz-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: -webkit-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: linear-gradient(to bottom, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00202628', endColorstr='#202628', GradientType=0);
                     }
 
                     #chat-wrapper.full-screen .on-white-scroll::-webkit-scrollbar-track {
@@ -12838,10 +12836,10 @@
                     }
 
                     [data-mode="dark"] #banlist-wrapper:after {
-                        background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#202628', GradientType=0);
+                        background: -moz-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: -webkit-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: linear-gradient(to bottom, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00202628', endColorstr='#202628', GradientType=0);
                     }
 
                     #banlist-wrapper.wait {
@@ -16742,10 +16740,10 @@
                     }
 
                     #modal-content-profile[data-mode="dark"]:after {
-                        background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#202628', GradientType=0);
+                        background: -moz-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: -webkit-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: linear-gradient(to bottom, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00202628', endColorstr='#202628', GradientType=0);
                     }
 
                     #modal-content-profile *:focus {
@@ -18755,10 +18753,10 @@
                     }
 
                     [data-mode="dark"] #modal-content-youtube-popular-wrapper:after {
-                        background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#202628', GradientType=0);
+                        background: -moz-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: -webkit-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: linear-gradient(to bottom, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00202628', endColorstr='#202628', GradientType=0);
                     }
 
                     #modal-content-youtube-popular {
@@ -18895,10 +18893,10 @@
                     }
 
                     [data-mode="dark"] .modal-content-youtube-popular-item-text:after {
-                        background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#202628', GradientType=0);
+                        background: -moz-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: -webkit-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: linear-gradient(to bottom, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00202628', endColorstr='#202628', GradientType=0);
                     }
 
                     .modal-content-youtube-popular-item-text>span {
@@ -18940,10 +18938,10 @@
                     }
 
                     [data-mode="dark"] #modal-content-youtube-playlist:after {
-                        background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 100%);
-                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#202628', GradientType=0);
+                        background: -moz-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: -webkit-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        background: linear-gradient(to bottom, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 100%);
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00202628', endColorstr='#202628', GradientType=0);
                     }
 
                     #modal-content-youtube-playlist-header {
@@ -19135,10 +19133,10 @@
                     }
 
                     [data-mode="dark"] .modal-content-youtube-playlist-item-close {
-                        background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 50%, rgba(32, 38, 40, 1) 100%);
-                        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 50%, rgba(32, 38, 40, 1) 100%);
-                        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(32, 38, 40, 1) 50%, rgba(32, 38, 40, 1) 100%);
-                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#202628', GradientType=0);
+                        background: -moz-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 50%, rgba(32, 38, 40, 1) 100%);
+                        background: -webkit-linear-gradient(top, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 50%, rgba(32, 38, 40, 1) 100%);
+                        background: linear-gradient(to bottom, rgba(32, 38, 40, 0) 0%, rgba(32, 38, 40, 1) 50%, rgba(32, 38, 40, 1) 100%);
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00202628', endColorstr='#202628', GradientType=0);
                     }
 
                     .modal-content-youtube-playlist-item:hover>.modal-content-youtube-playlist-item-close {
@@ -22562,7 +22560,17 @@
                     }
                     show(a) {
                         let b = a.path ? a.path[0] : (a.composedPath && a.composedPath())[0];
-                        !b && a.originalTarget && (b = a.originalTarget);
+                        if (!b && a.originalTarget && (b = a.originalTarget), !b || 1) {
+                            if (b = a.target, "TINYCHAT-WEBRTC-APP" !== b.nodeName) return;
+                            let c = b.shadowRoot.getElementById("users").shadowRoot.getElementById("sidemenu-content").getElementsByTagName("tc-userlist")[0].shadowRoot.querySelectorAll(".js-user-list-item");
+                            if (!c.length) return;
+                            for (let d = 0; d < c.length; d++)
+                                if (a.offsetY > c[d].offsetTop && a.offsetY < c[d].offsetTop + c[d].offsetHeight) {
+                                    b = c[d];
+                                    break
+                                }
+                        }
+                        if (!b) return;
                         let c = this.$.main,
                             d = this.getRootNode().host,
                             e = d.getRootNode().host;
@@ -24114,11 +24122,12 @@
                                         </svg></button></template></dom-if>
                             <dom-if if="[[item.filtersAllow]]"><template strip-whitespace=""><button on-click="onFilters" class="icon-filter"><svg width="26" height="20" viewBox="0 0 26 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M11.6 10.4L18 12l-6.4 1.6L10 20l-1.6-6.4L2 12l6.4-1.6L10 4l1.6 6.4zM22 5l4 1-4 1-1 4-1-4-4-1 4-1 1-4 1 4zM3.6 2.4L6 3l-2.4.6L3 6l-.6-2.4L0 3l2.4-.6L3 0l.6 2.4z" fill="#fff" fill-rule="evenodd"></path>
-                                        </svg></button></template></dom-if><button class="icon-context"><svg width="20" height="4" viewBox="0 0 20 4" xmlns="http://www.w3.org/2000/svg">
+                                        </svg></button></template></dom-if>
+                            <div class="icon-context" tabindex="-1"><svg width="20" height="4" viewBox="0 0 20 4" xmlns="http://www.w3.org/2000/svg">
                                     <circle r="2" cx="2" cy="2" fill="#fff" fill-rule="evenodd"></circle>
                                     <circle r="2" cx="10" cy="2" fill="#fff" fill-rule="evenodd"></circle>
                                     <circle r="2" cx="18" cy="2" fill="#fff" fill-rule="evenodd"></circle>
-                                </svg></button>
+                                </svg></div>
                             <div class="video-context on-white-scroll" onmouseleave="this.previousElementSibling.blur();">
                                 <div class="video-context-content">
                                     <dom-if if="[[item.videoForceCloseAllow]]"><template strip-whitespace="">
@@ -26930,9 +26939,9 @@
                     return this.chatroom.app.settings
                 }
                 connectedCallback() {
-                    super.connectedCallback(), this._browserErrorHandler = this._browserError.bind(this), this._browserRejectionHandler = this._browserRejection.bind(this), window.addEventListener("error", this._browserErrorHandler), window.addEventListener("unhandledrejection", this._browserRejectionHandler);
-                    var a = null;
-                    let b = "string" == typeof this.debug && JSON.parse(this.debug);
+                    super.connectedCallback(), this.onFullscreenHandler = this.onFullscreen.bind(this), window.fullscreenManager.addEventListener(this.onFullscreenHandler, !1), this._browserErrorHandler = this._browserError.bind(this), this._browserRejectionHandler = this._browserRejection.bind(this), window.addEventListener("error", this._browserErrorHandler), window.addEventListener("unhandledrejection", this._browserRejectionHandler);
+                    let a = null,
+                        b = "string" === typeof this.debug && JSON.parse(this.debug);
                     if ("string" === typeof this.loginInfo && (this.loginInfo = JSON.parse(this.loginInfo.replace(/'/gi, "\""))), "string" !== typeof this.tcToken && (a = "No TC token"), "string" !== typeof this.roomname && (a = "No chatroom name specified"), b && 1 < window.location.hash.length && (this.roomname = window.location.hash.substring(1), console.warn("override roomname by hash -> " + this.roomname)), a) throw new Error(a);
                     this.set("app", TinychatApp.getInstance(this.tcToken, this.loginInfo, b)), this.set("chatroom", this.app.GetChatroom(this.roomname)), this.onkeydownHandler = this.onkeydown.bind(this), this.onkeyupHandler = this.onkeyup.bind(this), document.addEventListener("keydown", this.onkeydownHandler), document.addEventListener("keyup", this.onkeyupHandler), document.addEventListener("mobile-app-modal-show", this.app.showMobileAppHandler), this._consolenoiseSetup(), this.removeAttribute("unresolved"), isMobile.apple.device || isMobile.android.device ? this.app.MoblileApp(() => {
                         this.chatroom.Connect(!1)
