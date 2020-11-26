@@ -5395,12 +5395,6 @@
                     PromoteRoom() {
                         this.gotoUrl(b.urlpath_promoteroom(this.backUrl))
                     }
-                    GooglePlay() {
-                        this.gotoUrl(b.url_download_android())
-                    }
-                    AppStore() {
-                        this.gotoUrl(b.url_download_iphone())
-                    }
                     static url_giveagift(a) {
                         var b = "/gifts/";
                         return "string" !== typeof a || a.isEmpty() || (b = b + "?to=" + encodeURI(a)), b
@@ -5432,12 +5426,6 @@
                     }
                     static url_websettings() {
                         return "/settings/privacy"
-                    }
-                    static url_download_android() {
-                        return "https://tinychat.com/download/android"
-                    }
-                    static url_download_iphone() {
-                        return "https://tinychat.com/download/iphone"
                     }
                     static url_get_coins() {
                         return "https://tinychat.com/coins/intro"
@@ -10201,7 +10189,7 @@
                 let b = null;
                 class c {
                     constructor(a, b, c) {
-                        this.debug = c, c && (window.DEBUG = c), this.EventBus = new EventBus, this._version = new i(2, 0, 20, 420, c), window.rootDir = this._version.rootDir(), this.defaultChatroom = null, console.log("App.useragent - " + this.useragent), this.tc_token = a, this.loginState = null, this.LoginInfo(b), this.showShareHandler = null, this.showMediaFiltersHandler = null, this.showMediaSettingsHandler = null, this.showSettingsHandler = null, this.showUpgradeHandler = null, this.showNotificationHandler = null, this.showUserProfile = null, this.showBanlistHandler = null, this.showYoutubeHandler = null, this.showMobileAppHandler = null
+                        this.debug = c, c && (window.DEBUG = c), this.EventBus = new EventBus, this._version = new i(2, 0, 20, 420, c), window.rootDir = this._version.rootDir(), this.defaultChatroom = null, console.log("App.useragent - " + this.useragent), this.tc_token = a, this.loginState = null, this.LoginInfo(b), this.showShareHandler = null, this.showMediaFiltersHandler = null, this.showMediaSettingsHandler = null, this.showSettingsHandler = null, this.showUpgradeHandler = null, this.showNotificationHandler = null, this.showUserProfile = null, this.showBanlistHandler = null, this.showYoutubeHandler = null
                     }
                     static getInstance(a, d, e) {
                         return null == b && (b = new c(a, d, e)), b
@@ -10325,20 +10313,11 @@
                     Notify(a, b) {
                         Object.isFunc(this.showNotificationHandler) && this.showNotificationHandler(a, b)
                     }
-                    MoblileApp(a) {
-                        Object.isFunc(this.showMobileAppHandler) && this.showMobileAppHandler(a)
-                    }
                     DevNews() {
                         this._router.DevNews()
                     }
                     WebSettings() {
                         this._router.WebSettings()
-                    }
-                    GoGooglePlay() {
-                        this._router.GooglePlay()
-                    }
-                    GoAppStore() {
-                        this._router.AppStore()
                     }
                     UserProfile(a) {
                         Object.isFunc(this.showUserProfile) && this.showUserProfile(a)
@@ -15994,157 +15973,6 @@
                     }
                 }
                 customElements.define(ModalDialogMediaSettings.is, ModalDialogMediaSettings);
-            </script>
-        </dom-module>
-        <dom-module id="tc-modal-mobile-style" assetpath="../ui/tc-modal-mobile/"><template>
-                <style>
-                    * {
-                        user-select: none;
-                        -webkit-user-select: none;
-                        -khtml-user-select: none;
-                        -moz-user-select: none;
-                        -ms-user-select: none;
-                        -o-user-select: none;
-                    }
-
-                    #modal-content-mobile {
-                        position: relative;
-                        width: 100%;
-                        max-width: 400px;
-                        margin: 0 auto;
-                        padding: 150px 80px 60px;
-                        box-sizing: border-box;
-                        border-radius: 4px;
-                        background-color: #fff;
-                        background-repeat: no-repeat;
-                        background-position: center 62px;
-                    }
-
-                    #modal-content-mobile[data-mode="dark"] {
-                        background-color: #2d373a;
-                    }
-
-                    #modal-content-mobile.ios {
-                        background-image: url(data:image/png;base64,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);
-                    }
-
-                    #modal-content-mobile.android {
-                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAAAXNSR0IArs4c6QAAC4VJREFUeAHVXA1wVcUVPvvyn5A/YEQo0grVBFCoJLEzbaFEMegAFS3MNJQiHRhoS0eETqeKwAjDKM6UIpSO/BS0nWntQIq0UKtBJ8iP04EERZsQBCm/gpJAIP+/t993kxffS+57b/cmLwln5ubet/fsOWe/u/fs2bN7o6QHKbrQSpcWyYTKNEtJGs7DcaRYlvQTJYm2KZZUKiVVuK7AcVZZckoipFQsKWrIVKU2Tw/8UeHUMbDUSrxZKU+gUZMBRDbOg7ukT8kVAFUAEN9JTpQ3y9JVZZfkBakcFmBijlmPtFgyF2BMBxjxQfS7v6WkBiDt8Sh5vT5L7XcvyLmmx7nYvPQFy/JEH7NmRB21Pmy2JN8SmRU2UGgeAKcO6oo6Zh2nbtpgbrlzjW7pMbHHrYebm2QjDB3lrKZnStGYkohIebpunHqvqxq7BEz8cWtIY7Osg/P8UVcN6c76cN5/i1KytCZTXXEr1zUw6LqPt4i8hi6d6lZ5WOspuYH36qcNWeofbvQYv5MZhVYU3un1cK57+iwoRAIPjDbSVtpsCo5Rj+l/2kq6VWEDkm2qqFf5lRQkpcj06/eoW7p2aAOT8Ik1qKFO/g1/8oCu8L7EB7/zYXSsPFZ9v/pCxy4tYNpAOQxQvqkjNBjPYHTq7CSRcYhu0mJFRuBIjhBJxEGqbBa5ieOzOpFTOI7XiBTgOV9pbL3flb8A5wzA+Z4OOCGB4etTWSEHutJThkaL/HiASC6O0XHumlZcK/JGuchfcFxqcCeDtdhzElNkYqjXKigwdFonLHkHjizbjSkE4VlMAmb2F4kIqklfOgI62XVdZC0GYoLliuBzxiqZXJSpAvbDoObSo6OnPGOqfECkyEtDReYOtJ+QaXUtftglr5eJPHdJpLxJq4ofE3rOK41Zaolfoc+PgMDYcQqHZEN6AlHN5m+I9Ac4PUHXAcrPzom8ecNcG+ZZ0wPFOY7AxBdagxssKTaJU+g71w0TWTTI3MDuqPEHjDW/uiACv61PCAKjlYx2ipAdA7xGS35nAkocpOy5p/dAIRJ8ILSBtmgTgkC7rQ4VOvUYTgibmuRdB17HIhry9r0i32lNMzny9GThB8jQPPqpSC3mK7oUGSmTOk48/fDltJ2zZF2BfH12jug7oNBuPiDaRNt0iW3umLLw6zHMaWB+sUtX4Cu96FNC2Uif88yFUFxf3YcjnglHnOct8esxGAGXeW+EOnP06S1HG8o23qdttFGXOra9vccwHclsmI4gxikl9/fckKxjkxMPh/JRn+jHOQhCc7xp0vZogzlaJ+FOZQzeuhqnVFdXy759++TIkSNSXFws5eXl0tLSIgMGDJD09HSZMGGCTJkyRZKSMLFySbSRti44pyegDQM7f2z3GGbzKyrlKobokInr+xDmHx/tPqK9du2arF69Wnbs2CE1NZghBqG4uDiZM2eOLF++XIYORQtdECPkccUi/9WZPiDBnpIod3L1wfYxbUscIUGhXZz7IJx2TampqZKQkBASFCqora2VLVu22D1o+/btrnTS1t/oLtqgY9hYQFOr88W6j45WzpJnYELYFYpE0LB27VqZNGmSthi+dvPnz5fFixdLc7NRbGvr4CSWtmtRGxY2MPZimEYtpg66a5acm5urodGfZePGjbJ06VL/Qo1ftJm265AXC4+9bKq5Qsh8SndRSkqKK1EEx81rpW07sCAmnra15JBGDkHmzTTJVFZWFrDrFxQUhNQZiIGv1MWLFwPddiyn7WyDFmF9na8SF9dD0kQXo+aqVatk5cqVnWQfPnxYtm3b1qlct4A+Z82aNbrs7XwGbUhTSEbtxJA2s712gIt1d4k8fWeAmw7FVVVVMmjQIHv0ycnJEfqU5ORkYU/ZunWr1NfXO9TSL+JQfvXqVaM4Z+NVpCY0OhpGsl0M8EbomJOGrmhCDN68cUp+fr7w6E7iUE4ds2bN0hZr0IbhfJWSdSQPj9Hh+oqHEW246eDBg0YqDNqQ4sFrpJVJSYkwssEO881qmHOXlpYaVdJtAzFhj9ECxrvuo2sJ5z7hJlMdBm2wgQmL/ZwQ3s7EHlOp0wCuEJoQZ8nhJlMd2m3AHkAPhiYtYCoMgWHqINxkqkO3DdjCVs0ec1OnAWcNw47x48friO0Sj6kO7TYoKScwn+lYd0onn+EjaOrUqRIbixX7MBFlU4cJGbThrMfeR6shnbsOTIhR7uzZs02qGPFSNnWYkG4b4F7OsMec0hF+4JYOlz/PihUrJD5eK//lXzHEL8qkbFPidhIdQtLvlAcLMEU6zJexL6DE8HUaNmyYrF+/Xke8EQ9lUrYJ0fbPA+5t8JfkiZAPPA0Z6iSKMb0KTdyfYkoLFiyQRYsWmVYLyE9ZlGlKBrZ/Wf+AOs1XiTlcreQIN+0gk25MGzZs6BZwCAplmRJtpu1apOQg+WxguDdfp9LFBpE8bNoxpYiICNm0aZNs3rzZlc+hT2FdyqAsU6LNtF2HAMhu8tnAJPezf2h5EO5k4pKEG1q4cKGUlJTIvHnzJCYm9HSdPORlHdZ1Q7SVNmtSXVKi7CNv+0IIElZ/hZBcHQF/vFvkKeyW6gpVVFTI3r175dChQ3Ly5El7wY3yGOaPHDlSGLxNmzZN3OaGvbb9Cbuu5v/P+yvEWcnfm7LUDHK1AxNTaOU0t+i9UgOR3uISbSrTXH2YbjS1LtGW4axJE5seVO+Tt9XH4KI+U+UDpRM6AqjoF+d0OHuXhzbqgoIB6GMvKLS6HRj+UBHyIs86lIc9b5u/1OHsHR7aRht1CcC87MvrB8yycZIHBsY1WrTkgsh+rSmolrhuY8qHTbRNl/CmfFSfIW/48vsB84JSLShY7MsQ7LoJHn/GGZH/VAXj6tl7tGUmbKJtuoRI91mlMGv0IT9gWM79IUBwpw9P0MsaJOomY7bVF3oObaAttEmblOTVZ6hOcVwnYCgwMlqWYrziV6xaREN+cFpkSy/6HOqmDUagYE9RbLQ4zlccgan9lrrssWSeFiptTOy6vzyP7wXQjSswavUUURd1UrfJ60P7PB75edVY5fg4HYFhpYYH1W444t/z2oQ4EnB7158RWIWbqIO6TEYfr01o23p8xx1wIybcSWAaXWxFf1qDL2It+X5grsB3xmD18rkhIk+m4ukE1RRYRsc7nBDuBvgvfS7ysdYkpqMEO6o99N0seeiAUgH7dkhzUwut5KoWeR/2jO2sQq/k69i04/0sJ91wqderoRQgMHXAWfJ5zQmht26ns5K3EPpP6VTuUxASGPLy2wJsLeeHXMN96rq6vAsgZSdiX1xC64dcXDZNwdTCu8JVCUdOv8HENT/kKqoWOYB1DN3ZsaZRTVExcnftWHUpEL8WMKzcBs7bAGdMIGG3Uzkc72/hY34dyGZtYCig7bX6J16rCYEE3kbltdgOOBLfEJx3sjngqOTEfCNT3bw3QR5xM1o5yevlsrimZnnVsrDrzoEcCx34OhVFH7WebFGyA3uDkzvdvI0KMFq+iG8Inu9oslGP8a3MOCcqWu5DhJznW367XWP4X4aPS14O+vWJ20bFFFmTsblhAxxzmlsZfaDee5FKFtRlqbO0xXWP8W0IJ2HPZ8oodMtc+B/Eoj1L0HkSDfkJzt+Gb/jIpfaHMaUoxr952cDvzF37mEDK6cxiC+VRhCNPoQc9Dr7wLGArYZj3FjY3v1qXIfu9aYOJlhV5pEjmYpvuEoyeowLZGawcoBR3OzC+Cu3h3ZIfoiwHIGXjfIfvfeNrZe/MeBeZk3/Fx8qem2MUJgfOxAcUdUwmoBdNB8c06B/hzNm5FHXOhhUYX5U0NKZQRmNwzIDSNDi9NDSQxibjySbCiSdihIvAGfGu3MK9L8B7GbzIsNhP8OiyTClhMs1Xru51vxPWHY0Nkolvskah4cOg82uo2w/y+Z+LGqG7GtdXoPMM4pud/wfuqsJIQLSA9AAAAABJRU5ErkJggg==);
-                    }
-
-                    #modal-content-mobile *:focus {
-                        outline: none;
-                    }
-
-                    #close-button {
-                        position: absolute;
-                        top: 8px;
-                        right: 8px;
-                        padding: 10px;
-                        cursor: pointer;
-                    }
-
-                    #close-button>path {
-                        transition: .2s;
-                    }
-
-                    #close-button:hover>path {
-                        fill: #41b7ef;
-                    }
-
-                    #close-button:active>path {
-                        fill: #38a8dd;
-                    }
-
-                    #modal-content-mobile>h1 {
-                        margin: 0;
-                        padding-bottom: 40px;
-                        box-sizing: border-box;
-                        font-size: 24px;
-                        font-weight: 300;
-                        color: #363636;
-                        line-height: 33px;
-                        text-align: center;
-                        cursor: default;
-                    }
-
-                    #modal-content-mobile[data-mode="dark"]>h1 {
-                        color: #fff;
-                    }
-
-                    #modal-content-mobile>button {
-                        height: 36px;
-                        width: 108px;
-                        padding: 0;
-                        border: none;
-                        border-radius: 4px;
-                        font-size: 0;
-                        background: none;
-                        background-size: cover;
-                        background-repeat: no-repeat;
-                        cursor: pointer;
-                    }
-
-                    #modal-content-mobile.ios>button {
-                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGwAAAAkCAMAAABbsy/+AAAA81BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8UFBTQ0NAEBAT9/f2RkZEYGBgRERGJiYlqamo0NDQNDQ1VVVUKCgr8/PzExMSfn59BQUEnJycHBwdvb29aWlowMDAaGhrr6+u/v7+Dg4MlJSUdHR339/fv7++wsLCtra2lpaWjo6OUlJRlZWVRUVFMTExHR0cgICDd3d3Dw8O1tbWZmZmMjIyGhoaAgIB3d3dEREQsLCzo6OjV1dXLy8u4uLg8PDw5OTn5+fnx8fHZ2dnS0tKpqamcnJxzc3Pk5OTg4OBeXl4+Pj7z8/OysrJ8fHyIiIjGxsbY2NjO0k3oAAAABnRSTlPjjQ8A1NMV7Ym9AAADlUlEQVRIx9WXaXMSQRCGCerbe8LusrCw3PcVjnAFCAQihCAx6v//NfYsGtkS1FgW6vNh6Jnt4qnumtmaDbwKXgRwBgIXwVeB4BucidfBwAXOxkUggLNxThfw92XpQcg37xzEBaVjQjAWOS0XR4n8smykRu3D+eLuFs9cZyJ5CKoTAFcSvqcJvP1VWYqo51sYPGlI7aBhWIvvZfnaGNXw+pZl9oe+KHxy39cx0PoKMC5r6OYd2x32Ez+V3VDZnzTL3GBR3zWgp2J4n2CZHpmhGimuWPaUvKx7OS0H2dB9W/wB8CANUpvrduVnMiU697tMWZMXmDXSmVxb9mT6VfsG1TTesux+YLQAdDGZ83yU8mQcJQ2tYVz+QJZ5qmttBeZwXtl82yIfIkgNcP0RBXm4l3VWwxUqTm3Esl0uL6oZOfPWV9k878nMXL51WvauREy2S97PAl8IKVAkuBaghySeceQFbhGQAKuggCmGxMyyAdgdjmwbNj85JWurdMgIfxa/bOVzafDxh2UTn+vOwgGS7uIk0mJiv1SW8sl8J01XKYkT2DWV6FF/oazpk/lOiKFuYziBRsP0bgN0cskXyCI+WRcH5GaamgGQkVCIiyKKIpAguJlCYEXoQ8cCFNNbDxVRSADubdw6KkuTj4PzKEWHY6+Pcs4hWnLU7a2JSk0wPTUC5h0x7zB+IDUaBrS7pNrAblpaluPHZCj7d0j8oMGmkr0CMFPniduumsaNWinEt9EEgMmUYi3ASlG4YBUf5YztkIGB+rAxpWzFtT5ulWOye/KhPtvmW36o6kCMeLikMORoSBTzBEbXHqmq4JaugZFoiLSUEaYmYFBc1zdkHpNN/LKpiz2haOnhoUwGy0oAOlSDnPXy+18SKtTcy2rUAbAtIywUDfJoHZNx6iFNeIgKGoaRVHMsiyqASQ3IdwDiXOKeBGs9WV84lLsuy9LgIV5k3KMyaXrgyj0v90TPcBWVEBNdcniQqQ2saQwgzX6DRSZposUNIMWDJ2vz0um3/uKRLcupKrb+8zG1lp43SU2urPx+Js67vCxXZKqCmWZjK1pZsMvRXBoV6tVLn6S9DHWS673aCRkSdefShWTUB6Fva+ExmEw4hVjJdKpJl2XZhVM1FDBjbV03bACmUytAaa6rGwtohTNgIvdrrfV7tyuWQSBk+HX+B9nIwZ5h/7tn/8cl9Xf41y77gfN+MgVf40y8CZ71M/czY4yqO2nIrfwAAAAASUVORK5CYII=);
-                    }
-
-                    #modal-content-mobile.android>button {
-                        background-image: url(data:image/png;base64,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);
-                    }
-                </style>
-            </template></dom-module>
-        <dom-module id="tc-modal-mobile" assetpath="../ui/tc-modal-mobile/"><template strip-whitespace="">
-                <style include="tc-modal-mobile-style"></style>
-                <div id="modal-content-mobile" class$="[[mobileClass]]" data-mode$="[[modeStyle]]"><svg id="close-button" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" on-click="close">
-                        <path d="M6 4.5L1.5 0 0 1.5 4.5 6 0 10.5 1.5 12 6 7.5l4.5 4.5 1.5-1.5L7.5 6 12 1.5 10.5 0" fill="#c4d4dc" fill-rule="evenodd"></path>
-                    </svg>
-                    <h1>Download our app</h1><button on-click="openStore"></button>
-                </div>
-            </template>
-            <script>
-                class ModalDialogMobile extends Polymer.Element {
-                    static get is() {
-                        return "tc-modal-mobile"
-                    }
-                    static get properties() {
-                        return {
-                            app: {
-                                type: Object
-                            },
-                            mobileClass: {
-                                type: String
-                            },
-                            onkeydownHandler: Object,
-                            onClose: Object
-                        }
-                    }
-                    constructor() {
-                        super(), this.mobileClass = isMobile.apple.device ? "ios" : "android"
-                    }
-                    get settings() {
-                        return this.app.settings
-                    }
-                    connectedCallback() {
-                        super.connectedCallback(), this.onkeydownHandler = this.onkeydown.bind(this), document.addEventListener("keydown", this.onkeydownHandler)
-                    }
-                    disconnectedCallback() {
-                        super.disconnectedCallback(), document.removeEventListener("keydown", this.onkeydownHandler)
-                    }
-                    open() {
-                        this.modeStyle = this.app.setDarkModeCSSclass(this.app.settings.isDarkMode()), this.parentNode instanceof Modal && this.parentNode.open(ModalDialogMobile.is)
-                    }
-                    close() {
-                        this.parentNode instanceof Modal && (this.parentNode.close(ModalDialogMobile.is, this), Object.isFunc(this.onClose) && this.onClose())
-                    }
-                    onkeydown(a) {
-                        a = a || window.event, (27 == a.keyCode || "Escape" == a.key || "Esc" == a.key) && this.parentNode instanceof Modal && this.parentNode.isopen(ModalDialogMobile.is) && this.close(a)
-                    }
-                    openStore() {
-                        isMobile.apple.device ? this.app.GoAppStore() : this.app.GoGooglePlay()
-                    }
-                }
-                customElements.define(ModalDialogMobile.is, ModalDialogMobile);
             </script>
         </dom-module>
         <dom-module id="tc-modal-notification-style" assetpath="../ui/tc-modal-notification/"><template>
@@ -26943,12 +26771,10 @@
                     let a = null,
                         b = "string" === typeof this.debug && JSON.parse(this.debug);
                     if ("string" === typeof this.loginInfo && (this.loginInfo = JSON.parse(this.loginInfo.replace(/'/gi, "\""))), "string" !== typeof this.tcToken && (a = "No TC token"), "string" !== typeof this.roomname && (a = "No chatroom name specified"), b && 1 < window.location.hash.length && (this.roomname = window.location.hash.substring(1), console.warn("override roomname by hash -> " + this.roomname)), a) throw new Error(a);
-                    this.set("app", TinychatApp.getInstance(this.tcToken, this.loginInfo, b)), this.set("chatroom", this.app.GetChatroom(this.roomname)), this.onkeydownHandler = this.onkeydown.bind(this), this.onkeyupHandler = this.onkeyup.bind(this), document.addEventListener("keydown", this.onkeydownHandler), document.addEventListener("keyup", this.onkeyupHandler), document.addEventListener("mobile-app-modal-show", this.app.showMobileAppHandler), this._consolenoiseSetup(), this.removeAttribute("unresolved"), isMobile.apple.device || isMobile.android.device ? this.app.MoblileApp(() => {
-                        this.chatroom.Connect(!1)
-                    }) : this.chatroom.Connect(!1)
+                    this.set("app", TinychatApp.getInstance(this.tcToken, this.loginInfo, b)), this.set("chatroom", this.app.GetChatroom(this.roomname)), this.onkeydownHandler = this.onkeydown.bind(this), this.onkeyupHandler = this.onkeyup.bind(this), document.addEventListener("keydown", this.onkeydownHandler), document.addEventListener("keyup", this.onkeyupHandler), this._consolenoiseSetup(), this.removeAttribute("unresolved"), this.chatroom.Connect(!1)
                 }
                 disconnectedCallback() {
-                    super.disconnectedCallback(), window.fullscreenManager.removeEventListener(this.onFullscreenHandler, !1), document.removeEventListener("keydown", this.onkeydownHandler), document.removeEventListener("keyup", this.onkeyupHandler), document.removeEventListener("mobile-app-modal-show", this.app.showMobileAppHandler), window.removeEventListener("error", this._browserErrorHandler), window.removeEventListener("unhandledrejection", this._browserRejectionHandler), this._recaptchaRemoveScriptApi()
+                    super.disconnectedCallback(), window.fullscreenManager.removeEventListener(this.onFullscreenHandler, !1), document.removeEventListener("keydown", this.onkeydownHandler), document.removeEventListener("keyup", this.onkeyupHandler), window.removeEventListener("error", this._browserErrorHandler), window.removeEventListener("unhandledrejection", this._browserRejectionHandler), this._recaptchaRemoveScriptApi()
                 }
                 chatroomAssigned() {
                     let a = this.settings.getSettings();
@@ -26965,9 +26791,8 @@
                         l = "notification",
                         m = "userprofile",
                         n = "banlist",
-                        o = "youtube",
-                        p = "mobilestore";
-                    let d = ["reconnect", e, f, g, i, j, k, l, m, n, o, p];
+                        o = "youtube";
+                    let d = ["reconnect", e, f, g, i, j, k, l, m, n, o];
                     c.subscribe(TinychatApp.BLL.RoomConnectEvent.ID, function() {
                         b._dialogclose(b.$.modal, "reconnect"), b.isconnecting = !0
                     }), c.subscribe(TinychatApp.BLL.RoomConnectPassword.ID, function() {
@@ -27050,16 +26875,11 @@
                             let c = new ModalProfile(a);
                             return c.id = m, c.chatroom = b.chatroom, c
                         })
-                    }, this.app.showMobileAppHandler = a => {
-                        b._dialogopen(b.$.modal, p, () => {
-                            let c = new ModalDialogMobile;
-                            return c.id = p, c.app = b.app, c.onClose = a, c
-                        })
                     }, c.subscribe(TinychatApp.BLL.BroadcastProgressEvent.ID, a => {
                         let c = TinychatApp.BLL.BroadcastProgressEvent;
-                        a.stage == c.MEDIA_START ? b.deboucePermission = setTimeout(() => {
+                        a.stage === c.MEDIA_START ? b.deboucePermission = setTimeout(() => {
                             b._showPermissionOverlay()
-                        }, 150) : a.stage == c.MEDIA_OK ? (clearTimeout(b.deboucePermission), b._hidePermissionOverlay()) : a.stage == c.MEDIA_FAILED && (clearTimeout(b.deboucePermission), b._hidePermissionOverlay())
+                        }, 150) : a.stage === c.MEDIA_OK ? (clearTimeout(b.deboucePermission), b._hidePermissionOverlay()) : a.stage === c.MEDIA_FAILED && (clearTimeout(b.deboucePermission), b._hidePermissionOverlay())
                     })
                 }
                 isconnectingAssigned(a) {
