@@ -7198,7 +7198,6 @@
                         let b = "",
                             c = a.tc;
                         if ("yut_play" === c) b = A.YT_PLAY;
-                        else if ("yut_pause" === c) b = A.YT_PAUSE;
                         else if ("yut_stop" === c) b = A.YT_STOP;
                         else return void this.tcPkt_TcCallbackCheck(a, "-");
                         let d = new A(b);
@@ -7446,9 +7445,6 @@
                     }
                     static get YT_STOP() {
                         return "yut_stop"
-                    }
-                    static get YT_PAUSE() {
-                        return "yut_pause"
                     }
                     constructor(a) {
                         return this.handle = -1, this.cmd = a, this.id = "", this.offset = 0, this.duration = void 0, this.seekByUser = void 0, this.playlist = void 0, this.success = !0, this.reason = "", this.server = void 0, this
@@ -24646,7 +24642,7 @@
 
                     #youtube.video>div>.overlay {
                         position: absolute;
-                        height: 58px;
+                        height: 30px;
                         width: 100%;
                         top: 100%;
                         left: 0;
@@ -24716,10 +24712,8 @@
                     }
 
                     #youtube.video>div>.overlay>.icon-visibility {
-                        top: auto;
-                        bottom: 12px;
-                        left: auto;
-                        right: 47px;
+                        top: 4px;
+                        left: 16px;
                     }
 
                     #youtube.video>div>.overlay>.icon-close+.icon-visibility {
@@ -24733,7 +24727,7 @@
 
                     #youtube.video>div>.overlay>.icon-close {
                         right: 16px;
-                        top: 24px;
+                        top: 4px;
                     }
 
                     .icon-visibility>svg,
@@ -24899,252 +24893,6 @@
                     .video-context-content>div>button:hover {
                         color: #fff;
                         background-color: #04caff;
-                    }
-
-                    #icon-state {
-                        position: absolute;
-                        height: 22px;
-                        left: -22px;
-                        bottom: -22px;
-                        opacity: .9;
-                        transition: .2s;
-                    }
-
-                    #youtube.video>div>.overlay>#icon-state {
-                        left: 16px;
-                        bottom: 10px;
-                    }
-
-                    .video:hover>div>.overlay>#icon-state {
-                        left: 16px;
-                        bottom: 16px;
-                        transition: bottom .2s ease .2s,
-                            left .2s ease .2s,
-                            opacity .2s;
-                    }
-
-                    .icon-volume {
-                        position: absolute;
-                        height: 22px;
-                        left: -22px;
-                        bottom: -22px;
-                        opacity: .9;
-                        transition: .2s;
-                    }
-
-                    #youtube .icon-volume {
-                        left: 48px;
-                    }
-
-                    .icon-volume:hover {
-                        opacity: 1;
-                    }
-
-                    .video:hover>div>.overlay>.icon-volume {
-                        left: 16px;
-                        bottom: 16px;
-                        transition: bottom .2s ease .2s,
-                            left .2s ease .2s,
-                            opacity .2s;
-                    }
-
-                    #youtube.video>div>.overlay>.icon-volume {
-                        left: 48px;
-                        bottom: 10px;
-                    }
-
-                    .icon-volume>button {
-                        position: relative;
-                        height: 22px;
-                        width: 22px;
-                        padding: 0;
-                        border: none;
-                        background-color: transparent;
-                        cursor: pointer;
-                    }
-
-                    .icon-volume>button>svg {
-                        position: absolute;
-                        display: block;
-                        top: 2px;
-                        left: 4px;
-                        transition: .2s;
-                    }
-
-                    .icon-volume>button>svg+svg {
-                        left: 3px;
-                    }
-
-                    .video.muted>div>.overlay>.icon-volume>button>svg+svg,
-                    .icon-volume>button>svg {
-                        opacity: 1;
-                        visibility: visible;
-                    }
-
-                    .video.muted>div>.overlay>.icon-volume>button>svg:first-child,
-                    .icon-volume>button>svg+svg {
-                        opacity: 0;
-                        visibility: hidden;
-                    }
-
-                    .icon-volume>.seek-wrapper {
-                        position: absolute;
-                        width: 58px;
-                        top: 6px;
-                        left: 22px;
-                    }
-
-                    #youtube .seek {
-                        background-color: #5a6366;
-                    }
-
-                    #icon-seek {
-                        position: absolute;
-                        height: 22px;
-                        left: 12px;
-                        right: 12px;
-                        bottom: -22px;
-                        opacity: .9;
-                        transition: .2s;
-                    }
-
-                    #youtube.video>div>.overlay>#icon-seek {
-                        bottom: 36px;
-                    }
-
-                    .video:hover>div>.overlay>#icon-seek {
-                        bottom: 38px;
-                        transition: bottom .2s ease .2s;
-                    }
-
-                    #icon-seek:hover {
-                        opacity: 1;
-                    }
-
-                    #icon-state>button {
-                        position: relative;
-                        height: 22px;
-                        width: 22px;
-                        padding: 0;
-                        border: none;
-                        background-color: transparent;
-                        cursor: pointer;
-                    }
-
-                    #icon-state>button>svg {
-                        position: absolute;
-                        display: block;
-                        top: 2px;
-                        left: 2px;
-                    }
-
-                    #icon-state>button>svg+svg {
-                        top: 1px;
-                        left: 2px;
-                        transition: .2s;
-                    }
-
-                    #youtube.pause #icon-state>button>svg+svg,
-                    #icon-state>button>svg {
-                        opacity: 1;
-                        visibility: visible;
-                    }
-
-                    #youtube.pause #icon-state>button>svg:first-child,
-                    #icon-state>button>svg+svg {
-                        opacity: 0;
-                        visibility: hidden;
-                    }
-
-                    #icon-seek>.seek-wrapper {
-                        position: absolute;
-                        width: auto;
-                        top: 6px;
-                        left: 0;
-                        right: 0;
-                    }
-
-                    #seek-duration {
-                        position: absolute;
-                        height: 22px;
-                        left: 90px;
-                        bottom: 0;
-                        font-size: 12px;
-                        font-weight: 600;
-                        color: #fff;
-                        line-height: 22px;
-                        white-space: nowrap;
-                        cursor: default;
-                    }
-
-                    .seek-wrapper {
-                        height: 10px;
-                        width: 100%;
-                        padding: 3px 5px;
-                        box-sizing: border-box;
-                        cursor: pointer;
-                    }
-
-                    .seek {
-                        position: relative;
-                        height: 100%;
-                        width: 100%;
-                        border-radius: 4px;
-                        background-color: #fff;
-                    }
-
-                    .seek-text {
-                        position: absolute;
-                        height: 20px;
-                        width: 70px;
-                        top: -24px;
-                        margin-left: -35px;
-                        line-height: 20px;
-                        text-align: center;
-                        opacity: 0;
-                        transition: opacity .2s;
-                    }
-
-                    .seek-wrapper:hover>.seek>.seek-text {
-                        opacity: 1;
-                    }
-
-                    .seek-text>span {
-                        display: inline-block;
-                        height: 100%;
-                        padding: 0 10px;
-                        border-radius: 11px;
-                        font-size: 12px;
-                        font-weight: 600;
-                        color: #fff;
-                        background-color: rgba(0, 0, 0, .5);
-                        line-height: 20px;
-                    }
-
-                    .seek-level {
-                        position: absolute;
-                        height: 100%;
-                        top: 0;
-                        left: 0;
-                        border-radius: 4px;
-                        background-color: #41b7ef;
-                    }
-
-                    .seek-level>div {
-                        position: absolute;
-                        display: block;
-                        height: 4px;
-                        width: 4px;
-                        top: 0;
-                        right: -2px;
-                        border-radius: 100%;
-                        background-color: #41b7ef;
-                        box-shadow: 0 0 0 2px #41b7ef;
-                        transition: .2s;
-                    }
-
-                    .seek-wrapper:hover>.seek>.seek-level>div {
-                        box-shadow: 0 0 0 3px #41b7ef;
                     }
 
                     .video>div>.waiting {
@@ -25952,7 +25700,7 @@
                     <div id="videos-content" data-video-count$="[[_items.length]]">
                         <div id="videos" on-dom-change="recalcVideosPosition">
                             <div class="videos-items">
-                                <div id="youtube" class$="[[convertYTClass(ytplayer, ytplayer_pause, ytplayer_hide, ytplayer_mute)]]">
+                                <div id="youtube" class$="[[convertYTClass(ytplayer, ytplayer_hide)]]">
                                     <div class="">
                                         <div id="ytplayer"></div>
                                         <div class="overlay">
@@ -25963,29 +25711,6 @@
                                                 </svg> <svg width="20" height="14" viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M3.63 12.024C1.474 10.5.52 8.65.52 8.65c-.657-.9-.68-2.417-.128-3.362C.392 5.288 2.452 0 10 0c1.94 0 3.52.35 4.79.867l.594-.592a.945.945 0 0 1 1.34.006.953.953 0 0 1 .004 1.34L4.616 13.724a.945.945 0 0 1-1.34-.006.953.953 0 0 1-.004-1.34l.357-.356zm9.598-9.594c-.942-.28-2.013-.43-3.23-.43-2.797 0-4.83.803-6.288 2.125-.496.45-.888.928-1.183 1.4-.163.26-.25.436-.27.49L2.2 6.16l-.08.137c-.17.29-.15.946.017 1.176l.09.123.07.136c.042.08.168.29.378.58A9.167 9.167 0 0 0 4.058 9.82c.32.28.656.535 1.01.766l8.16-8.156zm-6.08 11.222l1.713-1.714c.368.04.747.062 1.14.062 2.423 0 4.374-.814 5.942-2.185a9.2 9.2 0 0 0 1.386-1.51c.212-.293.338-.5.38-.583l.057-.108.07-.1c.19-.282.217-.94.07-1.17L17.8 6.18l-.072-.184a3.74 3.74 0 0 0-.268-.485 6.577 6.577 0 0 0-.972-1.2l1.415-1.414c1.244 1.225 1.69 2.374 1.69 2.374.6.94.512 2.465-.107 3.37 0 0-2.774 5.36-9.487 5.36-1.046 0-1.995-.13-2.853-.348z" fill="#fff" fill-rule="evenodd"></path>
                                                 </svg></button>
-                                            <dom-if if$="[[ytplayer_is_moderator]]"><template strip-whitespace="">
-                                                    <div id="icon-seek">
-                                                        <div class="seek-wrapper" on-click="ytplayer_onseek">
-                                                            <div id="seek-length" class="seek">
-                                                                <div class="seek-text" style$="[[_poslevel_style('left', ytplayer_position, ytplayer_duration)]]"><span>[[ytplayer_postitle_computed(ytplayer_position, ytplayer_duration)]]</span></div>
-                                                                <div class="seek-level" style$="[[_poslevel_style('width', ytplayer_position, ytplayer_duration)]]">
-                                                                    <div></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </template></dom-if>
-                                            <dom-if if$="[[ytplayer_is_moderator]]"><template strip-whitespace="">
-                                                    <div id="icon-state"><button id="yt-play-pause" on-click="onPlayPauseYT"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 2.994A2.997 2.997 0 0 1 3.005 0h.99A3 3 0 0 1 7 2.994v12.012A2.997 2.997 0 0 1 3.995 18h-.99A3 3 0 0 1 0 15.006V2.994zm2 0v12.012A1 1 0 0 0 3.005 16h.99A.997.997 0 0 0 5 15.006V2.994A1 1 0 0 0 3.995 2h-.99A.997.997 0 0 0 2 2.994zm9 0A2.997 2.997 0 0 1 14.005 0h.99A3 3 0 0 1 18 2.994v12.012A2.997 2.997 0 0 1 14.995 18h-.99A3 3 0 0 1 11 15.006V2.994zm2 0v12.012a1 1 0 0 0 1.005.994h.99A.997.997 0 0 0 16 15.006V2.994A1 1 0 0 0 14.995 2h-.99A.997.997 0 0 0 13 2.994z" fill="#fff"></path>
-                                                            </svg> <svg width="18" height="20" viewBox="0 0 18 20" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M1.897 3.163v13.673c0 1.076.74 1.52 1.653.99l11.87-6.87c.91-.527.912-1.385 0-1.913L3.55 2.173c-.91-.527-1.653-.085-1.653.99zM0 3.163C0 .593 2.306-.787 4.48.473l11.87 6.87c2.2 1.273 2.2 4.04 0 5.315l-11.87 6.87C2.304 20.786 0 19.406 0 16.835V3.163z" fill="#fff"></path>
-                                                            </svg></button></div>
-                                                </template></dom-if>
-                                            <div class="icon-volume">
-                                                <tc-volume-control vol="{{ytplayer_internal_volume}}" color="#5a6366"></tc-volume-control>
-                                                <div id="seek-duration">[[ytplayer_durtitle_computed(ytplayer_position, ytplayer_duration)]]</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -26076,30 +25801,10 @@
                                 value: !1,
                                 observer: "ytplayer_hide_changed"
                             },
-                            ytplayer_pause: {
-                                type: Boolean,
-                                value: !1
-                            },
-                            ytplayer_duration: {
-                                type: Number,
-                                value: 0
-                            },
-                            ytplayer_position: {
-                                type: Number,
-                                value: 0
-                            },
                             ytplayer_volume: {
                                 type: Number,
                                 value: 100,
                                 computed: "ytplayer_volumeCompute(ytplayer_internal_volume, volume)"
-                            },
-                            ytplayer_internal_volume: {
-                                type: Number,
-                                value: 100
-                            },
-                            ytplayer_timer_handler: {
-                                type: Number,
-                                value: 0
                             },
                             ytplayer_is_moderator: {
                                 type: Boolean,
@@ -26309,7 +26014,7 @@
                         this.app.MediaSettings()
                     }
                     youtubeTap() {
-                        this.chatroom.selfUser().hasSubscriptions ? this.app.Youtube() : this.app.Upgrade()
+                        return this.chatroom.isOperator() ? void this.app.Youtube() : void this.app.showToast("Moderator or Owner is able to start Youtube")
                     }
                     onSolveCaptcha() {
                         this.app.ReconnectDefaultChatroom()
@@ -26414,11 +26119,9 @@
                         let b = "js-video";
                         return b += a ? " large" : "", setTimeout(() => this.recalcVideosPosition(), 0), b
                     }
-                    convertYTClass(a, b, c, d) {
-                        let e = "js-video video large";
-                        e += null == a ? " hidden" : "", e += c ? " not-visible" : "", e += d ? " muted" : "", e += b ? " pause" : "";
-                        let f = this.$["icon-seek"];
-                        return f && (b ? f.classList.add("pause") : f.classList.remove("pause")), e
+                    convertYTClass(a, b) {
+                        let c = "js-video video large";
+                        return c += null == a ? " hidden" : "", c += b ? " not-visible" : "", c
                     }
                     convertVideoClass(a, b) {
                         let c = "ratio-4-3",
@@ -26464,26 +26167,10 @@
                             d = this.$.youtube,
                             e = this.$.ytplayer,
                             f = "ytplayer_script",
-                            g = document.getElementById(f),
-                            h = c.chatroom.isOperator();
-                        this.ytplayer_is_moderator = h;
-                        let i = (b, f) => {
+                            g = document.getElementById(f);
+                        this.ytplayer_is_moderator = c.chatroom.isOperator();
+                        let h = b => {
                                 d.classList.remove("hidden"), c.videolist.toggleSizeVW2Normal(), c.recalcVideosPosition();
-                                c.ytplayer_timer_handler = setInterval(() => {
-                                    c._ytplayerIsReady() && (c.ytplayer_position = c.ytplayer.getCurrentTime())
-                                }, 1e3);
-                                let g = () => {
-                                        c.ytplayer.setVolume(c.ytplayer_volume), c.ytplayer_duration = c.ytplayer.getDuration(), c.ytplayer_position = 0, c.ytplayer.seekTo(b, !0);
-                                        let a = c.ytplayer.getPlayerState();
-                                        a == YT.PlayerState.PLAYING && f && f()
-                                    },
-                                    h = a => {
-                                        if (a.data == YT.PlayerState.PLAYING) {
-                                            c.ytplayer_ready = !0, f && (f(), f = void 0);
-                                            let a = c.chatroom.mute || c.ytplayer_hide || c.ytplayer_mute;
-                                            a ? c.ytplayer.mute() : c.ytplayer.setVolume(c.ytplayer_volume)
-                                        }
-                                    };
                                 c.ytplayer = new YT.Player(e, {
                                     videoId: a.id,
                                     playerVars: {
@@ -26504,38 +26191,38 @@
                                         theme: c.app && c.app.settings.isDarkMode() ? "dark" : "light"
                                     },
                                     events: {
-                                        onReady: g,
-                                        onStateChange: h,
+                                        onReady: () => {
+                                            c.ytplayer.setVolume(c.ytplayer_volume), c.ytplayer.seekTo(b, !0)
+                                        },
+                                        onStateChange: a => {
+                                            if (a.data == YT.PlayerState.PLAYING) {
+                                                c.ytplayer_ready = !0;
+                                                let a = c.chatroom.mute || c.ytplayer_hide;
+                                                a ? c.ytplayer.mute() : c.ytplayer.setVolume(c.ytplayer_volume)
+                                            }
+                                        },
                                         onError: a => {
                                             console.error(a), c.app.showToastWarn("Something went wrong with Youtube ... (" + a.data + ")")
                                         }
                                     }
                                 }), c.ytplayer.playlist = a.playlist
                             },
-                            j = () => {
-                                null != c.ytplayer && (c.ytplayer.destroy(), c.ytplayer = null), c.ytplayer_timer_handler && (clearInterval(c.ytplayer_timer_handler), c.ytplayer_timer_handler = 0), c.ytplayer_ready = !1, d.classList.add("hidden"), c.recalcVideosPosition()
+                            i = () => {
+                                null != c.ytplayer && (c.ytplayer.destroy(), c.ytplayer = null), c.ytplayer_ready = !1, d.classList.add("hidden"), c.recalcVideosPosition()
                             };
-                        if (a.cmd == b.YT_PLAY || a.cmd == b.YT_PAUSE) {
-                            let d = a.cmd == b.YT_PAUSE;
-                            if (c.ytplayer_pause = d, null == g) {
-                                let b = document.createElement("script");
-                                b.id = f, b.src = "https://www.youtube.com/player_api";
-                                let e = document.getElementsByTagName("script")[0];
-                                e.parentNode.insertBefore(b, e), window.onYouTubePlayerAPIReady = () => {
-                                    i(a.offset, () => {
-                                        c.ytplayer_position = a.offset, d && c.ytplayer.pauseVideo()
-                                    })
-                                }
-                            } else if (null == c.ytplayer) i(a.offset, () => {
-                                c.ytplayer_position = a.offset, d && c.ytplayer.pauseVideo()
-                            });
-                            else {
-                                let b = c._ytplayerIsReady() ? c.ytplayer.getVideoData().video_id : "";
-                                b == a.id ? (d ? (c.ytplayer.pauseVideo(), c.ytplayer.seekTo(a.offset, !0), c.ytplayer_position = c.ytplayer.getCurrentTime()) : (c.ytplayer.playVideo(), c.ytplayer.seekTo(a.offset, !0), c.ytplayer_position = a.offset), c.ytplayer.playlist = a.playlist) : (j(), i(a.offset, () => {
-                                    c.ytplayer_position = a.offset, d && c.ytplayer.pauseVideo()
-                                }))
+                        if (!(a.cmd == b.YT_PLAY)) a.cmd == b.YT_STOP && null != c.ytplayer && i();
+                        else if (null == g) {
+                            let b = document.createElement("script");
+                            b.id = f, b.src = "https://www.youtube.com/player_api";
+                            let c = document.getElementsByTagName("script")[0];
+                            c.parentNode.insertBefore(b, c), window.onYouTubePlayerAPIReady = () => {
+                                h(a.offset)
                             }
-                        } else a.cmd == b.YT_STOP && null != c.ytplayer && j()
+                        } else if (null == c.ytplayer) h(a.offset);
+                        else {
+                            let b = c._ytplayerIsReady() ? c.ytplayer.getVideoData().video_id : "";
+                            b == a.id ? (c.ytplayer.playVideo(), c.ytplayer.seekTo(a.offset, !0), c.ytplayer.playlist = a.playlist) : (i(), h(a.offset))
+                        }
                     }
                     onCloseYT() {
                         if (!this.chatroom.isOperator()) return void this.app.showToast("Moderator or Owner is able close Youtube");
@@ -26548,74 +26235,16 @@
                     onHideYT() {
                         this.ytplayer_hide = !this.ytplayer_hide
                     }
-                    onMuteYT() {
-                        this.ytplayer_mute = !this.ytplayer_mute
-                    }
-                    onPlayPauseYT() {
-                        if (!this.chatroom.isOperator()) return void this.app.showToast("Moderator or Owner is able to play/pause Youtube");
-                        if (this.ytplayer_pause = !this.ytplayer_pause, this.videolist && !this.chatroom.isOperator()) return;
-                        if (!this._ytplayerIsReady()) return;
-                        let a = TinychatApp.BLL.YoutubeEvent,
-                            b = this.ytplayer,
-                            c = this.ytplayer_pause ? a.YT_PAUSE : a.YT_PLAY,
-                            d = new a(c);
-                        d.id = b.getVideoData().video_id, d.handle = this.chatroom.self_handle, d.offset = b.getCurrentTime(), d.duration = b.getDuration(), d.playlist = b.playlist, d.seekByUser = !0, this.chatroom.Youtube(d)
-                    }
                     ytplayer_volumeCompute(a, b) {
                         let c = 100;
                         return void 0 === a && void 0 !== b ? c = b : void 0 !== a && void 0 === b ? c = a : void 0 !== a && void 0 !== b && (c = b < a ? b : a), null !== this.ytplayer && this.ytplayer.setVolume(c), c
                     }
-                    ytplayer_onvolume(a) {
-                        let b = a.target,
-                            c = b.getBoundingClientRect(),
-                            d = Math.round(100 * (a.clientX - c.left) / c.width) / 100;
-                        0 > d ? d = 0 : 1 < d && (d = 1), this._ytplayerIsReady() && this.ytplayer.setVolume(this.ytplayer_volume)
-                    }
-                    ytplayer_onseek(a) {
-                        if (!this.chatroom.isOperator()) return void this.app.showToast("Moderator or Owner is able to seek on Youtube");
-                        let b = this.shadowRoot.querySelector("#seek-length"),
-                            c = b.getBoundingClientRect(),
-                            d = Math.round(100 * (a.clientX - c.left) / c.width) / 100;
-                        0 > d ? d = 0 : 1 < d && (d = 1);
-                        let e = TinychatApp.BLL.YoutubeEvent,
-                            f = this.ytplayer,
-                            g = f.getPlayerState(),
-                            h = e.YT_PAUSE;
-                        (g == YT.PlayerState.PLAYING || g == YT.PlayerState.BUFFERING) && (h = e.YT_PLAY);
-                        let i = new e(h);
-                        i.id = f.getVideoData().video_id, i.handle = this.chatroom.self_handle, i.duration = f.getDuration(), i.offset = i.duration * d, i.playlist = f.playlist, i.seekByUser = !0, h == e.YT_PAUSE && this.youtubeHandler(i), this.chatroom.Youtube(i)
-                    }
                     ytplayer_hide_changed(a) {
-                        this._ytplayerIsReady() && (a ? this.ytplayer.mute() : !this.ytplayer_mute && this.ytplayer.unMute())
-                    }
-                    ytplayer_mute_changed(a) {
                         this._ytplayerIsReady() && (a ? this.ytplayer.mute() : this.ytplayer.unMute())
-                    }
-                    _poslevel_style(a, b, c) {
-                        let d = Math.round(100 * b / c);
-                        return a + ":" + d + "%;"
-                    }
-                    ytplayer_postitle_computed(a, b) {
-                        return this.get_ytplayer_time(a, b)
-                    }
-                    ytplayer_durtitle_computed(a, b) {
-                        return this.get_ytplayer_time(a, b) + " / " + this.get_ytplayer_time(b, b)
-                    }
-                    get_ytplayer_time(a, b) {
-                        var c = Math.floor;
-                        let d = [],
-                            e = c(b / 3600);
-                        b %= 3600;
-                        let f = c(b / 60),
-                            g = b % 60;
-                        if (e && d.push(e), d.push(10 > f && e ? "0" + f : f), d.push(10 > g ? "0" + g : g), d = d.join(":"), c(a) == c(b)) return d;
-                        let h = new Date(1970, 0, 1);
-                        h.setSeconds(a);
-                        let i = h.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
-                        return i.substring(i.length - d.length)
                     }
                     recalcVideosPosition() {
                         function a(a) {
+                            var b = Math.floor;
                             let c = a.childs.length,
                                 d = 53,
                                 e = 100,
@@ -26653,25 +26282,24 @@
                                     a.childs[c].style.width = 100 === f && a.height - d > e ? f + "%" : b(100 * (e * g / (e + d) / (g / f))) / 100 + "%"
                                 }
                         }
-                        var b = Math.floor;
-                        let c = this.$.videos,
-                            d = "";
-                        d = c.clientWidth / c.clientHeight > 1 / .75 ? "row" : "column";
-                        let e = {
-                            featured: c.querySelectorAll(".videos-items:nth-child(1) > .js-video:not(.hidden)"),
-                            regular: c.querySelectorAll(".videos-items:nth-child(2) > .js-video:not(.hidden)")
+                        let b = this.$.videos,
+                            c = "";
+                        c = b.clientWidth / b.clientHeight > 1 / .75 ? "row" : "column";
+                        let d = {
+                            featured: b.querySelectorAll(".videos-items:nth-child(1) > .js-video:not(.hidden)"),
+                            regular: b.querySelectorAll(".videos-items:nth-child(2) > .js-video:not(.hidden)")
                         };
-                        e.featured.length || c.querySelector(".videos-items:nth-child(1)").classList.add("hidden"), e.regular.length || c.querySelector(".videos-items:nth-child(2)").classList.add("hidden"), e.featured.length && e.regular.length ? (c.className = d, e.featured.length == e.regular.length && 1 == e.featured.length && "youtube" == e.featured[0].id ? (c.classList.remove("featured-2"), c.classList.remove("featured-3")) : e.featured.length >= e.regular.length && 2 >= e.featured.length ? (c.classList.add("featured-2"), c.classList.remove("featured-3")) : e.featured.length >= e.regular.length && 3 <= e.featured.length ? (c.classList.add("featured-3"), c.classList.remove("featured-2")) : (c.classList.remove("featured-2"), c.classList.remove("featured-3"))) : c.className = "";
-                        let f = c.querySelectorAll(".videos-items");
-                        for (let b in f) {
-                            if ("object" != typeof f[b]) continue;
-                            let d = f[b],
-                                e = c.querySelectorAll(".videos-items:nth-child(" + (1 * b + 1) + ") > .js-video:not(.hidden)");
-                            e.length && (d.classList.remove("hidden"), a({
+                        d.featured.length || b.querySelector(".videos-items:nth-child(1)").classList.add("hidden"), d.regular.length || b.querySelector(".videos-items:nth-child(2)").classList.add("hidden"), d.featured.length && d.regular.length ? (b.className = c, d.featured.length == d.regular.length && 1 == d.featured.length && "youtube" == d.featured[0].id ? (b.classList.remove("featured-2"), b.classList.remove("featured-3")) : d.featured.length >= d.regular.length && 2 >= d.featured.length ? (b.classList.add("featured-2"), b.classList.remove("featured-3")) : d.featured.length >= d.regular.length && 3 <= d.featured.length ? (b.classList.add("featured-3"), b.classList.remove("featured-2")) : (b.classList.remove("featured-2"), b.classList.remove("featured-3"))) : b.className = "";
+                        let e = b.querySelectorAll(".videos-items");
+                        for (let c in e) {
+                            if ("object" != typeof e[c]) continue;
+                            let d = e[c],
+                                f = b.querySelectorAll(".videos-items:nth-child(" + (1 * c + 1) + ") > .js-video:not(.hidden)");
+                            f.length && (d.classList.remove("hidden"), a({
                                 wrapper: d,
                                 height: d.clientHeight,
                                 width: d.clientWidth,
-                                childs: e
+                                childs: f
                             }))
                         }
                     }
