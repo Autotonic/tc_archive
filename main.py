@@ -120,9 +120,9 @@ class Grab:
             if len(self.relevant) == 0:
                 start = 24
             else:
-                start = int(max(self.relevant)) + 1
-            self.get_relevant(start=start)
-            gitpush()
+                start = max(list(map(int, self.relevant))) + 1
+                self.get_relevant(start=start)
+                gitpush()
 
 
 def main():
@@ -133,7 +133,7 @@ def main():
         if len(j) > 0:
             client.relevant = json.loads(j)
             exists = True
-    if int(max(client.relevant)) == client.latest:
+    if max(list(map(int, client.relevant))) == client.latest:
         logtofile("No update, exiting")
         sys.exit()
 
