@@ -22370,7 +22370,7 @@
                     }
                     show(a) {
                         let b = a.path ? a.path[0] : (a.composedPath && a.composedPath())[0];
-                        if (!b && a.originalTarget && (b = a.originalTarget), !b || 1) {
+                        if (!b && a.originalTarget && (b = a.originalTarget), !b) {
                             if (b = a.target, "TINYCHAT-WEBRTC-APP" !== b.nodeName) return;
                             let c = b.shadowRoot.getElementById("users").shadowRoot.getElementById("sidemenu-content").getElementsByTagName("tc-userlist")[0].shadowRoot.querySelectorAll(".js-user-list-item");
                             if (!c.length) return;
